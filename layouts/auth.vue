@@ -1,10 +1,6 @@
 <template>
-  <div class="app-root">
-    <DashboardSidebar />
-    <DashboardHeader />
-    <main role="main" class="wrapper">
-      <Nuxt />
-    </main>
+  <div class="auth-wrapper">
+    <Nuxt />
     <DashboardFooter />
   </div>
 </template>
@@ -15,35 +11,13 @@ html {
   min-height: 100%;
 }
 
-.dark-mode {
-  background-color: #222;
-  color: #fff;
-}
-
-.light-mode {
-  background-color: #fff;
-}
-
-.app-root {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-
-.wrapper {
-  margin-top: 90px !important;
-  position: relative;
+.auth-wrapper {
+  height: 100vh;
 }
 </style>
 
 <script>
 export default {
-  head() {
-    return {
-      bodyAttrs: {
-        class: 'light-mode',
-      },
-    }
-  },
   mounted() {
     $.LoadingOverlaySetup({
       image: '',
@@ -56,8 +30,6 @@ export default {
         </div>
       `,
     })
-
-    $.LoadingOverlay('hide')
 
     /**
      * Usage : 

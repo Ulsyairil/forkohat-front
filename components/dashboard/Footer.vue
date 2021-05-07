@@ -1,7 +1,9 @@
 <template>
   <footer class="footer bg-light text-primary">
     <div class="container">
-      <span>&copy; {{ year }} FORKOHAT BALIKPAPAN</span>
+      <span class="font-weight-bold"
+        >&copy; {{ year }} FORKOHAT BALIKPAPAN</span
+      >
     </div>
   </footer>
 </template>
