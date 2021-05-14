@@ -1,0 +1,12 @@
+.page-enter-active {
+  animation: fadeIn 0.5s;
+}
+
+.page-leave-active {
+  animation: fadeOutLeft 0.5s;
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0;
+}

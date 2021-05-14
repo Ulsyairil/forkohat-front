@@ -1,7 +1,6 @@
 <template>
-  <div class="auth-wrapper">
+  <div>
     <Nuxt />
-    <DashboardFooter />
   </div>
 </template>
 
@@ -11,13 +10,22 @@ html {
   min-height: 100%;
 }
 
-.auth-wrapper {
-  height: 100vh;
+.bg-leaves {
+  background: url('/images/leaves.png') no-repeat center fixed;
+  background-size: cover;
+  height: 100%;
 }
 </style>
 
 <script>
 export default {
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'bg-leaves',
+      },
+    }
+  },
   mounted() {
     $.LoadingOverlaySetup({
       image: '',
@@ -30,6 +38,8 @@ export default {
         </div>
       `,
     })
+
+    $.LoadingOverlay('hide')
 
     /**
      * Usage : 

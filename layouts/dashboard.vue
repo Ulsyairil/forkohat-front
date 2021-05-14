@@ -3,16 +3,17 @@
     <DashboardSidebar />
     <DashboardHeader />
     <main role="main" class="wrapper">
+      <notifications group="app" style="margin-top: 90px" />
       <Nuxt />
     </main>
     <DashboardFooter />
+    <DashboardScrollTop />
   </div>
 </template>
 
 <style lang="scss">
 html {
-  position: relative;
-  min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 .dark-mode {
@@ -26,7 +27,7 @@ html {
 
 .app-root {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 70px;
 }
 
 .wrapper {

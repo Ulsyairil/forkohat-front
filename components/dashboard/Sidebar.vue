@@ -28,7 +28,7 @@
               tag="a"
               active-class="active"
               class="nav-link"
-              to="/event"
+              to="/dashboard/event"
               exact
               >Event</nuxt-link
             >
@@ -96,10 +96,6 @@ export default {
   },
   mounted() {
     this.checkWidth()
-
-    setInterval(() => {
-      this.checkWidth()
-    }, 2000)
   },
   methods: {
     checkWidth() {
@@ -110,7 +106,6 @@ export default {
       }
 
       if (width > 991) {
-        console.log(this.$refs.sidebar.localShow)
         this.header_close = true
         if (this.$refs.sidebar.localShow != false) {
           this.$refs.sidebar.hide()

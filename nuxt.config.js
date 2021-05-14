@@ -14,28 +14,14 @@ export default {
       { rel: 'shortcut icon', href: '/favicon.ico', type: 'image/x-icon' },
       { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon' },
       {
-        // https://animate.style/
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Roboto',
+      },
+      {
+        // Usage : https://animate.style/
         rel: 'stylesheet',
         href:
           'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
-      },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css',
-      },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css',
-      },
-      {
-        rel: 'stylesheet',
-        href: 'https://cdn.quilljs.com/1.3.6/quill.snow.css',
-      },
-      {
-        rel: 'stylesheet',
-        href: '/css/zoom.css',
       },
       {
         rel: 'stylesheet',
@@ -44,7 +30,7 @@ export default {
       {
         rel: 'stylesheet',
         href:
-          'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css',
+          'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css',
       },
     ],
     script: [
@@ -53,16 +39,25 @@ export default {
           'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js',
       },
       {
-        // https://github.com/sha256/Pristine
+        src:
+          'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
+        integrity:
+          'sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49',
+        crossorigin: 'anonymous',
+      },
+      {
+        src:
+          'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js',
+        integrity:
+          'sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy',
+        crossorigin: 'anonymous',
+      },
+      {
+        // Usage : https://github.com/sha256/Pristine
         src: '/js/pristine.js',
       },
       {
-        // https://owlcarousel2.github.io/OwlCarousel2/index.html
-        src:
-          'https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js',
-      },
-      {
-        // https://gasparesganga.com/labs/jquery-loading-overlay/
+        // Usage : https://gasparesganga.com/labs/jquery-loading-overlay/
         src:
           'https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js',
       },
@@ -70,32 +65,37 @@ export default {
         src: '/js/zoom.js',
       },
       {
-        // https://quilljs.com/docs/quickstart/
-        src: 'https://cdn.quilljs.com/1.3.6/quill.js',
-      },
-      {
-        // https://michalsnik.github.io/aos/
+        // Usage : https://michalsnik.github.io/aos/
         src: 'https://unpkg.com/aos@2.3.1/dist/aos.js',
       },
+      // https://developers.google.com/recaptcha/docs/display
       { src: 'https://www.google.com/recaptcha/api.js' },
-      {
-        src:
-          'https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js',
-      },
     ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@fortawesome/fontawesome-svg-core/styles.css'],
+  css: [
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    '~/assets/transition-page.scss',
+    '~/assets/zoom.scss',
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    // https://www.npmjs.com/package/vue-js-toggle-button
-    { src: '~plugins/vue-toogle-btn.js', mode: 'client' },
-    // https://www.npmjs.com/package/@fortawesome/vue-fontawesome
+    // Usage : https://www.npmjs.com/package/vue-js-toggle-button
+    { src: '~/plugins/vue-toogle-btn.js', mode: 'client' },
+    // Usage : https://www.npmjs.com/package/@fortawesome/vue-fontawesome
     { src: '~/plugins/fontawesome.js' },
-    // https://www.npmjs.com/package/vue-loading-skeleton
+    // Usage : https://www.npmjs.com/package/vue-loading-skeleton
     { src: '~/plugins/vue-skeleton.js' },
+    // Usage : https://www.vue2editor.com/
+    { src: '~/plugins/vue2editor.js', mode: 'client' },
+    // Source : https://github.com/surmon-china/vue-awesome-swiper
+    // Usage : https://github.surmon.me/vue-awesome-swiper/?ref=madewithvuejs.com
+    { src: '~/plugins/vue-awesome-swiper.js', mode: 'client' },
+    // Usage : https://www.npmjs.com/package/vue-notification
+    { src: '~/plugins/vue-notification.js', mode: 'client' },
+    { src: '~/plugins/grid-vue.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -106,20 +106,20 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/bootstrap
+    // Usage : https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    // https://go.nuxtjs.dev/axios
+    // Usage : https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    // Usage : https://auth.nuxtjs.org/
     '@nuxtjs/auth-next',
     '@nuxtjs/style-resources',
+    // Usage : https://www.npmjs.com/package/@nuxtjs/recaptcha
     [
       '@nuxtjs/recaptcha',
       {
         hideBadge: true, // Hide badge element (v3 & v2 via size=invisible)
-        language: 'v2', // Recaptcha language (v2)
-        siteKey: '6LeGpckaAAAAADkPdj1mssPNp1lU4JuSl3IY-eTn', // Site key for requests
-        version: 2, // Version
-        size: 'normal', // Size: 'compact', 'normal', 'invisible' (v2)
+        siteKey: '6Lc1Sc8aAAAAAICyCx66QIuP7qB-XAAQDbIDj1ly', // Site key for requests
+        version: 3, // Version
       },
     ],
   ],
@@ -130,6 +130,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     babel: {
+      compact: true,
       plugins: [['@babel/plugin-proposal-private-methods', { loose: true }]],
     },
     terser: {
@@ -155,11 +156,15 @@ export default {
   publicRuntimeConfig: {
     recaptcha: {
       dev: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
-      prod: '6LeGpckaAAAAADkPdj1mssPNp1lU4JuSl3IY-eTn',
+      prod: '6Lc1Sc8aAAAAAICyCx66QIuP7qB-XAAQDbIDj1ly',
     },
     baseurl: {
       dev: 'http://127.0.0.1:3333/api/v1',
       prod: 'https://apiforkohat.balikpapanpedia.com/api/v1',
+    },
+    domain: {
+      dev: 'http://127.0.0.1:3333',
+      prod: 'https://apiforkohat.balikpapanpedia.com',
     },
   },
 }

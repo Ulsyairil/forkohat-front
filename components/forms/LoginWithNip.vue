@@ -32,7 +32,6 @@
           </b-input-group-append>
         </b-input-group>
       </div>
-      <recaptcha class="mb-3" />
       <b-button type="submit" variant="primary">Masuk</b-button>
     </b-form>
   </div>
@@ -57,17 +56,26 @@ export default {
       },
     }
   },
-  mounted() {
-    $('#input-nip').inputFilter(function (value) {
-      return /^\d*$/.test(value)
-    })
+  async mounted() {
+    try {
+      await this.$recaptcha.init()
 
-    this.formValidation('login-with-nip-form')
+      $('#input-nip').inputFilter(function (value) {
+        return /^\d*$/.test(value)
+      })
 
-    this.rescaleCaptcha()
-    $(window).resize(function () {
-      rescaleCaptcha()
-    })
+      this.formValidation('login-with-nip-form')
+
+      this.rescaleCaptcha()
+      $(window).resize(function () {
+        rescaleCaptcha()
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  beforeDestroy() {
+    this.$recaptcha.destroy()
   },
   methods: {
     async formSubmit() {
@@ -78,7 +86,7 @@ export default {
           return
         }
 
-        const token = await this.$recaptcha.getResponse()
+        const token = await this.$recaptcha.execute('login')
         console.log('ReCaptcha token:', token)
 
         let payload = {
@@ -109,22 +117,24 @@ export default {
           })
         }
 
-        if (error.response.data.message == 'email not exists') {
-          return Swal.fire({
-            title: 'Peringatan!',
-            text: 'Email belum terdaftar',
-            icon: 'warning',
-            confirmButtonText: 'Kembali',
-          })
-        }
+        if (error.response != undefined) {
+          if (error.response.data.message == 'email not exists') {
+            return Swal.fire({
+              title: 'Peringatan!',
+              text: 'Email belum terdaftar',
+              icon: 'warning',
+              confirmButtonText: 'Kembali',
+            })
+          }
 
-        if (error.response.data.message == 'wrong password') {
-          return Swal.fire({
-            title: 'Peringatan!',
-            text: 'Kata sandi salah',
-            icon: 'warning',
-            confirmButtonText: 'Kembali',
-          })
+          if (error.response.data.message == 'wrong password') {
+            return Swal.fire({
+              title: 'Peringatan!',
+              text: 'Kata sandi salah',
+              icon: 'warning',
+              confirmButtonText: 'Kembali',
+            })
+          }
         }
       }
     },

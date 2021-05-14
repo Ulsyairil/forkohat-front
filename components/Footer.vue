@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer bg-light text-primary">
+  <footer class="footer text-primary">
     <div class="container">
       <span class="font-weight-bold"
         >&copy; {{ year }} FORKOHAT BALIKPAPAN</span
@@ -15,8 +15,7 @@
   width: 100%;
   height: 60px;
   line-height: 60px;
-  background-color: #f5f5f5;
-  border-top: solid #007bff;
+  background-color: transparent;
 }
 </style>
 
