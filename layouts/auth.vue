@@ -10,9 +10,8 @@ html {
   min-height: 100%;
 }
 
-.bg-leaves {
-  background: url('/images/leaves.png') no-repeat center fixed;
-  background-size: cover;
+.bg-custom {
+  background-color: #50bbe6;
   height: 100%;
 }
 </style>
@@ -22,7 +21,7 @@ export default {
   head() {
     return {
       bodyAttrs: {
-        class: 'bg-leaves',
+        class: 'bg-custom',
       },
     }
   },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form id="event-create-form" @submit.prevent="formSubmit()">
+    <b-form id="news-create-form" @submit.prevent="formSubmit()">
       <b-row>
         <b-col md="6">
           <img
@@ -112,12 +112,12 @@
           </div>
         </b-col>
       </b-row>
-      <b-form-group label="Nama Event" label-for="input-name">
+      <b-form-group label="Judul berita" label-for="input-title">
         <b-form-input
-          v-model="form.name"
-          id="input-name"
+          v-model="form.title"
+          id="input-title"
           type="text"
-          placeholder="Masukkan nama event"
+          placeholder="Masukkan judul berita"
           required
         ></b-form-input>
       </b-form-group>
@@ -128,33 +128,11 @@
           :editor-toolbar="editor.customToolbar"
         />
       </div>
-      <b-row>
-        <b-col>
-          <div class="form-group">
-            <label for="input-registration">Tanggal Registrasi</label>
-            <b-form-datepicker
-              id="input-registration"
-              v-model="form.registration"
-              locale="id"
-            ></b-form-datepicker>
-          </div>
-        </b-col>
-        <b-col>
-          <div class="form-group">
-            <label for="input-expired">Tanggal Berakhir</label>
-            <b-form-datepicker
-              id="input-expired"
-              v-model="form.expired"
-              locale="id"
-            ></b-form-datepicker>
-          </div>
-        </b-col>
-      </b-row>
       <div class="form-group">
-        <label for="input-image">Unggah Brosur Event</label>
+        <label for="input-image">Unggah Tajuk Berita</label>
         <br />
         <img
-          class="img-fluid mb-2 event-image"
+          class="img-fluid mb-2 news-image"
           :src="form.image.url"
           data-action="zoom"
         />
@@ -254,7 +232,7 @@
         v-b-tooltip.hover
         title="Hapus"
         v-if="form.deleted_at == null"
-        @click="dumpEvent(form.id)"
+        @click="dumpNews(form.id)"
       >
         <font-awesome-icon icon="trash" />
       </b-button>
@@ -265,7 +243,7 @@
         v-b-tooltip.hover
         title="Pulihkan"
         v-if="form.deleted_at != null"
-        @click="restoreEvent(form.id)"
+        @click="restoreNews(form.id)"
       >
         <font-awesome-icon icon="trash-restore" />
       </b-button>
@@ -275,7 +253,7 @@
         variant="danger"
         v-b-tooltip.hover
         title="Hapus Permanen"
-        @click="deleteEvent(form.id)"
+        @click="deleteNews(form.id)"
       >
         <font-awesome-icon icon="ban" />
       </b-button>
@@ -290,7 +268,7 @@
   padding: 5px auto;
 }
 
-.event-image {
+.news-image {
   max-width: 300px;
   max-height: 200px;
 }
@@ -352,10 +330,8 @@ export default {
       },
       form: {
         id: '',
-        name: '',
+        title: '',
         content: '',
-        registration: '',
-        expired: '',
         image: {
           url: '/images/image_not_uploaded.gif',
           current_url: '',
@@ -376,11 +352,11 @@ export default {
     try {
       let url
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/event?event_id=${this.$route.params.id}`
+        url = `${this.baseurl.dev}/superadmin/news?id=${this.$route.params.id}`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/event?event_id=${this.$route.params.id}`
+        url = `${this.baseurl.dev}/admin/news?id=${this.$route.params.id}`
       } else {
-        url = `${this.baseurl.dev}/employee/event?event_id=${this.$route.params.id}`
+        url = `${this.baseurl.dev}/employee/news?id=${this.$route.params.id}`
       }
 
       const config = {
@@ -393,15 +369,13 @@ export default {
       console.log(res)
 
       this.form.id = res.id
-      this.form.name = res.name
+      this.form.title = res.title
       this.form.content = res.content
-      this.form.registration = res.registration_date
-      this.form.expired = res.expired_date
       this.form.deleted_at = res.deleted_at
       this.form.file.current_value = null
       this.form.file.current_value = []
 
-      res.eventFiles.forEach((value) => {
+      res.newsFiles.forEach((value) => {
         if (value.type == 'banner') {
           this.form.image.current_url = `${this.domain.dev}${value.url}`
         }
@@ -415,24 +389,24 @@ export default {
     }
   },
   mounted() {
-    this.formValidation('event-create-form')
+    this.formValidation('news-create-form')
   },
   methods: {
-    async deleteEvent(id) {
+    async deleteNews(id) {
       try {
         $.LoadingOverlay('show')
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event`
+          url = `${this.baseurl.dev}/superadmin/news`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event`
+          url = `${this.baseurl.dev}/admin/news`
         } else {
-          url = `${this.baseurl.dev}/employee/event`
+          url = `${this.baseurl.dev}/employee/news`
         }
 
         let payload = {
-          event_id: id,
+          id: id,
         }
         const config = {
           headers: {
@@ -446,12 +420,12 @@ export default {
 
         $.LoadingOverlay('hide')
 
-        this.$router.push('/dashboard/event')
+        this.$router.push('/dashboard/news')
 
         return this.$notify({
           group: 'app',
           type: 'success',
-          title: 'Event berhasil dihapus permanen',
+          title: 'Berita berhasil dihapus permanen',
         })
       } catch (error) {
         console.log(error)
@@ -459,22 +433,22 @@ export default {
         return this.$notify({
           group: 'app',
           type: 'error',
-          title: 'Event gagal dihapus permanen',
+          title: 'Berita gagal dihapus permanen',
           text: error,
         })
       }
     },
-    async restoreEvent(id) {
+    async restoreNews(id) {
       try {
         $.LoadingOverlay('show')
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event/restore`
+          url = `${this.baseurl.dev}/superadmin/news/restore`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event/restore`
+          url = `${this.baseurl.dev}/admin/news/restore`
         } else {
-          url = `${this.baseurl.dev}/employee/event/restore`
+          url = `${this.baseurl.dev}/employee/news/restore`
         }
 
         const config = {
@@ -483,7 +457,7 @@ export default {
           },
         }
         let payload = {
-          event_id: id,
+          id: id,
         }
 
         const res = await this.$axios.$put(url, payload, config)
@@ -495,7 +469,7 @@ export default {
         return this.$notify({
           group: 'app',
           type: 'success',
-          title: 'Event berhasil dipulihkan',
+          title: 'Berita berhasil dipulihkan',
         })
       } catch (error) {
         console.log(error)
@@ -503,22 +477,22 @@ export default {
         return this.$notify({
           group: 'app',
           type: 'error',
-          title: 'Event gagal dipulihkan',
+          title: 'Berita gagal dipulihkan',
           text: error,
         })
       }
     },
-    async dumpEvent(id) {
+    async dumpNews(id) {
       try {
         $.LoadingOverlay('show')
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event/dump`
+          url = `${this.baseurl.dev}/superadmin/news/dump`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event/dump`
+          url = `${this.baseurl.dev}/admin/news/dump`
         } else {
-          url = `${this.baseurl.dev}/employee/event/dump`
+          url = `${this.baseurl.dev}/employee/news/dump`
         }
 
         const config = {
@@ -527,7 +501,7 @@ export default {
           },
         }
         let payload = {
-          event_id: id,
+          id: id,
         }
 
         const res = await this.$axios.$put(url, payload, config)
@@ -539,7 +513,7 @@ export default {
         return this.$notify({
           group: 'app',
           type: 'success',
-          title: 'Event berhasil dihapus',
+          title: 'Berita berhasil dihapus',
         })
       } catch (error) {
         console.log(error)
@@ -547,7 +521,7 @@ export default {
         return this.$notify({
           group: 'app',
           type: 'error',
-          title: 'Event gagal dihapus',
+          title: 'Berita gagal dihapus',
           text: error,
         })
       }
@@ -558,11 +532,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event/file`
+          url = `${this.baseurl.dev}/superadmin/news/file`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event/file`
+          url = `${this.baseurl.dev}/admin/news/file`
         } else {
-          url = `${this.baseurl.dev}/employee/event/file`
+          url = `${this.baseurl.dev}/employee/news/file`
         }
 
         let payload = {
@@ -604,10 +578,8 @@ export default {
       return this.domain.dev + url
     },
     resetForm() {
-      this.form.name = ''
+      this.form.title = ''
       this.form.content = ''
-      this.form.registration = ''
-      this.form.expired = ''
       this.form.image.url = '/images/image_not_uploaded.gif'
       this.$refs.image.reset()
       this.$refs.file.reset()
@@ -616,26 +588,10 @@ export default {
       try {
         $.LoadingOverlay('show')
         const formData = new FormData()
-        let validate = this.formValidation('event-create-form').validate()
+        let validate = this.formValidation('news-create-form').validate()
 
         if (!validate) {
           return
-        }
-
-        if (this.form.registration == '') {
-          return Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Tanggal registrasi harus diisi',
-          })
-        }
-
-        if (this.form.expired == '') {
-          return Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Tanggal berakhir harus diisi',
-          })
         }
 
         if (this.form.content == '') {
@@ -646,11 +602,9 @@ export default {
           })
         }
 
-        formData.append('event_id', this.$route.params.id)
-        formData.append('name', this.form.name)
+        formData.append('id', this.$route.params.id)
+        formData.append('title', this.form.title)
         formData.append('content', this.form.content)
-        formData.append('registration_date', this.form.registration)
-        formData.append('expired_date', this.form.expired)
 
         if (this.form.image.value != '' || this.form.image.value != null) {
           formData.append('image', this.form.image.value)
@@ -666,11 +620,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event`
+          url = `${this.baseurl.dev}/superadmin/news`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event`
+          url = `${this.baseurl.dev}/admin/news`
         } else {
-          url = `${this.baseurl.dev}/employee/event`
+          url = `${this.baseurl.dev}/employee/news`
         }
 
         const config = {

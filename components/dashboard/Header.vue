@@ -39,9 +39,9 @@
               tag="a"
               active-class="active active-link"
               class="nav-link text-primary"
-              to="/news"
+              to="/dashboard/news"
               exact
-              >News</nuxt-link
+              >Berita</nuxt-link
             >
           </li>
           <li class="nav-item">
@@ -87,7 +87,11 @@
         /> -->
         <b-nav-item-dropdown right>
           <template #button-content>
-            <b-avatar variant="primary" text="BV" size="2.5rem"></b-avatar>
+            <b-avatar
+              variant="primary"
+              :text="initialName()"
+              size="2.5rem"
+            ></b-avatar>
           </template>
           <b-dropdown-item href="#">Profil</b-dropdown-item>
           <b-dropdown-item href="javascript:void(0)" @click="logoutButton()"
@@ -119,6 +123,8 @@
 </style>
 
 <script>
+import initials from 'initials'
+
 export default {
   data() {
     return {
@@ -182,6 +188,9 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    initialName() {
+      return initials(this.auth.user.name)
     },
     // toggleBgMode() {
     //   let body = document.querySelector('body')

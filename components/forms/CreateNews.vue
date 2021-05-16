@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-form id="event-create-form" @submit.prevent="formSubmit()">
-      <b-form-group label="Nama Event" label-for="input-name">
+    <b-form id="news-create-form" @submit.prevent="formSubmit()">
+      <b-form-group label="Judul Berita" label-for="input-title">
         <b-form-input
-          v-model="form.name"
-          id="input-name"
+          v-model="form.title"
+          id="input-title"
           type="text"
-          placeholder="Masukkan nama event"
+          placeholder="Masukkan judul berita"
           required
         ></b-form-input>
       </b-form-group>
@@ -17,33 +17,11 @@
           :editor-toolbar="editor.customToolbar"
         />
       </div>
-      <b-row>
-        <b-col>
-          <div class="form-group">
-            <label for="input-registration">Tanggal Registrasi</label>
-            <b-form-datepicker
-              id="input-registration"
-              v-model="form.registration"
-              locale="id"
-            ></b-form-datepicker>
-          </div>
-        </b-col>
-        <b-col>
-          <div class="form-group">
-            <label for="input-expired">Tanggal Berakhir</label>
-            <b-form-datepicker
-              id="input-expired"
-              v-model="form.expired"
-              locale="id"
-            ></b-form-datepicker>
-          </div>
-        </b-col>
-      </b-row>
       <div class="form-group">
-        <label for="input-image">Unggah Brosur Event</label>
+        <label for="input-image">Unggah Tajuk Berita</label>
         <br />
         <img
-          class="img-fluid mb-2 event-image"
+          class="img-fluid mb-2 news-image"
           :src="form.image.url"
           data-action="zoom"
         />
@@ -124,7 +102,7 @@
 </template>
 
 <style lang="scss">
-.event-image {
+.news-image {
   max-width: 300px;
   max-height: 200px;
 }
@@ -172,8 +150,6 @@ export default {
       form: {
         name: '',
         content: '',
-        registration: '',
-        expired: '',
         image: {
           url:
             'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70',
@@ -189,14 +165,12 @@ export default {
     }
   },
   mounted() {
-    this.formValidation('event-create-form')
+    this.formValidation('news-create-form')
   },
   methods: {
     resetForm() {
-      this.form.name = ''
+      this.form.title = ''
       this.form.content = ''
-      this.form.registration = ''
-      this.form.expired = ''
       this.form.image.url =
         'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70'
       this.$refs.image.reset()
@@ -206,26 +180,10 @@ export default {
       try {
         $.LoadingOverlay('show')
         const formData = new FormData()
-        let validate = this.formValidation('event-create-form').validate()
+        let validate = this.formValidation('news-create-form').validate()
 
         if (!validate) {
           return
-        }
-
-        if (this.form.registration == '') {
-          return Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Tanggal registrasi harus diisi',
-          })
-        }
-
-        if (this.form.expired == '') {
-          return Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Tanggal berakhir harus diisi',
-          })
         }
 
         if (this.form.content == '') {
@@ -236,10 +194,8 @@ export default {
           })
         }
 
-        formData.append('name', this.form.name)
+        formData.append('title', this.form.title)
         formData.append('content', this.form.content)
-        formData.append('registration_date', this.form.registration)
-        formData.append('expired_date', this.form.expired)
         formData.append('image', this.form.image.value)
 
         for (let index = 0; index < this.form.file.value.length; index++) {
@@ -252,12 +208,13 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event`
+          url = `${this.baseurl.dev}/superadmin/news/add`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event`
+          url = `${this.baseurl.dev}/admin/news/add`
         } else {
-          url = `${this.baseurl.dev}/employee/event`
+          url = `${this.baseurl.dev}/employee/news/add`
         }
+
         const config = {
           headers: {
             Authorization: `${this.auth.token.type} ${this.auth.token.token}`,

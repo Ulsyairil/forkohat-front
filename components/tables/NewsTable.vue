@@ -39,11 +39,11 @@ export default {
     let url
 
     if (authUser.rule_id == 1) {
-      url = `${baseurl_dev}/superadmin/events`
+      url = `${baseurl_dev}/superadmin/news`
     } else if (authUser.rule_id == 2) {
-      url = `${baseurl_dev}/admin/events`
+      url = `${baseurl_dev}/admin/news`
     } else {
-      url = `${baseurl_dev}/employee/events`
+      url = `${baseurl_dev}/employee/news`
     }
 
     console.log(`rule_id = ${authUser.rule_id}`)
@@ -71,7 +71,7 @@ export default {
       theme: 'mermaid',
       columns: [
         'ID',
-        'Event',
+        'Judul',
         'Penulis',
         {
           name: 'Dibuat',
@@ -115,13 +115,13 @@ export default {
           Authorization: `${auth.type} ${auth.token}`,
         },
         then: (data) =>
-          data.map((event) => [
-            event.id,
-            event.name,
-            event.users.name,
-            event.created_at,
-            event.updated_at,
-            event.deleted_at,
+          data.map((news) => [
+            news.id,
+            news.title,
+            news.users.name,
+            news.created_at,
+            news.updated_at,
+            news.deleted_at,
           ]),
         handle: (res) => {
           if (res.status === 404) return { data: [] }
@@ -157,7 +157,7 @@ export default {
   methods: {
     editButton(id) {
       console.log(id)
-      this.$router.push(`/dashboard/event/edit/${id}`)
+      this.$router.push(`/dashboard/news/edit/${id}`)
     },
   },
   mounted() {
