@@ -5,7 +5,7 @@
     @click.prevent="topFunction()"
     class="text-primary"
   >
-    <font-awesome-icon icon="chevron-circle-up" size="4x" class="bg-white" />
+    <font-awesome-icon icon="chevron-circle-up" size="4x" />
   </a>
 </template>
 

@@ -9,7 +9,7 @@
         </a>
       </div>
       <div>
-        <TablesNewsTable />
+        <TablesNews />
       </div>
     </div>
   </div>

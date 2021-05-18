@@ -16,7 +16,7 @@
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active"
+              active-class="active-link"
               class="nav-link"
               to="/dashboard"
               exact
@@ -26,50 +26,45 @@
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active"
+              active-class="active-link"
               class="nav-link"
               to="/dashboard/event"
-              exact
               >Event</nuxt-link
             >
           </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active"
+              active-class="active-link"
               class="nav-link"
-              to="/news"
-              exact
-              >News</nuxt-link
+              to="/dashboard/news"
+              >Berita</nuxt-link
             >
           </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active"
+              active-class="active-link"
               class="nav-link"
-              to="/faq"
-              exact
+              to="/dashboard/faq"
               >FAQ</nuxt-link
             >
           </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active"
+              active-class="active-link"
               class="nav-link"
               to="/program"
-              exact
               >Program</nuxt-link
             >
           </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active"
+              active-class="active-link"
               class="nav-link"
               to="/user"
-              exact
               >Pengguna</nuxt-link
             >
           </li>

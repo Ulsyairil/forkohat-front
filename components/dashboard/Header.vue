@@ -17,7 +17,7 @@
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active active-link"
+              active-class="active-link"
               class="nav-link text-primary"
               to="/dashboard"
               exact
@@ -27,50 +27,45 @@
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active active-link"
+              active-class="active-link"
               class="nav-link text-primary"
               to="/dashboard/event"
-              exact
               >Event</nuxt-link
             >
           </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active active-link"
+              active-class="active-link"
               class="nav-link text-primary"
               to="/dashboard/news"
-              exact
               >Berita</nuxt-link
             >
           </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active active-link"
+              active-class="active-link"
               class="nav-link text-primary"
-              to="/faq"
-              exact
+              to="/dashboard/faq"
               >FAQ</nuxt-link
             >
           </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active active-link"
+              active-class="active-link"
               class="nav-link text-primary"
               to="/program"
-              exact
               >Program</nuxt-link
             >
           </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
-              active-class="active active-link"
+              active-class="active-link"
               class="nav-link text-primary"
               to="/user"
-              exact
               >Pengguna</nuxt-link
             >
           </li>
@@ -118,7 +113,11 @@
 }
 
 .active-link {
-  color: #fff !important;
+  color: #007bff !important;
+  font-weight: bold;
+  background-color: transparent !important;
+  border-radius: 0px !important;
+  border-bottom: 3px solid #007bff;
 }
 </style>
 

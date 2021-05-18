@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="container">
-      <h3 class="mb-3">Daftar Event</h3>
+      <h3 class="mb-3">Daftar FAQ</h3>
       <div>
         <a href="javascript:void(0)" @click="redirect()">
-          <span>Buat Event</span>
+          <span>Buat FAQ</span>
           <font-awesome-icon icon="arrow-right" />
         </a>
       </div>
       <div>
-        <TablesEvent />
+        <TablesFaq />
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     redirect() {
-      this.$router.push('/dashboard/event/create')
+      this.$router.push('/dashboard/faq/create')
     },
   },
 }

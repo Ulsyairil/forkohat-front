@@ -22,10 +22,6 @@
 </template>
 
 <style lang="scss">
-body {
-  background-color: #50bbe6;
-}
-
 .text-error {
   font-size: 100pt;
 }
@@ -35,6 +31,13 @@ body {
 export default {
   props: ['error'],
   layout: 'error',
+  head() {
+    return {
+      bodyAttrs: {
+        class: 'bg-custom',
+      },
+    }
+  },
   methods: {
     redirectBack() {
       this.$router.back()
