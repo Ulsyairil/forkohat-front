@@ -60,44 +60,49 @@
     </b-button>
 
     <div class="mt-3" v-if="topic.form.length != 0">
+      <div>
+        <h4>Pratinjau</h4>
+      </div>
       <b-card no-body>
         <b-tabs pills card vertical>
           <b-tab :title="faq.form.name">
             <b-card-text>
-              <div class="accordion" role="tablist">
-                <b-card
-                  no-body
-                  class="mb-1"
-                  v-for="(value, index) in topic.form"
-                  :key="index"
-                >
+              <div
+                class="accordion"
+                role="tablist"
+                v-for="(value, index) in topic.form"
+                :key="index"
+              >
+                <b-card no-body class="mb-1">
                   <b-card-header header-tag="header" class="p-1" role="tab">
-                    <b-button block :v-b-toggle="`accordion-1`" variant="info">
+                    <b-button
+                      block
+                      v-b-toggle="`accordion-${index}`"
+                      variant="info"
+                    >
                       {{ value.title }}
                     </b-button>
                   </b-card-header>
                   <b-collapse
-                    :id="`accordion-1`"
+                    :id="`accordion-${index}`"
                     :visible="index == 0 ? true : false"
                     accordion="my-accordion"
                     role="tabpanel"
                   >
                     <b-card-body>
-                      <b-card-text>
-                        {{ value.description }}
-                        <div>
-                          <b-button
-                            class="mt-2"
-                            type="button"
-                            variant="danger"
-                            v-b-tooltip.hover
-                            title="Hapus Permanen"
-                            @click="removeTopic(index)"
-                          >
-                            <font-awesome-icon icon="trash" />
-                          </b-button>
-                        </div>
-                      </b-card-text>
+                      <b-card-text>{{ value.description }}</b-card-text>
+                      <div>
+                        <b-button
+                          class="mt-2"
+                          type="button"
+                          variant="danger"
+                          v-b-tooltip.hover
+                          title="Hapus"
+                          @click="removeTopic(index)"
+                        >
+                          <font-awesome-icon icon="trash" />
+                        </b-button>
+                      </div>
                     </b-card-body>
                   </b-collapse>
                 </b-card>
@@ -142,7 +147,7 @@ export default {
   methods: {
     async formSubmit() {
       try {
-        // $.LoadingOverlay('show')
+        $.LoadingOverlay('show')
         let validate = this.formValidation('faq-create-form').validate()
 
         if (!validate) {
@@ -165,14 +170,14 @@ export default {
           url = `${this.baseurl.dev}/superadmin/faq`
         } else if (this.auth.user.rule_id == 2) {
           url = `${this.baseurl.dev}/admin/faq`
-        } else {
-          url = `${this.baseurl.dev}/employee/faq`
         }
+
         const config = {
           headers: {
             Authorization: `${this.auth.token.type} ${this.auth.token.token}`,
           },
         }
+
         const data = await this.$axios.$post(url, payload, config)
         console.log(data)
 
@@ -182,12 +187,10 @@ export default {
             url = `${this.baseurl.dev}/superadmin/faq/topic`
           } else if (this.auth.user.rule_id == 2) {
             url = `${this.baseurl.dev}/admin/faq/topic`
-          } else {
-            url = `${this.baseurl.dev}/employee/faq/topic`
           }
 
           let payload = {
-            faq_id: 2,
+            faq_id: data.id,
             title: value.title,
             description: value.description,
           }

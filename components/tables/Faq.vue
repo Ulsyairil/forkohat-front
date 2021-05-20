@@ -155,7 +155,7 @@ export default {
   methods: {
     editButton(id) {
       console.log(id)
-      this.$router.push(`/dashboard/event/edit/${id}`)
+      this.$router.push(`/dashboard/faq/edit/${id}`)
     },
   },
   mounted() {
