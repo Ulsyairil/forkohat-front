@@ -27,8 +27,6 @@
           id="input-user-nip"
           type="text"
           placeholder="Masukkan NIP Pengguna (optional)"
-          required
-          data-pristine-required-message="NIP pengguna harus diisi"
         ></b-form-input>
       </b-form-group>
       <b-form-group label="Password Pengguna" label-for="input-user-password">
@@ -91,8 +89,6 @@
           placeholder="Masukkan biodata pengguna"
           rows="3"
           max-rows="10"
-          required
-          data-pristine-required-message="Biodata pengguna harus diisi"
         ></b-form-textarea>
       </b-form-group>
 
@@ -124,17 +120,30 @@
 
     <hr class="border-dark" />
 
-    <h3>Rule Pengguna</h3>
-    <b-form-group>
-      <b-form-select
-        v-model="selectedRule"
-        id="input-user-rule"
-        :options="optionsRule"
-      >
-      </b-form-select>
-    </b-form-group>
+    <h3>Buat Rule Pengguna</h3>
+    <b-form id="rule-create-form">
+      <b-form-group label="Rule Pengguna" label-for="input-rule">
+        <b-form-input
+          v-model="rule.form.text"
+          id="input-rule"
+          type="text"
+          placeholder="Masukkan Rule"
+          required
+          data-pristine-required-message="Nama tatanan harus diisi"
+        ></b-form-input>
+      </b-form-group>
+    </b-form>
 
     <div>
+      <b-button
+        type="button"
+        variant="primary"
+        v-b-tooltip.hover
+        title="Tambah Topik Pertanyaan"
+        @click="addRule()"
+      >
+        <font-awesome-icon icon="plus-square" />
+      </b-button>
       <b-button
         type="submit"
         variant="success"
@@ -146,19 +155,17 @@
       </b-button>
     </div>
 
-    <div class="table-responsive mt-3" v-if="order.value.length != 0">
+    <div class="table-responsive mt-3" v-if="rule.value.length != 0">
       <table class="table table-bordered table-hover">
         <thead>
           <tr>
-            <th scope="col">Nama Tatanan</th>
-            <th scope="col">Deskripsi</th>
+            <th scope="col">Rule</th>
             <th scope="col" class="text-center">Hapus</th>
           </tr>
         </thead>
-        <tbody v-for="(value, index) in order.value" :key="index">
+        <tbody v-for="(value, index) in rule.value" :key="index">
           <tr>
-            <td>{{ value.name }}</td>
-            <td>{{ value.description }}</td>
+            <td>{{ value.rule }}</td>
             <td class="text-center">
               <b-button
                 type="button"
@@ -188,11 +195,9 @@ import Swal from 'sweetalert2'
 export default {
   data() {
     return {
-      selectedRule: null,
       selectedGender: null,
       selectedDistrict: null,
       selectedSubDistrict: null,
-      optionsRule: [{ value: 'null', text: 'Pilih Rule...', disabled: true }],
       optionsGender: [
         { value: 'null', text: 'Pilih Jenis Kelamin...', disabled: true },
         { value: 'male', text: 'Laki-Laki' },
@@ -230,24 +235,33 @@ export default {
           },
         },
       },
-      order: {
+      rule: {
         form: {
-          name: '',
-          description: '',
+          text: '',
         },
         value: [],
       },
     }
   },
   mounted() {
-    this.getDistrict();
+    this.getDistrict()
     //this.getRule();
     this.formValidation('user-create-form')
+    this.formValidation('rule-create-form')
   },
   methods: {
     async formSubmit() {
       try {
         $.LoadingOverlay('show')
+
+        if (this.rule.value.length == 0) {
+          $.LoadingOverlay('hide')
+
+          return Swal.fire({
+            icon: 'warning',
+            title: 'Rule harus dibuat',
+          })
+        }
 
         let validate = this.formValidation('user-create-form').validate()
 
@@ -268,8 +282,21 @@ export default {
           },
         }
 
+        let payload = {
+          rule: this.rule.form.text,
+        }
+
+        let urlRule
+        if (this.auth.user.rule_id == 1) {
+          urlRule = `${this.baseurl.dev}/superadmin/rule`
+        } else if (this.auth.user.rule_id == 2) {
+          urlRule = `${this.baseurl.dev}/admin/rule`
+        }
+
+        const rule = await this.$axios.$post(urlRule, payload, config)
+
         const formData = new FormData()
-        formData.append('rule_id', 2)
+        formData.append('rule_id', rule.id)
         formData.append('name', this.user.form.name)
         formData.append('email', this.user.form.email)
         formData.append('nip', this.user.form.nip)
@@ -316,21 +343,6 @@ export default {
       }))
       this.optionsDistrict.push(...resultArray)
     },
-    // async getRule() {
-    //   let url = `${this.baseurl.dev}/superadmin/rules`
-
-    //   const config = {
-    //     headers: {
-    //       Authorization: `${this.auth.token.type} ${this.auth.token.token}`,
-    //     },
-    //   }
-    //   const rules = await this.$axios.$post(url, config)
-    //   const resultArray = rules.map((elm) => ({
-    //     value: elm.id,
-    //     text: elm.rule,
-    //   }))
-    //   this.optionsRule.push(...resultArray)
-    // },
     async changeSubDistrict(district) {
       let url = `${this.baseurl.dev}/sub-district?district_id=${parseInt(
         district
@@ -355,26 +367,35 @@ export default {
 
       console.log(this.optionsSubDistrict)
     },
-    addOrder() {
-      let validate = this.formValidation('order-create-form').validate()
+    addRule() {
+      if (this.rule.value.length != 0) {
+        $.LoadingOverlay('hide')
+
+        return Swal.fire({
+          icon: 'warning',
+          title: 'Rule sudah dibuat',
+        })
+      }
+
+      let validate = this.formValidation('rule-create-form').validate()
 
       if (!validate) {
         return
       }
 
       let payload = {
-        name: this.order.form.name,
-        description: this.order.form.description,
+        rule: this.rule.form.text,
       }
 
-      this.order.value.push(payload)
+      this.rule.value.push(payload)
 
-      console.log(this.order.value)
+      console.log(this.rule.value)
     },
-    deleteOrder(index) {
-      this.order.value.splice(index, 1)
-    },
+    // deleteOrder(index) {
+    //   this.order.value.splice(index, 1)
+    // },
     formValidation(form_id) {
+      $.LoadingOverlay('hide')
       var form = document.getElementById(form_id)
       var config = {
         classTo: 'form-group',
