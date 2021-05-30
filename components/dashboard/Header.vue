@@ -80,7 +80,7 @@
               tag="a"
               active-class="active-link"
               class="nav-link text-primary"
-              to="/user"
+              to="/dashboard/user"
               >Pengguna</nuxt-link
             >
           </li>
