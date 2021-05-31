@@ -532,7 +532,7 @@ export default {
         $.LoadingOverlay('hide')
         return this.$notify({
           group: 'app',
-          type: 'success',
+          type: 'error',
           title: 'Gagal disimpan',
           text: error,
         })
@@ -734,7 +734,7 @@ export default {
         $.LoadingOverlay('hide')
         return this.$notify({
           group: 'app',
-          type: 'success',
+          type: 'error',
           title: 'Gagal disimpan',
           text: error,
         })

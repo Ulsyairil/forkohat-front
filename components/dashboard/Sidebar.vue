@@ -8,6 +8,7 @@
     :no-close-on-esc="header_close"
     bg-variant="light"
     text-variant="dark"
+    no-close-on-route-change
     backdrop
   >
     <div class="px-3 py-2">
@@ -41,7 +42,10 @@
               >Berita</nuxt-link
             >
           </li>
-          <li class="nav-item">
+          <li
+            class="nav-item"
+            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
+          >
             <nuxt-link
               tag="a"
               active-class="active-link"
@@ -50,16 +54,31 @@
               >FAQ</nuxt-link
             >
           </li>
-          <li class="nav-item">
+          <li
+            class="nav-item"
+            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
+          >
             <nuxt-link
               tag="a"
               active-class="active-link"
               class="nav-link"
-              to="/program"
+              to="/dashboard/program"
               >Program</nuxt-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="auth.user.rule_id > 2">
+            <nuxt-link
+              tag="a"
+              active-class="active-link"
+              class="nav-link"
+              to="/dashboard/order"
+              >Tatanan</nuxt-link
+            >
+          </li>
+          <li
+            class="nav-item"
+            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
+          >
             <nuxt-link
               tag="a"
               active-class="active-link"
@@ -85,6 +104,14 @@
 export default {
   data() {
     return {
+      baseurl: {
+        dev: this.$config.baseurl.dev,
+        prod: this.$config.baseurl.prod,
+      },
+      auth: {
+        token: this.$auth.$storage.getCookie('token'),
+        user: this.$auth.$storage.getCookie('user'),
+      },
       header_close: true,
       visible: false,
     }

@@ -36,13 +36,8 @@ export default {
     const baseurl_dev = this.$config.baseurl.dev
     const auth = this.$auth.$storage.getCookie('token')
     const authUser = this.$auth.$storage.getCookie('user')
-    let url
 
-    if (authUser.rule_id == 1) {
-      url = `${baseurl_dev}/superadmin/faqs`
-    } else if (authUser.rule_id == 2) {
-      url = `${baseurl_dev}/admin/faqs`
-    }
+    let url = `${baseurl_dev}/employee/order`
 
     console.log(`rule_id = ${authUser.rule_id}`)
     console.log(`url = ${url}`)
@@ -69,7 +64,7 @@ export default {
       theme: 'mermaid',
       columns: [
         'ID',
-        'Nama FAQ',
+        'Nama Tatanan',
         {
           name: 'Dibuat',
           formatter: (cell, row) => {
@@ -96,10 +91,10 @@ export default {
         },
         ,
         {
-          name: 'Ubah',
+          name: 'Detil',
           formatter: (cell, row) => {
             return this.$gridjs.h('i', {
-              className: 'fas fa-edit m-2 text-warning pointer_cursor',
+              className: 'fas fa-edit m-2 text-primary pointer_cursor',
               onClick: () => this.editButton(row.cells[0].data),
             })
           },
@@ -107,17 +102,17 @@ export default {
       ],
       server: {
         url: url,
-        method: 'POST',
+        method: 'GET',
         headers: {
           Authorization: `${auth.type} ${auth.token}`,
         },
         then: (data) =>
-          data.map((faq) => [
-            faq.id,
-            faq.name,
-            faq.created_at,
-            faq.updated_at,
-            faq.deleted_at,
+          data.map((order) => [
+            order.id,
+            order.name,
+            order.created_at,
+            order.updated_at,
+            order.deleted_at,
           ]),
         handle: (res) => {
           if (res.status === 404) return { data: [] }
@@ -153,7 +148,7 @@ export default {
   methods: {
     editButton(id) {
       console.log(id)
-      this.$router.push(`/dashboard/faq/edit/${id}`)
+      this.$router.push(`/dashboard/order/list/${id}`)
     },
   },
   mounted() {

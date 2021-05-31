@@ -42,7 +42,10 @@
               >Berita</nuxt-link
             >
           </li>
-          <li class="nav-item">
+          <li
+            class="nav-item"
+            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
+          >
             <nuxt-link
               tag="a"
               active-class="active-link"
@@ -63,19 +66,19 @@
               >Program</nuxt-link
             >
           </li>
-          <li
-            class="nav-item"
-            v-if="auth.user.rule_id != 1 && auth.user.rule_id != 2"
-          >
+          <li class="nav-item" v-if="auth.user.rule_id > 2">
             <nuxt-link
               tag="a"
               active-class="active-link"
               class="nav-link text-primary"
-              to="/order"
+              to="/dashboard/order"
               >Tatanan</nuxt-link
             >
           </li>
-          <li class="nav-item">
+          <li
+            class="nav-item"
+            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
+          >
             <nuxt-link
               tag="a"
               active-class="active-link"
