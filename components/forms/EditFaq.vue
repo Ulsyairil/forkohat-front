@@ -301,10 +301,7 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       faq: {
         form: {
           name: '',
@@ -323,9 +320,9 @@ export default {
     try {
       let url
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/faq?faq_id=${this.$route.params.id}`
+        url = `${this.baseurl}/superadmin/faq?faq_id=${this.$route.params.id}`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/faq?faq_id=${this.$route.params.id}`
+        url = `${this.baseurl}/admin/faq?faq_id=${this.$route.params.id}`
       }
 
       const config = {
@@ -341,9 +338,9 @@ export default {
       this.faq.form.deleted_at = data.deleted_at
 
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/faq/topics?faq_id=${this.$route.params.id}`
+        url = `${this.baseurl}/superadmin/faq/topics?faq_id=${this.$route.params.id}`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/faq/topics?faq_id=${this.$route.params.id}`
+        url = `${this.baseurl}/admin/faq/topics?faq_id=${this.$route.params.id}`
       }
 
       const res = await this.$axios.$get(url, config)
@@ -369,9 +366,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/faq/topic`
+          url = `${this.baseurl}/superadmin/faq/topic`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/faq/topic`
+          url = `${this.baseurl}/admin/faq/topic`
         }
 
         const config = {
@@ -414,9 +411,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/faq/topic/restore`
+          url = `${this.baseurl}/superadmin/faq/topic/restore`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/faq/topic/restore`
+          url = `${this.baseurl}/admin/faq/topic/restore`
         }
 
         const config = {
@@ -458,9 +455,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/faq/topic/dump`
+          url = `${this.baseurl}/superadmin/faq/topic/dump`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/faq/topic/dump`
+          url = `${this.baseurl}/admin/faq/topic/dump`
         }
 
         const config = {
@@ -505,9 +502,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/faq/topic`
+          url = `${this.baseurl}/superadmin/faq/topic`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/faq/topic`
+          url = `${this.baseurl}/admin/faq/topic`
         }
 
         const config = {
@@ -549,9 +546,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/faq`
+          url = `${this.baseurl}/superadmin/faq`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/faq`
+          url = `${this.baseurl}/admin/faq`
         }
 
         const config = {
@@ -597,9 +594,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/faq/restore`
+          url = `${this.baseurl}/superadmin/faq/restore`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/faq/restore`
+          url = `${this.baseurl}/admin/faq/restore`
         }
 
         const config = {
@@ -641,9 +638,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/faq/dump`
+          url = `${this.baseurl}/superadmin/faq/dump`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/faq/dump`
+          url = `${this.baseurl}/admin/faq/dump`
         }
 
         const config = {
@@ -690,9 +687,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/faq`
+          url = `${this.baseurl}/superadmin/faq`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/faq`
+          url = `${this.baseurl}/admin/faq`
         }
 
         const config = {
@@ -707,9 +704,9 @@ export default {
         this.topic.form.forEach(async (value) => {
           let url
           if (this.auth.user.rule_id == 1) {
-            url = `${this.baseurl.dev}/superadmin/faq/topic`
+            url = `${this.baseurl}/superadmin/faq/topic`
           } else if (this.auth.user.rule_id == 2) {
-            url = `${this.baseurl.dev}/admin/faq/topic`
+            url = `${this.baseurl}/admin/faq/topic`
           }
 
           let payload = {

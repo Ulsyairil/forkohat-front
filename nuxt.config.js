@@ -154,17 +154,7 @@ export default {
 
   // Public env variable
   publicRuntimeConfig: {
-    recaptcha: {
-      dev: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
-      prod: '6Lc1Sc8aAAAAAICyCx66QIuP7qB-XAAQDbIDj1ly',
-    },
-    baseurl: {
-      dev: 'http://127.0.0.1:3333/api/v1',
-      prod: 'https://apiforkohat.balikpapanpedia.com/api/v1',
-    },
-    domain: {
-      dev: 'http://127.0.0.1:3333',
-      prod: 'https://apiforkohat.balikpapanpedia.com',
-    },
+    baseurl: 'http://127.0.0.1:3333/api/v1',
+    domain: 'http://127.0.0.1:3333',
   },
 }

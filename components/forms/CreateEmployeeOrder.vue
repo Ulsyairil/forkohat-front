@@ -152,10 +152,7 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       order_stuff: {
         form: {
           order: this.$route.query.order_id,
@@ -204,7 +201,7 @@ export default {
         }
 
         let url
-        url = `${this.baseurl.dev}/employee/order/stuff`
+        url = `${this.baseurl}/employee/order/stuff`
 
         let payload = {
           order_id: this.order_stuff.form.order,
@@ -223,7 +220,7 @@ export default {
         console.log(data)
 
         this.order_file.form.value.forEach(async (value) => {
-          url = `${this.baseurl.dev}/employee/order/stuff/file`
+          url = `${this.baseurl}/employee/order/stuff/file`
 
           let formData = new FormData()
           formData.append('order_stuff_id', data.id)

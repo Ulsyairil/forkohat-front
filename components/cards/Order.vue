@@ -33,7 +33,7 @@
               <b-row no-gutters>
                 <b-col md="6" class="position-sticky">
                   <b-card-img
-                    :src="domain.dev + value.orderStuffFiles[0].url"
+                    :src="domain + value.orderStuffFiles[0].url"
                     alt="Image"
                     class="card-img rounded-0"
                   ></b-card-img>
@@ -102,14 +102,8 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
-      domain: {
-        dev: this.$config.domain.dev,
-        prod: this.$config.domain.prod,
-      },
+      baseurl: this.$config.baseurl,
+      domain: this.$config.domain,
       order_stuff: {
         pages: '',
         perPage: 10,
@@ -128,7 +122,7 @@ export default {
       }
 
       let url
-      url = `${this.baseurl.dev}/employee/order/stuffs`
+      url = `${this.baseurl}/employee/order/stuffs`
 
       let payload = {
         order_id: this.$route.params.id,
@@ -166,7 +160,7 @@ export default {
         }
 
         let url
-        url = `${this.baseurl.dev}/employee/order/stuffs`
+        url = `${this.baseurl}/employee/order/stuffs`
 
         let payload = {
           order_id: this.$route.params.id,

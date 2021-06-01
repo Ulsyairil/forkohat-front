@@ -18,6 +18,7 @@ html {
 
 <script>
 export default {
+  middleware: ['CheckIfAuthenticated'],
   head() {
     return {
       bodyAttrs: {

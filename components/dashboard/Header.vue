@@ -145,10 +145,7 @@ import initials from 'initials'
 export default {
   data() {
     return {
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       auth: {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
@@ -188,7 +185,7 @@ export default {
     async logoutButton() {
       try {
         $.LoadingOverlay('show')
-        let url = `${this.baseurl.dev}/logout`
+        let url = `${this.baseurl}/logout`
         let payload = {
           refresh_token: this.auth.token.refreshToken,
         }

@@ -323,14 +323,8 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
-      domain: {
-        dev: this.$config.domain.dev,
-        prod: this.$config.domain.prod,
-      },
+      baseurl: this.$config.baseurl,
+      domain: this.$config.domain,
       editor: {
         customToolbar: [
           [{ header: [false, 1, 2, 3, 4, 5, 6] }],
@@ -376,11 +370,11 @@ export default {
     try {
       let url
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/event?event_id=${this.$route.params.id}`
+        url = `${this.baseurl}/superadmin/event?event_id=${this.$route.params.id}`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/event?event_id=${this.$route.params.id}`
+        url = `${this.baseurl}/admin/event?event_id=${this.$route.params.id}`
       } else {
-        url = `${this.baseurl.dev}/employee/event?event_id=${this.$route.params.id}`
+        url = `${this.baseurl}/employee/event?event_id=${this.$route.params.id}`
       }
 
       const config = {
@@ -403,7 +397,7 @@ export default {
 
       res.eventFiles.forEach((value) => {
         if (value.type == 'banner') {
-          this.form.image.current_url = `${this.domain.dev}${value.url}`
+          this.form.image.current_url = `${this.domain}${value.url}`
         }
 
         if (value.type == 'files') {
@@ -424,11 +418,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event`
+          url = `${this.baseurl}/superadmin/event`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event`
+          url = `${this.baseurl}/admin/event`
         } else {
-          url = `${this.baseurl.dev}/employee/event`
+          url = `${this.baseurl}/employee/event`
         }
 
         let payload = {
@@ -470,11 +464,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event/restore`
+          url = `${this.baseurl}/superadmin/event/restore`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event/restore`
+          url = `${this.baseurl}/admin/event/restore`
         } else {
-          url = `${this.baseurl.dev}/employee/event/restore`
+          url = `${this.baseurl}/employee/event/restore`
         }
 
         const config = {
@@ -514,11 +508,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event/dump`
+          url = `${this.baseurl}/superadmin/event/dump`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event/dump`
+          url = `${this.baseurl}/admin/event/dump`
         } else {
-          url = `${this.baseurl.dev}/employee/event/dump`
+          url = `${this.baseurl}/employee/event/dump`
         }
 
         const config = {
@@ -558,11 +552,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event/file`
+          url = `${this.baseurl}/superadmin/event/file`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event/file`
+          url = `${this.baseurl}/admin/event/file`
         } else {
-          url = `${this.baseurl.dev}/employee/event/file`
+          url = `${this.baseurl}/employee/event/file`
         }
 
         let payload = {
@@ -598,10 +592,10 @@ export default {
       }
     },
     getFile(url) {
-      return window.open(`${this.domain.dev}${url}`, '_blank')
+      return window.open(`${this.domain}${url}`, '_blank')
     },
     getImageURL(url) {
-      return this.domain.dev + url
+      return this.domain + url
     },
     resetForm() {
       this.form.name = ''
@@ -666,11 +660,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/event`
+          url = `${this.baseurl}/superadmin/event`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/event`
+          url = `${this.baseurl}/admin/event`
         } else {
-          url = `${this.baseurl.dev}/employee/event`
+          url = `${this.baseurl}/employee/event`
         }
 
         const config = {

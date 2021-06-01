@@ -39,21 +39,21 @@
             <div v-if="value.mime == 'png'">
               <img
                 class="img-fluid mb-2 preview-image"
-                :src="domain.dev + value.url"
+                :src="domain + value.url"
                 data-action="zoom"
               />
             </div>
             <div v-else-if="value.mime == 'jpeg'">
               <img
                 class="img-fluid mb-2 preview-image"
-                :src="domain.dev + value.url"
+                :src="domain + value.url"
                 data-action="zoom"
               />
             </div>
             <div v-else-if="value.mime == 'jpg'">
               <img
                 class="img-fluid mb-2 preview-image"
-                :src="domain.dev + value.url"
+                :src="domain + value.url"
                 data-action="zoom"
               />
             </div>
@@ -91,7 +91,7 @@
             >
               <img
                 class="img-fluid mb-2 order-file-image"
-                :src="domain.dev + value.url"
+                :src="domain + value.url"
                 data-action="zoom"
               />
 
@@ -285,14 +285,8 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
-      domain: {
-        dev: this.$config.domain.dev,
-        prod: this.$config.domain.prod,
-      },
+      baseurl: this.$config.baseurl,
+      domain: this.$config.domain,
       order_stuff: {
         form: {
           id: this.$route.params.id,
@@ -327,7 +321,7 @@ export default {
         },
       }
 
-      url = `${this.baseurl.dev}/employee/order/stuff?id=${this.$route.params.id}`
+      url = `${this.baseurl}/employee/order/stuff?id=${this.$route.params.id}`
 
       const orderStuffData = await this.$axios.$get(url, config)
       console.log(orderStuffData)
@@ -335,7 +329,7 @@ export default {
       this.order_stuff.form.name = orderStuffData.name
       this.order_stuff.form.description = orderStuffData.description
 
-      url = `${this.baseurl.dev}/employee/order/stuff/files?order_stuff_id=${this.$route.params.id}`
+      url = `${this.baseurl}/employee/order/stuff/files?order_stuff_id=${this.$route.params.id}`
 
       const orderStuffFile = await this.$axios.$get(url, config)
       console.log(orderStuffFile)
@@ -373,7 +367,7 @@ export default {
           return
         }
 
-        url = `${this.baseurl.dev}/employee/order/stuff/file`
+        url = `${this.baseurl}/employee/order/stuff/file`
 
         const config = {
           headers: {
@@ -424,7 +418,7 @@ export default {
 
         $.LoadingOverlay('show')
 
-        url = `${this.baseurl.dev}/employee/order/stuff/file`
+        url = `${this.baseurl}/employee/order/stuff/file`
 
         let payload = {
           id: id,
@@ -480,7 +474,7 @@ export default {
           })
         }
 
-        url = `${this.baseurl.dev}/employee/order/stuff`
+        url = `${this.baseurl}/employee/order/stuff`
 
         let payload = {
           id: this.order_stuff.form.id,
@@ -501,7 +495,7 @@ export default {
         this.order_file.form.value.forEach(async (value) => {
           let url
 
-          url = `${this.baseurl.dev}/employee/order/stuff/file`
+          url = `${this.baseurl}/employee/order/stuff/file`
 
           let formData = new FormData()
           formData.append('order_stuff_id', data.id)

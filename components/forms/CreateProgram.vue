@@ -148,10 +148,7 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       program: {
         form: {
           name: '',
@@ -200,9 +197,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/program`
+          url = `${this.baseurl}/superadmin/program`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/program`
+          url = `${this.baseurl}/admin/program`
         }
 
         const config = {
@@ -227,9 +224,9 @@ export default {
           }
 
           if (this.auth.user.rule_id == 1) {
-            url = `${this.baseurl.dev}/superadmin/order`
+            url = `${this.baseurl}/superadmin/order`
           } else if (this.auth.user.rule_id == 2) {
-            url = `${this.baseurl.dev}/admin/order`
+            url = `${this.baseurl}/admin/order`
           }
 
           const order = await this.$axios.$post(url, payload, config)

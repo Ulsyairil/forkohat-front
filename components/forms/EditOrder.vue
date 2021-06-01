@@ -59,21 +59,21 @@
             <div v-if="value.mime == 'png'">
               <img
                 class="img-fluid mb-2 preview-image"
-                :src="domain.dev + value.url"
+                :src="domain + value.url"
                 data-action="zoom"
               />
             </div>
             <div v-else-if="value.mime == 'jpeg'">
               <img
                 class="img-fluid mb-2 preview-image"
-                :src="domain.dev + value.url"
+                :src="domain + value.url"
                 data-action="zoom"
               />
             </div>
             <div v-else-if="value.mime == 'jpg'">
               <img
                 class="img-fluid mb-2 preview-image"
-                :src="domain.dev + value.url"
+                :src="domain + value.url"
                 data-action="zoom"
               />
             </div>
@@ -111,7 +111,7 @@
             >
               <img
                 class="img-fluid mb-2 order-file-image"
-                :src="domain.dev + value.url"
+                :src="domain + value.url"
                 data-action="zoom"
               />
 
@@ -305,14 +305,8 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
-      domain: {
-        dev: this.$config.domain.dev,
-        prod: this.$config.domain.prod,
-      },
+      baseurl: this.$config.baseurl,
+      domain: this.$config.domain,
       order_stuff: {
         form: {
           program: {
@@ -354,18 +348,18 @@ export default {
       }
 
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/order/stuff?id=${this.$route.params.id}`
+        url = `${this.baseurl}/superadmin/order/stuff?id=${this.$route.params.id}`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/order/stuff?id=${this.$route.params.id}`
+        url = `${this.baseurl}/admin/order/stuff?id=${this.$route.params.id}`
       }
 
       const orderStuffData = await this.$axios.$get(url, config)
       console.log(orderStuffData)
 
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/programs`
+        url = `${this.baseurl}/superadmin/programs`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/programs`
+        url = `${this.baseurl}/admin/programs`
       }
 
       const programData = await this.$axios.$post(url, {}, config)
@@ -393,9 +387,9 @@ export default {
       this.order_stuff.form.description = orderStuffData.description
 
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/order/stuff/files?order_stuff_id=${this.$route.params.id}`
+        url = `${this.baseurl}/superadmin/order/stuff/files?order_stuff_id=${this.$route.params.id}`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/order/stuff/files?order_stuff_id=${this.$route.params.id}`
+        url = `${this.baseurl}/admin/order/stuff/files?order_stuff_id=${this.$route.params.id}`
       }
 
       const orderStuffFile = await this.$axios.$get(url, config)
@@ -435,9 +429,9 @@ export default {
         }
 
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order/stuff/file`
+          url = `${this.baseurl}/superadmin/order/stuff/file`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order/stuff/file`
+          url = `${this.baseurl}/admin/order/stuff/file`
         }
 
         const config = {
@@ -490,9 +484,9 @@ export default {
         $.LoadingOverlay('show')
 
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order/stuff/file`
+          url = `${this.baseurl}/superadmin/order/stuff/file`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order/stuff/file`
+          url = `${this.baseurl}/admin/order/stuff/file`
         }
 
         let payload = {
@@ -550,9 +544,9 @@ export default {
         }
 
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order/stuff`
+          url = `${this.baseurl}/superadmin/order/stuff`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order/stuff`
+          url = `${this.baseurl}/admin/order/stuff`
         }
 
         let payload = {
@@ -574,9 +568,9 @@ export default {
         this.order_file.form.value.forEach(async (value) => {
           let url
           if (this.auth.user.rule_id == 1) {
-            url = `${this.baseurl.dev}/superadmin/order/stuff/file`
+            url = `${this.baseurl}/superadmin/order/stuff/file`
           } else if (this.auth.user.rule_id == 2) {
-            url = `${this.baseurl.dev}/admin/order/stuff/file`
+            url = `${this.baseurl}/admin/order/stuff/file`
           }
 
           let formData = new FormData()
@@ -615,9 +609,9 @@ export default {
       try {
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/orders`
+          url = `${this.baseurl}/superadmin/orders`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/orders`
+          url = `${this.baseurl}/admin/orders`
         }
 
         let payload = {
