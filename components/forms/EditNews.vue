@@ -301,14 +301,8 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
-      domain: {
-        dev: this.$config.domain.dev,
-        prod: this.$config.domain.prod,
-      },
+      baseurl: this.$config.baseurl,
+      domain: this.$config.domain,
       editor: {
         customToolbar: [
           [{ header: [false, 1, 2, 3, 4, 5, 6] }],
@@ -352,11 +346,11 @@ export default {
     try {
       let url
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/news?id=${this.$route.params.id}`
+        url = `${this.baseurl}/superadmin/news?id=${this.$route.params.id}`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/news?id=${this.$route.params.id}`
+        url = `${this.baseurl}/admin/news?id=${this.$route.params.id}`
       } else {
-        url = `${this.baseurl.dev}/employee/news?id=${this.$route.params.id}`
+        url = `${this.baseurl}/employee/news?id=${this.$route.params.id}`
       }
 
       const config = {
@@ -377,7 +371,7 @@ export default {
 
       res.newsFiles.forEach((value) => {
         if (value.type == 'banner') {
-          this.form.image.current_url = `${this.domain.dev}${value.url}`
+          this.form.image.current_url = `${this.domain}${value.url}`
         }
 
         if (value.type == 'files') {
@@ -398,11 +392,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/news`
+          url = `${this.baseurl}/superadmin/news`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/news`
+          url = `${this.baseurl}/admin/news`
         } else {
-          url = `${this.baseurl.dev}/employee/news`
+          url = `${this.baseurl}/employee/news`
         }
 
         let payload = {
@@ -444,11 +438,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/news/restore`
+          url = `${this.baseurl}/superadmin/news/restore`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/news/restore`
+          url = `${this.baseurl}/admin/news/restore`
         } else {
-          url = `${this.baseurl.dev}/employee/news/restore`
+          url = `${this.baseurl}/employee/news/restore`
         }
 
         const config = {
@@ -488,11 +482,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/news/dump`
+          url = `${this.baseurl}/superadmin/news/dump`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/news/dump`
+          url = `${this.baseurl}/admin/news/dump`
         } else {
-          url = `${this.baseurl.dev}/employee/news/dump`
+          url = `${this.baseurl}/employee/news/dump`
         }
 
         const config = {
@@ -532,11 +526,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/news/file`
+          url = `${this.baseurl}/superadmin/news/file`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/news/file`
+          url = `${this.baseurl}/admin/news/file`
         } else {
-          url = `${this.baseurl.dev}/employee/news/file`
+          url = `${this.baseurl}/employee/news/file`
         }
 
         let payload = {
@@ -572,10 +566,10 @@ export default {
       }
     },
     getFile(url) {
-      return window.open(`${this.domain.dev}${url}`, '_blank')
+      return window.open(`${this.domain}${url}`, '_blank')
     },
     getImageURL(url) {
-      return this.domain.dev + url
+      return this.domain + url
     },
     resetForm() {
       this.form.title = ''
@@ -620,11 +614,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/news`
+          url = `${this.baseurl}/superadmin/news`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/news`
+          url = `${this.baseurl}/admin/news`
         } else {
-          url = `${this.baseurl.dev}/employee/news`
+          url = `${this.baseurl}/employee/news`
         }
 
         const config = {

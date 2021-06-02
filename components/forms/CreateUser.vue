@@ -219,10 +219,7 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       user: {
         form: {
           name: '',
@@ -280,9 +277,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/user`
+          url = `${this.baseurl}/superadmin/user`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/user`
+          url = `${this.baseurl}/admin/user`
         }
 
         const config = {
@@ -297,9 +294,9 @@ export default {
 
         let urlRule
         if (this.auth.user.rule_id == 1) {
-          urlRule = `${this.baseurl.dev}/superadmin/rule`
+          urlRule = `${this.baseurl}/superadmin/rule`
         } else if (this.auth.user.rule_id == 2) {
-          urlRule = `${this.baseurl.dev}/admin/rule`
+          urlRule = `${this.baseurl}/admin/rule`
         }
 
         const rule = await this.$axios.$post(urlRule, payload, config)
@@ -338,7 +335,7 @@ export default {
       }
     },
     async getDistrict() {
-      let url = `${this.baseurl.dev}/district?city_id=6471`
+      let url = `${this.baseurl}/district?city_id=6471`
 
       const config = {
         headers: {
@@ -353,9 +350,7 @@ export default {
       this.optionsDistrict.push(...resultArray)
     },
     async changeSubDistrict(district) {
-      let url = `${this.baseurl.dev}/sub-district?district_id=${parseInt(
-        district
-      )}`
+      let url = `${this.baseurl}/sub-district?district_id=${parseInt(district)}`
 
       const config = {
         headers: {

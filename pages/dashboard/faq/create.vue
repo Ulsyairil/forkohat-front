@@ -1,11 +1,13 @@
 <template>
   <div>
     <div class="container">
-      <a href="javascript:void(0)" @click="redirectBack()">
-        <font-awesome-icon icon="arrow-left" />
-        <span>Kembali</span>
-      </a>
-      <div class="title mt-3">
+      <div>
+        <b-button type="button" variant="primary" @click="redirectBack()">
+          <font-awesome-icon icon="arrow-left" />
+          <span>Kembali</span>
+        </b-button>
+      </div>
+      <div class="title mt-2">
         <h3>Buat FAQ</h3>
       </div>
     </div>

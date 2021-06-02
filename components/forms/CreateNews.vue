@@ -124,10 +124,7 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       editor: {
         customToolbar: [
           [{ header: [false, 1, 2, 3, 4, 5, 6] }],
@@ -208,11 +205,11 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/news/add`
+          url = `${this.baseurl}/superadmin/news/add`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/news/add`
+          url = `${this.baseurl}/admin/news/add`
         } else {
-          url = `${this.baseurl.dev}/employee/news/add`
+          url = `${this.baseurl}/employee/news/add`
         }
 
         const config = {

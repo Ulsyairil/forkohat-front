@@ -369,14 +369,8 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
-      domain: {
-        dev: this.$config.domain.dev,
-        prod: this.$config.domain.prod,
-      },
+      baseurl: this.$config.baseurl,
+      domain: this.$config.domain,
       program: {
         form: {
           name: '',
@@ -407,9 +401,9 @@ export default {
     try {
       let url
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/program?program_id=${this.$route.params.id}`
+        url = `${this.baseurl}/superadmin/program?program_id=${this.$route.params.id}`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/program?program_id=${this.$route.params.id}`
+        url = `${this.baseurl}/admin/program?program_id=${this.$route.params.id}`
       }
 
       const config = {
@@ -422,9 +416,9 @@ export default {
       console.log(programData)
 
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/orders`
+        url = `${this.baseurl}/superadmin/orders`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/orders`
+        url = `${this.baseurl}/admin/orders`
       }
 
       let payload = {
@@ -438,7 +432,7 @@ export default {
       this.program.form.description = programData.description
       this.program.form.deleted_at = programData.deleted_at
       programData.programFiles.forEach((value) => {
-        this.program.form.image.current_url = this.domain.dev + value.url
+        this.program.form.image.current_url = this.domain + value.url
       })
 
       this.order.current_value = orderData
@@ -479,9 +473,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order/stuff/restore`
+          url = `${this.baseurl}/superadmin/order/stuff/restore`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order/stuff/restore`
+          url = `${this.baseurl}/admin/order/stuff/restore`
         }
 
         const config = {
@@ -523,9 +517,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order/stuff/dump`
+          url = `${this.baseurl}/superadmin/order/stuff/dump`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order/stuff/dump`
+          url = `${this.baseurl}/admin/order/stuff/dump`
         }
 
         const config = {
@@ -567,9 +561,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order/restore`
+          url = `${this.baseurl}/superadmin/order/restore`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order/restore`
+          url = `${this.baseurl}/admin/order/restore`
         }
 
         const config = {
@@ -611,9 +605,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order/dump`
+          url = `${this.baseurl}/superadmin/order/dump`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order/dump`
+          url = `${this.baseurl}/admin/order/dump`
         }
 
         const config = {
@@ -655,9 +649,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order`
+          url = `${this.baseurl}/superadmin/order`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order`
+          url = `${this.baseurl}/admin/order`
         }
 
         const config = {
@@ -700,9 +694,9 @@ export default {
       try {
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order/stuffs?order_id=${id}`
+          url = `${this.baseurl}/superadmin/order/stuffs?order_id=${id}`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order/stuffs?order_id=${id}`
+          url = `${this.baseurl}/admin/order/stuffs?order_id=${id}`
         }
 
         const config = {
@@ -732,9 +726,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/program`
+          url = `${this.baseurl}/superadmin/program`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/program`
+          url = `${this.baseurl}/admin/program`
         }
 
         let payload = {
@@ -777,9 +771,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/program/restore`
+          url = `${this.baseurl}/superadmin/program/restore`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/program/restore`
+          url = `${this.baseurl}/admin/program/restore`
         }
 
         const config = {
@@ -821,9 +815,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/program/dump`
+          url = `${this.baseurl}/superadmin/program/dump`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/program/dump`
+          url = `${this.baseurl}/admin/program/dump`
         }
 
         const config = {
@@ -871,9 +865,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/program`
+          url = `${this.baseurl}/superadmin/program`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/program`
+          url = `${this.baseurl}/admin/program`
         }
 
         const config = {
@@ -901,9 +895,9 @@ export default {
           }
 
           if (this.auth.user.rule_id == 1) {
-            url = `${this.baseurl.dev}/superadmin/order`
+            url = `${this.baseurl}/superadmin/order`
           } else if (this.auth.user.rule_id == 2) {
-            url = `${this.baseurl.dev}/admin/order`
+            url = `${this.baseurl}/admin/order`
           }
 
           const order = await this.$axios.$post(url, payload, config)

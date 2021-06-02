@@ -125,10 +125,7 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       faq: {
         form: {
           name: '',
@@ -167,9 +164,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/faq`
+          url = `${this.baseurl}/superadmin/faq`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/faq`
+          url = `${this.baseurl}/admin/faq`
         }
 
         const config = {
@@ -184,9 +181,9 @@ export default {
         this.topic.form.forEach(async (value) => {
           let url
           if (this.auth.user.rule_id == 1) {
-            url = `${this.baseurl.dev}/superadmin/faq/topic`
+            url = `${this.baseurl}/superadmin/faq/topic`
           } else if (this.auth.user.rule_id == 2) {
-            url = `${this.baseurl.dev}/admin/faq/topic`
+            url = `${this.baseurl}/admin/faq/topic`
           }
 
           let payload = {

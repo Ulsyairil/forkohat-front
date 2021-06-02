@@ -172,10 +172,7 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       order_stuff: {
         form: {
           program: {
@@ -209,9 +206,9 @@ export default {
     try {
       let url
       if (this.auth.user.rule_id == 1) {
-        url = `${this.baseurl.dev}/superadmin/programs`
+        url = `${this.baseurl}/superadmin/programs`
       } else if (this.auth.user.rule_id == 2) {
-        url = `${this.baseurl.dev}/admin/programs`
+        url = `${this.baseurl}/admin/programs`
       }
 
       const config = {
@@ -266,9 +263,9 @@ export default {
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/order/stuff`
+          url = `${this.baseurl}/superadmin/order/stuff`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/order/stuff`
+          url = `${this.baseurl}/admin/order/stuff`
         }
 
         let payload = {
@@ -289,9 +286,9 @@ export default {
         this.order_file.form.value.forEach(async (value) => {
           let url
           if (this.auth.user.rule_id == 1) {
-            url = `${this.baseurl.dev}/superadmin/order/stuff/file`
+            url = `${this.baseurl}/superadmin/order/stuff/file`
           } else if (this.auth.user.rule_id == 2) {
-            url = `${this.baseurl.dev}/admin/order/stuff/file`
+            url = `${this.baseurl}/admin/order/stuff/file`
           }
 
           let formData = new FormData()
@@ -328,9 +325,9 @@ export default {
       try {
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl.dev}/superadmin/orders`
+          url = `${this.baseurl}/superadmin/orders`
         } else if (this.auth.user.rule_id == 2) {
-          url = `${this.baseurl.dev}/admin/orders`
+          url = `${this.baseurl}/admin/orders`
         }
 
         let payload = {

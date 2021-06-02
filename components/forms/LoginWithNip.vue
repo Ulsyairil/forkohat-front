@@ -43,10 +43,7 @@ import Swal from 'sweetalert2'
 export default {
   data() {
     return {
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       select: 'nip',
       nip: '',
       password: {
@@ -97,7 +94,7 @@ export default {
 
         $.LoadingOverlay('show')
 
-        let url = `${this.baseurl.dev}/login`
+        let url = `${this.baseurl}/login`
         let res = await this.$axios.$post(url, payload)
 
         this.$auth.$storage.setCookie('token', res.token, true)
@@ -159,20 +156,6 @@ export default {
       }
       var pristine = new Pristine(form, config)
       return pristine
-    },
-    rescaleCaptcha() {
-      var width = $('.g-recaptcha').parent().width()
-      var scale
-      if (width < 302) {
-        scale = width / 302
-      } else {
-        scale = 1.0
-      }
-
-      $('.g-recaptcha').css('transform', 'scale(' + scale + ')')
-      $('.g-recaptcha').css('-webkit-transform', 'scale(' + scale + ')')
-      $('.g-recaptcha').css('transform-origin', '0 0')
-      $('.g-recaptcha').css('-webkit-transform-origin', '0 0')
     },
   },
 }

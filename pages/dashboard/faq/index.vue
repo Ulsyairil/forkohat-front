@@ -3,10 +3,10 @@
     <div class="container">
       <h3 class="mb-3">Daftar FAQ</h3>
       <div>
-        <a href="javascript:void(0)" @click="redirect()">
+        <b-button type="button" variant="primary" @click="redirect()">
           <span>Buat FAQ</span>
           <font-awesome-icon icon="arrow-right" />
-        </a>
+        </b-button>
       </div>
       <div>
         <TablesFaq />

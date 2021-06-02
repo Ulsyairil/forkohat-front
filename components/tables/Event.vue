@@ -32,18 +32,17 @@ table {
 import moment from 'moment'
 export default {
   data() {
-    const baseurl_prod = this.$config.baseurl.prod
-    const baseurl_dev = this.$config.baseurl.dev
+    const baseurl = this.$config.baseurl
     const auth = this.$auth.$storage.getCookie('token')
     const authUser = this.$auth.$storage.getCookie('user')
     let url
 
     if (authUser.rule_id == 1) {
-      url = `${baseurl_dev}/superadmin/events`
+      url = `${baseurl}/superadmin/events`
     } else if (authUser.rule_id == 2) {
-      url = `${baseurl_dev}/admin/events`
+      url = `${baseurl}/admin/events`
     } else {
-      url = `${baseurl_dev}/employee/events`
+      url = `${baseurl}/employee/events`
     }
 
     console.log(`rule_id = ${authUser.rule_id}`)
@@ -54,10 +53,7 @@ export default {
         token: this.$auth.$storage.getCookie('token'),
         user: this.$auth.$storage.getCookie('user'),
       },
-      baseurl: {
-        dev: this.$config.baseurl.dev,
-        prod: this.$config.baseurl.prod,
-      },
+      baseurl: this.$config.baseurl,
       autoWidth: true,
       search: true,
       sort: {
