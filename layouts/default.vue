@@ -1,12 +1,12 @@
 <template>
   <div class="app-root">
-    <PublicSidebar />
-    <PublicHeader />
+    <!-- <PublicSidebar /> -->
+    <!-- <PublicHeader /> -->
     <main role="main">
       <notifications group="app" style="margin-top: 90px" />
       <Nuxt />
     </main>
-    <PublicFooter />
+    <!-- <PublicFooter /> -->
     <PublicScrollTop />
   </div>
 </template>
