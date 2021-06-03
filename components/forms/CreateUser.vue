@@ -30,14 +30,19 @@
         ></b-form-input>
       </b-form-group>
       <b-form-group label="Password Pengguna" label-for="input-user-password">
+         <b-input-group>
         <b-form-input
           v-model="user.form.password"
           id="input-user-password"
-          type="password"
+          type="text"
           placeholder="Masukkan Password Pengguna"
           required
           data-pristine-required-message="password pengguna harus diisi"
         ></b-form-input>
+        <b-input-group-append>
+          <b-button @click="generatePassword()" variant="primary">Generate</b-button>
+        </b-input-group-append>
+        </b-input-group>
       </b-form-group>
       <b-form-group label="Pekerjaan Pengguna" label-for="input-user-job">
         <b-form-input
@@ -247,6 +252,10 @@ export default {
     this.formValidation('rule-create-form')
   },
   methods: {
+    generatePassword() {
+      let generatePassword = Randomstring.generate();
+      this.user.form.password = generatePassword
+    },
     async formSubmit() {
       try {
         $.LoadingOverlay('show')
