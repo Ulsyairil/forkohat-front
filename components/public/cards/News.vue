@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <div class="mt-4">
-      <h3>Berita</h3>
-    </div>
-    <div class="mb-3 mt-3">
+  <div class="mb-5 mt-4">
+    <div class="text-center">
+        <h2>Berita</h2>
+        <hr style="height: 5px; width: 100px" class="bg-azure" />
+      </div>
+    <div class="mb-3 mt-5">
       <b-form @submit.prevent="searchForm()">
         <b-form-group>
           <b-input-group>
