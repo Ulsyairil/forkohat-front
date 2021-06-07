@@ -44,7 +44,6 @@
           </li>
           <li
             class="nav-item"
-            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
           >
             <nuxt-link
               tag="a"
@@ -56,7 +55,6 @@
           </li>
           <li
             class="nav-item"
-            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
           >
             <nuxt-link
               tag="a"
@@ -120,7 +118,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.auth.user.rule_id)
+    //console.log(this.auth.user.rule_id)
     // let theme = this.$auth.$storage.getLocalStorage('theme')
     // let body = document.querySelector('body')
     // let sidebar = document.getElementById('sidebar')
