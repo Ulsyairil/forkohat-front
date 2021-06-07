@@ -19,7 +19,9 @@
                 <tr>
                   <th scope="col">Nama Tatanan</th>
                   <th scope="col" class="text-center">Dihapus</th>
-                  <th scope="col" class="text-center" width="120px">Aksi</th>
+                  <th scope="col" class="text-center" style="max-width: 200px">
+                    Aksi
+                  </th>
                 </tr>
               </thead>
               <tbody v-for="(value, index) in order.current_value" :key="index">
@@ -31,28 +33,38 @@
                   </td>
                   <td class="text-center">
                     <b-button
+                      class="mb-2 mb-md-0"
                       type="button"
-                      variant="warning"
+                      variant="primary"
                       v-b-modal="`modal-${index}`"
                       @click="getOrderStuff(value.id)"
                     >
                       <font-awesome-icon icon="edit" />
                     </b-button>
                     <b-button
+                      class="mb-2 mb-md-0"
                       type="button"
-                      variant="danger"
+                      variant="warning"
                       v-if="value.deleted_at == null"
                       @click="orderDump(value.id)"
                     >
                       <font-awesome-icon icon="trash" />
                     </b-button>
                     <b-button
+                      class="mb-2 mb-md-0"
                       type="button"
-                      variant="primary"
+                      variant="warning"
                       v-else-if="value.deleted_at != null"
                       @click="orderRestore(value.id)"
                     >
                       <font-awesome-icon icon="trash-restore" />
+                    </b-button>
+                    <b-button
+                      type="button"
+                      variant="danger"
+                      @click="orderDelete(value.id)"
+                    >
+                      <font-awesome-icon icon="ban" />
                     </b-button>
 
                     <b-modal
@@ -139,7 +151,7 @@
                               >
                                 {{ value.deleted_at }}
                               </td>
-                              <td>
+                              <td class="text-center">
                                 <b-button
                                   type="button"
                                   variant="warning"
@@ -377,8 +389,7 @@ export default {
           description: '',
           image: {
             current_url: '',
-            url:
-              'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70',
+            url: 'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70',
             max: 5242880,
             type: ['image/jpg', 'image/jpeg', 'image/png'],
             value: null,
@@ -543,6 +554,51 @@ export default {
           group: 'app',
           type: 'success',
           title: 'Berhasil dihapus',
+        })
+      } catch (error) {
+        console.log(error)
+        $.LoadingOverlay('hide')
+        return this.$notify({
+          group: 'app',
+          type: 'error',
+          title: 'Kesalahan pada server',
+          text: error,
+        })
+      }
+    },
+    async orderDelete(id) {
+      try {
+        $.LoadingOverlay('show')
+
+        let url
+        if (this.auth.user.rule_id == 1) {
+          url = `${this.baseurl}/superadmin/order`
+        } else if (this.auth.user.rule_id == 2) {
+          url = `${this.baseurl}/admin/order`
+        }
+
+        let payload = {
+          id: id,
+        }
+        console.log(payload)
+
+        const config = {
+          headers: {
+            Authorization: `${this.auth.token.type} ${this.auth.token.token}`,
+          },
+          data: payload,
+        }
+
+        const res = await this.$axios.$delete(url, config)
+        console.log(res)
+
+        this.$nuxt.refresh()
+
+        $.LoadingOverlay('hide')
+        return this.$notify({
+          group: 'app',
+          type: 'success',
+          title: 'Berhasil dihapus permanen',
         })
       } catch (error) {
         console.log(error)

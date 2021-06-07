@@ -157,6 +157,7 @@
           placeholder="Pilih berkas atau letakkan di sini"
           drop-placeholder="Letakkan file di sini"
           browse-text="Telusuri"
+          accept=".jpg, .jpeg, .png"
           @input="handleFileBeforeUpload()"
           :file-name-formatter="formatNames"
           no-traverse
@@ -335,6 +336,7 @@ export default {
         },
         file: {
           max: 2097152,
+          type: ['image/jpg', 'image/jpeg', 'image/png'],
           value: [],
           current_value: [],
         },
@@ -717,6 +719,15 @@ export default {
               icon: 'warning',
               title: 'Peringatan',
               text: 'File yang diupload tidak boleh melebihi dari 2 MB',
+            })
+          }
+
+          if (!this.form.file.type.includes(value.type)) {
+            this.$refs.file.reset()
+            return Swal.fire({
+              icon: 'warning',
+              title: 'Peringatan',
+              text: 'Gambar yang diupload harus jpeg, jpg, dan png',
             })
           }
         })

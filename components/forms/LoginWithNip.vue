@@ -62,11 +62,6 @@ export default {
       })
 
       this.formValidation('login-with-nip-form')
-
-      this.rescaleCaptcha()
-      $(window).resize(function () {
-        rescaleCaptcha()
-      })
     } catch (error) {
       console.log(error)
     }

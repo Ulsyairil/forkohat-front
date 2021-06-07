@@ -31,29 +31,20 @@
               style="max-height: 200px"
             >
               <b-row no-gutters>
-                <b-col md="6" class="position-sticky">
-                  <b-card-img
-                    :src="domain + value.orderStuffFiles[0].url"
-                    alt="Image"
-                    class="card-img rounded-0"
-                  ></b-card-img>
-                </b-col>
-                <b-col md="6">
-                  <b-card-body>
-                    <b-card-title>
-                      {{ value.name }}
-                    </b-card-title>
-                    <div class="mt-3">
-                      <a
-                        href="javascript:void(0)"
-                        class="text-warning"
-                        @click="redirectEditPage(value.id)"
-                      >
-                        <font-awesome-icon icon="edit" />
-                      </a>
-                    </div>
-                  </b-card-body>
-                </b-col>
+                <b-card-body>
+                  <b-card-title>
+                    {{ value.name }}
+                  </b-card-title>
+                  <div class="mt-3">
+                    <b-button
+                      type="button"
+                      variant="warning"
+                      @click="redirectEditPage(value.id)"
+                    >
+                      Ubah
+                    </b-button>
+                  </div>
+                </b-card-body>
                 <b-card-body>
                   <b-card-text>
                     {{ value.description }}

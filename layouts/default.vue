@@ -6,7 +6,7 @@
       <notifications group="app" style="margin-top: 90px" />
       <Nuxt />
     </main>
-    <PublicFooter />
+    <!-- <PublicFooter /> -->
     <PublicScrollTop />
   </div>
 </template>

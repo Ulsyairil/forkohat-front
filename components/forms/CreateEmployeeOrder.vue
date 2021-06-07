@@ -22,58 +22,25 @@
           data-pristine-required-message="Deskripsi harus diisi"
         ></b-form-textarea>
       </b-form-group>
-    </b-form>
-
-    <hr class="border-dark" />
-
-    <b-form id="order-file-create-form">
-      <h3>Buat Halaman</h3>
-      <b-form-group label="Nomor Halaman" label-for="input-order-file-page">
-        <b-form-input
-          v-model="order_file.form.page"
-          id="input-order-file-page"
-          type="number"
-          placeholder="Masukkan nomor halaman"
-          required
-          data-pristine-required-message="Nomor halaman harus diisi"
-        ></b-form-input>
-      </b-form-group>
       <div class="form-group">
-        <label for="input-image">Unggah Gambar Halaman</label>
+        <label for="input-pdf">Unggah Berkas PDF</label>
         <br />
-        <picture>
-          <img
-            class="img-fluid mb-2 order-file-image"
-            :src="order_file.form.image.url"
-            data-action="zoom"
-          />
-        </picture>
         <b-form-file
-          id="input-image"
-          ref="image"
-          v-model="order_file.form.image.value"
-          placeholder="Pilih gambar atau letakkan di sini"
+          id="input-pdf"
+          v-model="order_file.form.file.value"
+          placeholder="Pilih berkas pdf atau letakkan di sini"
           drop-placeholder="Letakkan file di sini"
-          accept=".jpg, .jpeg, .png"
+          accept=".pdf"
           browse-text="Telusuri"
-          @input="handleImageBeforeUpload()"
+          @input="handlePdfBeforeUpload()"
           no-traverse
           required
-          data-pristine-required-message="Gambar halaman harus diunggah"
+          data-pristine-required-message="Berkas harus diunggah"
         ></b-form-file>
       </div>
     </b-form>
 
     <div>
-      <b-button
-        type="button"
-        variant="primary"
-        v-b-tooltip.hover
-        title="Tambah Topik Pertanyaan"
-        @click="addOrder()"
-      >
-        <font-awesome-icon icon="plus-square" />
-      </b-button>
       <b-button
         type="submit"
         variant="success"
@@ -84,62 +51,8 @@
         <font-awesome-icon icon="save" />
       </b-button>
     </div>
-
-    <div class="mt-3 border-top" v-if="order_file.form.value.length != 0">
-      <div class="mt-2 mb-4">
-        <h4>Pratinjau</h4>
-      </div>
-      <div v-for="(value, index) in order_file.form.value" :key="index">
-        <div class="row">
-          <div class="col-2 align-self-center text-center">
-            <div v-if="value.image.type == 'image/png'">
-              <img
-                class="img-fluid mb-2 preview-image"
-                :src="filesURL(value.image)"
-                data-action="zoom"
-              />
-            </div>
-            <div v-else-if="value.image.type == 'image/jpeg'">
-              <img
-                class="img-fluid mb-2 preview-image"
-                :src="filesURL(value.image)"
-                data-action="zoom"
-              />
-            </div>
-          </div>
-          <div class="col-6 align-self-center">
-            <div class="title font-weight-bold">Halaman : {{ value.page }}</div>
-            <div>
-              size: {{ convertFileSize(value.image.size) }}, type:
-              {{ value.image.type }}
-            </div>
-          </div>
-          <div class="col-4 align-self-center">
-            <a
-              href="javascript:void(0)"
-              class="text-danger"
-              @click="deleteOrder(index)"
-            >
-              <font-awesome-icon icon="trash" size="lg" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
-
-<style lang="scss">
-.order-file-image {
-  max-width: 300px;
-  max-height: 200px;
-}
-
-.preview-image {
-  max-width: 100px;
-  max-height: 50px;
-}
-</style>
 
 <script>
 import Swal from 'sweetalert2'
@@ -162,22 +75,16 @@ export default {
       },
       order_file: {
         form: {
-          page: 1,
-          image: {
-            url:
-              'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70',
-            max: 5242880,
-            type: ['image/jpg', 'image/jpeg', 'image/png'],
+          file: {
+            type: ['application/pdf'],
             value: null,
           },
-          value: [],
         },
       },
     }
   },
   mounted() {
     this.formValidation('order-stuff-create-form')
-    this.formValidation('order-file-create-form')
   },
   methods: {
     async formSubmit() {
@@ -189,16 +96,6 @@ export default {
         }
 
         $.LoadingOverlay('show')
-
-        if (this.order_file.form.value.length == 0) {
-          $.LoadingOverlay('hide')
-
-          return Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Halaman isi tatanan belum diisi',
-          })
-        }
 
         let url
         url = `${this.baseurl}/employee/order/stuff`
@@ -219,21 +116,18 @@ export default {
         const data = await this.$axios.$post(url, payload, config)
         console.log(data)
 
-        this.order_file.form.value.forEach(async (value) => {
-          url = `${this.baseurl}/employee/order/stuff/file`
+        url = `${this.baseurl}/employee/order/stuff/file`
 
-          let formData = new FormData()
-          formData.append('order_stuff_id', data.id)
-          formData.append('page', value.page)
-          formData.append('image', value.image)
+        let formData = new FormData()
+        formData.append('order_stuff_id', data.id)
+        formData.append('file', this.order_file.form.file.value)
 
-          const res = await this.$axios.$post(url, formData, config)
-          console.log(res)
+        const res = await this.$axios.$post(url, formData, config)
+        console.log(res)
 
-          for (var pair of formData.entries()) {
-            console.log(pair[0] + ', ' + pair[1])
-          }
-        })
+        for (var pair of formData.entries()) {
+          console.log(pair[0] + ', ' + pair[1])
+        }
 
         $.LoadingOverlay('hide')
         return this.$notify({
@@ -252,61 +146,6 @@ export default {
         })
       }
     },
-    addOrder() {
-      let validate = this.formValidation('order-file-create-form').validate()
-
-      if (!validate) {
-        return
-      }
-
-      let validate_page = false
-
-      if (this.order_file.form.value.length != 0) {
-        this.order_file.form.value.forEach((value) => {
-          if (this.order_file.form.page == value.page) {
-            validate_page = true
-          }
-        })
-
-        if (validate_page == true) {
-          return Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: `Halaman ${this.order_file.form.page} sudah ada, mohon dicek lagi`,
-          })
-        }
-      }
-
-      let payload = {
-        page: this.order_file.form.page,
-        image: this.order_file.form.image.value,
-      }
-
-      this.order_file.form.value.push(payload)
-      this.order_file.form.value.sort((a, b) => {
-        if (a.page < b.page) {
-          return -1
-        }
-
-        if (a.page > b.page) {
-          return 1
-        }
-
-        return 0
-      })
-      console.log(this.order_file.form.value)
-
-      this.order_file.form.page++
-    },
-    deleteOrder(index) {
-      this.order_file.form.value.splice(index, 1)
-    },
-    filesURL(file) {
-      return URL.createObjectURL(file)
-    },
-    convertFileSize(size) {
-      return filesize(size)
-    },
     formValidation(form_id) {
       var form = document.getElementById(form_id)
       var config = {
@@ -320,42 +159,19 @@ export default {
       var pristine = new Pristine(form, config)
       return pristine
     },
-    handleImageBeforeUpload() {
-      console.log(this.order_file.form.image.value)
-
-      this.order_file.form.image.url =
-        'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70'
-      if (this.order_file.form.image.value != null) {
-        this.order_file.form.image.url = URL.createObjectURL(
-          this.order_file.form.image.value
-        )
-
+    handlePdfBeforeUpload() {
+      console.log(this.order_file.form.file.value)
+      if (this.order_file.form.file.value != null) {
         if (
-          this.order_file.form.image.value.size >=
-          this.order_file.form.image.max
-        ) {
-          this.$refs.image.reset()
-          this.order_file.form.image.url =
-            'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70'
-          return Swal.fire({
-            icon: 'warning',
-            title: 'Peringatan',
-            text: 'Gambar tidak boleh melebihi dari 5 MB',
-          })
-        }
-
-        if (
-          !this.order_file.form.image.type.includes(
-            this.order_file.form.image.value.type
+          !this.order_file.form.file.type.includes(
+            this.order_file.form.file.value.type
           )
         ) {
-          this.$refs.image.reset()
-          this.order_file.form.image.url =
-            'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70'
+          this.$refs.file.reset()
           return Swal.fire({
             icon: 'warning',
             title: 'Peringatan',
-            text: 'Gambar yang diupload harus jpeg, jpg, dan png',
+            text: 'Berkas PDF yang diupload harus pdf',
           })
         }
       }

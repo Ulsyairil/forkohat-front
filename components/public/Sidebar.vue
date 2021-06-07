@@ -44,19 +44,17 @@
           </li>
           <li
             class="nav-item"
-            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
           >
             <nuxt-link
               tag="a"
               active-class="active-link"
               class="nav-link"
-              to="/faq"
+              to="/faqs"
               >FAQ</nuxt-link
             >
           </li>
           <li
             class="nav-item"
-            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
           >
             <nuxt-link
               tag="a"
@@ -64,27 +62,6 @@
               class="nav-link"
               to="/program"
               >Program</nuxt-link
-            >
-          </li>
-          <li class="nav-item" v-if="auth.user.rule_id > 2">
-            <nuxt-link
-              tag="a"
-              active-class="active-link"
-              class="nav-link"
-              to="/order"
-              >Tatanan</nuxt-link
-            >
-          </li>
-          <li
-            class="nav-item"
-            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
-          >
-            <nuxt-link
-              tag="a"
-              active-class="active-link"
-              class="nav-link"
-              to="/user"
-              >Pengguna</nuxt-link
             >
           </li>
         </ul>
