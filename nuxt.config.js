@@ -32,6 +32,14 @@ export default {
         href:
           'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css',
       },
+      {
+        rel: 'stylesheet',
+        href: '/css/dflip.min.css',
+      },
+      {
+        rel: 'stylesheet',
+        href: '/css/themify-icons.min.css',
+      },
     ],
     script: [
       {
@@ -70,6 +78,9 @@ export default {
       },
       // https://developers.google.com/recaptcha/docs/display
       { src: 'https://www.google.com/recaptcha/api.js' },
+      {
+        src: '/js/dflip.min.js',
+      },
     ],
   },
 

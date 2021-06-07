@@ -17,7 +17,7 @@
         </b-button>
       </div>
       <div>
-        <CardsOrder />
+        <Cards-Order />
       </div>
     </div>
   </div>

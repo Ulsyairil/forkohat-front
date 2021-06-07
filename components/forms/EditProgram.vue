@@ -139,7 +139,7 @@
                               >
                                 {{ value.deleted_at }}
                               </td>
-                              <td>
+                              <td class="text-center">
                                 <b-button
                                   type="button"
                                   variant="warning"
