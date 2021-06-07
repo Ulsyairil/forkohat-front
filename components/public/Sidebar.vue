@@ -44,7 +44,6 @@
           </li>
           <li
             class="nav-item"
-            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
           >
             <nuxt-link
               tag="a"
@@ -56,7 +55,6 @@
           </li>
           <li
             class="nav-item"
-            v-if="auth.user.rule_id == 1 || auth.user.rule_id == 2"
           >
             <nuxt-link
               tag="a"
