@@ -57,10 +57,6 @@ export default {
     try {
       await this.$recaptcha.init()
       this.formValidation('login-with-email-form')
-
-      $(window).resize(function () {
-        this.rescaleCaptcha()
-      })
     } catch (e) {
       console.error(e)
     }
