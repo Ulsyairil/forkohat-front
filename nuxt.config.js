@@ -158,7 +158,7 @@ export default {
   ssr: true,
 
   // Default target is static
-  target: 'static',
+  target: 'server',
 
   // Default loading is false
   loading: false,
