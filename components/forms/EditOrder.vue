@@ -181,6 +181,12 @@ export default {
       console.log(this.order_file.form.current_value)
     } catch (error) {
       console.log(error)
+      return this.$notify({
+        group: 'app',
+        type: 'error',
+        title: 'Kesalahan Internal Server',
+        text: error,
+      })
     }
   },
   mounted() {

@@ -39,9 +39,11 @@
                     <b-button
                       type="button"
                       variant="warning"
+                      v-b-tooltip.hover
+                      title="Ubah"
                       @click="redirectEditPage(value.id)"
                     >
-                      Ubah
+                      <font-awesome-icon icon="edit" />
                     </b-button>
                   </div>
                 </b-card-body>

@@ -382,6 +382,12 @@ export default {
       })
     } catch (error) {
       console.log(error)
+      return this.$notify({
+        group: 'app',
+        type: 'error',
+        title: 'Kesalahan Internal Server',
+        text: error,
+      })
     }
   },
   mounted() {

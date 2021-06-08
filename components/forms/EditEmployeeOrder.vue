@@ -78,13 +78,23 @@
       </b-button>
       <b-button
         type="button"
-        variant="primary"
+        variant="warning"
         v-b-tooltip.hover
         title="Pulihkan"
         v-if="order_stuff.form.deleted_at != null"
         @click="restoreOrderStuff()"
       >
         <font-awesome-icon icon="trash-restore" />
+      </b-button>
+
+      <b-button
+        type="button"
+        variant="danger"
+        v-b-tooltip.hover
+        title="Hapus Permanen"
+        @click="deleteOrderStuff()"
+      >
+        <font-awesome-icon icon="ban" />
       </b-button>
     </div>
   </div>
@@ -157,6 +167,46 @@ export default {
     this.formValidation('order-stuff-create-form')
   },
   methods: {
+    async deleteOrderStuff() {
+      try {
+        let url
+        $.LoadingOverlay('show')
+
+        url = `${this.baseurl}/employee/order/stuff`
+
+        let payload = {
+          id: this.order_stuff.form.id,
+        }
+
+        const config = {
+          headers: {
+            Authorization: `${this.auth.token.type} ${this.auth.token.token}`,
+          },
+          data: payload,
+        }
+
+        const data = await this.$axios.$delete(url, config)
+        console.log(data)
+
+        this.$router.back()
+
+        $.LoadingOverlay('hide')
+        return this.$notify({
+          group: 'app',
+          type: 'success',
+          title: 'Berhasil dihapus permanen',
+        })
+      } catch (error) {
+        console.log(error)
+        $.LoadingOverlay('hide')
+        return this.$notify({
+          group: 'app',
+          type: 'error',
+          title: 'Gagal hapus permanen',
+          text: error,
+        })
+      }
+    },
     async restoreOrderStuff() {
       try {
         let url
@@ -191,7 +241,7 @@ export default {
         return this.$notify({
           group: 'app',
           type: 'error',
-          title: 'Gagal disimpan',
+          title: 'Gagal dipulihkan',
           text: error,
         })
       }
@@ -230,7 +280,7 @@ export default {
         return this.$notify({
           group: 'app',
           type: 'error',
-          title: 'Gagal disimpan',
+          title: 'Gagal dihapus',
           text: error,
         })
       }
