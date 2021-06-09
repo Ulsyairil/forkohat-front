@@ -30,18 +30,20 @@
         ></b-form-input>
       </b-form-group>
       <b-form-group label="Password Pengguna" label-for="input-user-password">
-         <b-input-group>
-        <b-form-input
-          v-model="user.form.password"
-          id="input-user-password"
-          type="text"
-          placeholder="Masukkan Password Pengguna"
-          required
-          data-pristine-required-message="password pengguna harus diisi"
-        ></b-form-input>
-        <b-input-group-append>
-          <b-button @click="generatePassword()" variant="primary">Generate</b-button>
-        </b-input-group-append>
+        <b-input-group>
+          <b-form-input
+            v-model="user.form.password"
+            id="input-user-password"
+            type="text"
+            placeholder="Masukkan Password Pengguna"
+            required
+            data-pristine-required-message="password pengguna harus diisi"
+          ></b-form-input>
+          <b-input-group-append>
+            <b-button @click="generatePassword()" variant="primary"
+              >Generate</b-button
+            >
+          </b-input-group-append>
         </b-input-group>
       </b-form-group>
       <b-form-group label="Pekerjaan Pengguna" label-for="input-user-job">
@@ -125,30 +127,39 @@
 
     <hr class="border-dark" />
 
-    <h3>Buat Rule Pengguna</h3>
+    <h3>Pilih Rule Pengguna</h3>
     <b-form id="rule-create-form">
       <b-form-group label="Rule Pengguna" label-for="input-rule">
-        <b-form-input
-          v-model="rule.form.text"
+        <b-form-select
+          v-model="selectedRule"
           id="input-rule"
-          type="text"
-          placeholder="Masukkan Rule"
+          :options="optionsRule"
+          @change="changeRule(selectedRule)"
           required
-          data-pristine-required-message="Nama tatanan harus diisi"
-        ></b-form-input>
+        >
+        </b-form-select>
       </b-form-group>
     </b-form>
 
-    <div>
-      <b-button
-        type="button"
-        variant="primary"
-        v-b-tooltip.hover
-        title="Tambah Topik Pertanyaan"
-        @click="addRule()"
+    <div v-if="program.description != '' && program.name != ''">
+      <div class="mt-5">Nama Program : {{ program.name }}</div>
+
+      <b-form-group
+        label="Deskripsi Program"
+        label-for="input-program-description"
+        class="mt-2"
       >
-        <font-awesome-icon icon="plus-square" />
-      </b-button>
+        <b-form-textarea
+          v-model="program.description"
+          id="input-program-description"
+          rows="3"
+          max-rows="10"
+          readonly
+        ></b-form-textarea>
+      </b-form-group>
+    </div>
+
+    <div>
       <b-button
         type="submit"
         variant="success"
@@ -158,31 +169,6 @@
       >
         <font-awesome-icon icon="save" />
       </b-button>
-    </div>
-
-    <div class="table-responsive mt-3" v-if="rule.value.length != 0">
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Rule</th>
-            <th scope="col" class="text-center">Hapus</th>
-          </tr>
-        </thead>
-        <tbody v-for="(value, index) in rule.value" :key="index">
-          <tr>
-            <td>{{ value.rule }}</td>
-            <td class="text-center">
-              <b-button
-                type="button"
-                variant="danger"
-                @click="deleteOrder(index)"
-              >
-                <font-awesome-icon icon="trash" />
-              </b-button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 </template>
@@ -200,9 +186,13 @@ import Swal from 'sweetalert2'
 export default {
   data() {
     return {
+      selectedRule: null,
       selectedGender: null,
       selectedDistrict: null,
       selectedSubDistrict: null,
+      optionsRule: [
+        { value: 'null', text: 'Pilih Rule Pengguna...', disabled: true },
+      ],
       optionsGender: [
         { value: 'null', text: 'Pilih Jenis Kelamin...', disabled: true },
         { value: 'male', text: 'Laki-Laki' },
@@ -237,30 +227,28 @@ export default {
           },
         },
       },
-      rule: {
-        form: {
-          text: '',
-        },
-        value: [],
+      program: {
+        name: '',
+        description: '',
       },
     }
   },
   mounted() {
     this.getDistrict()
-    //this.getRule();
+    this.getRule()
     this.formValidation('user-create-form')
     this.formValidation('rule-create-form')
   },
   methods: {
     generatePassword() {
-      let generatePassword = Randomstring.generate();
+      let generatePassword = Randomstring.generate()
       this.user.form.password = generatePassword
     },
     async formSubmit() {
       try {
         $.LoadingOverlay('show')
 
-        if (this.rule.value.length == 0) {
+        if (this.selectedRule == null) {
           $.LoadingOverlay('hide')
 
           return Swal.fire({
@@ -288,21 +276,8 @@ export default {
           },
         }
 
-        let payload = {
-          rule: this.rule.form.text,
-        }
-
-        let urlRule
-        if (this.auth.user.rule_id == 1) {
-          urlRule = `${this.baseurl}/superadmin/rule`
-        } else if (this.auth.user.rule_id == 2) {
-          urlRule = `${this.baseurl}/admin/rule`
-        }
-
-        const rule = await this.$axios.$post(urlRule, payload, config)
-
         const formData = new FormData()
-        formData.append('rule_id', rule.id)
+        formData.append('rule_id', parseInt(this.selectedRule))
         formData.append('name', this.user.form.name)
         formData.append('email', this.user.form.email)
         formData.append('nip', this.user.form.nip)
@@ -371,33 +346,55 @@ export default {
 
       console.log(this.optionsSubDistrict)
     },
-    addRule() {
-      if (this.rule.value.length != 0) {
-        $.LoadingOverlay('hide')
-
-        return Swal.fire({
-          icon: 'warning',
-          title: 'Rule sudah dibuat',
-        })
+    async changeRule(setRule) {
+      let urlRule
+      if (this.auth.user.rule_id == 1) {
+        urlRule = `${this.baseurl}/superadmin/rule/program?rule_id=${parseInt(
+          setRule
+        )}`
+      } else if (this.auth.user.rule_id == 2) {
+        urlRule = `${this.baseurl}/admin/rule/program?rule_id=${parseInt(
+          setRule
+        )}`
       }
 
-      let validate = this.formValidation('rule-create-form').validate()
-
-      if (!validate) {
-        return
+      const config = {
+        headers: {
+          Authorization: `${this.auth.token.type} ${this.auth.token.token}`,
+        },
       }
 
-      let payload = {
-        rule: this.rule.form.text,
+      const rule = await this.$axios.$get(urlRule, config)
+
+      this.program.name = ''
+      this.program.description = ''
+
+      if (rule.length != 0) {
+        this.program.name = rule[0].programs.name;
+        this.program.description = rule[0].programs.description;
       }
-
-      this.rule.value.push(payload)
-
-      console.log(this.rule.value)
     },
-    // deleteOrder(index) {
-    //   this.order.value.splice(index, 1)
-    // },
+    async getRule() {
+      let urlRule
+      if (this.auth.user.rule_id == 1) {
+        urlRule = `${this.baseurl}/superadmin/rules`
+      } else if (this.auth.user.rule_id == 2) {
+        urlRule = `${this.baseurl}/admin/rules`
+      }
+
+      const config = {
+        headers: {
+          Authorization: `${this.auth.token.type} ${this.auth.token.token}`,
+        },
+      }
+      const setRule = await this.$axios.$post(urlRule, {}, config)
+      console.log(setRule)
+      const resultArray = setRule.map((elm) => ({
+        value: elm.id,
+        text: elm.rule,
+      }))
+      this.optionsRule.push(...resultArray)
+    },
     formValidation(form_id) {
       $.LoadingOverlay('hide')
       var form = document.getElementById(form_id)
