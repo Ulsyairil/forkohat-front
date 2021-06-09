@@ -19,7 +19,9 @@
                 <tr>
                   <th scope="col">Nama Tatanan</th>
                   <th scope="col" class="text-center">Dihapus</th>
-                  <th scope="col" class="text-center" width="120px">Aksi</th>
+                  <th scope="col" class="text-center" style="max-width: 200px">
+                    Aksi
+                  </th>
                 </tr>
               </thead>
               <tbody v-for="(value, index) in order.current_value" :key="index">
@@ -31,28 +33,38 @@
                   </td>
                   <td class="text-center">
                     <b-button
+                      class="mb-2 mb-md-0"
                       type="button"
-                      variant="warning"
+                      variant="primary"
                       v-b-modal="`modal-${index}`"
                       @click="getOrderStuff(value.id)"
                     >
                       <font-awesome-icon icon="edit" />
                     </b-button>
                     <b-button
+                      class="mb-2 mb-md-0"
                       type="button"
-                      variant="danger"
+                      variant="warning"
                       v-if="value.deleted_at == null"
                       @click="orderDump(value.id)"
                     >
                       <font-awesome-icon icon="trash" />
                     </b-button>
                     <b-button
+                      class="mb-2 mb-md-0"
                       type="button"
-                      variant="primary"
+                      variant="warning"
                       v-else-if="value.deleted_at != null"
                       @click="orderRestore(value.id)"
                     >
                       <font-awesome-icon icon="trash-restore" />
+                    </b-button>
+                    <b-button
+                      type="button"
+                      variant="danger"
+                      @click="orderDelete(value.id)"
+                    >
+                      <font-awesome-icon icon="ban" />
                     </b-button>
 
                     <b-modal
@@ -116,7 +128,11 @@
                             <tr>
                               <th scope="col">Nama Isi Tatanan</th>
                               <th scope="col" class="text-center">Dihapus</th>
-                              <th scope="col" class="text-center" width="120px">
+                              <th
+                                scope="col"
+                                class="text-center"
+                                style="max-width: 200px"
+                              >
                                 Aksi
                               </th>
                             </tr>
@@ -139,17 +155,19 @@
                               >
                                 {{ value.deleted_at }}
                               </td>
-                              <td>
+                              <td class="text-center">
                                 <b-button
+                                  class="mb-2 mb-md-0"
                                   type="button"
-                                  variant="warning"
+                                  variant="primary"
                                   @click="orderStuffEdit(value.id)"
                                 >
                                   <font-awesome-icon icon="edit" />
                                 </b-button>
                                 <b-button
+                                  class="mb-2 mb-md-0"
                                   type="button"
-                                  variant="danger"
+                                  variant="warning"
                                   v-if="value.deleted_at == null"
                                   @click="
                                     orderStuffDump(value.id, value.order_id)
@@ -158,14 +176,25 @@
                                   <font-awesome-icon icon="trash" />
                                 </b-button>
                                 <b-button
+                                  class="mb-2 mb-md-0"
                                   type="button"
-                                  variant="primary"
+                                  variant="warning"
                                   v-else-if="value.deleted_at != null"
                                   @click="
                                     orderStuffRestore(value.id, value.order_id)
                                   "
                                 >
                                   <font-awesome-icon icon="trash-restore" />
+                                </b-button>
+
+                                <b-button
+                                  type="button"
+                                  variant="danger"
+                                  @click="
+                                    orderStuffDelete(value.id, value.order_id)
+                                  "
+                                >
+                                  <font-awesome-icon icon="ban" />
                                 </b-button>
                               </td>
                             </tr>
@@ -273,7 +302,7 @@
         type="button"
         variant="primary"
         v-b-tooltip.hover
-        title="Tambah Topik Pertanyaan"
+        title="Tambah Tatanan"
         @click="addOrder()"
       >
         <font-awesome-icon icon="plus-square" />
@@ -467,13 +496,58 @@ export default {
     orderStuffEdit(id) {
       this.$router.push(`/dashboard/program/order/edit/${id}`)
     },
+    async orderStuffDelete(id, order_id) {
+      try {
+        $.LoadingOverlay('show')
+
+        let url
+        if (this.auth.user.rule_id == 1) {
+          url = `${this.baseurl}/superadmin/order/stuff`
+        } else if (this.auth.user.rule_id == 2) {
+          url = `${this.baseurl}/admin/order/stuff`
+        }
+
+        let payload = {
+          id: id,
+        }
+        console.log(payload)
+
+        const config = {
+          headers: {
+            Authorization: `${this.auth.token.type} ${this.auth.token.token}`,
+          },
+          data: payload,
+        }
+
+        const res = await this.$axios.$delete(url, config)
+        console.log(res)
+
+        this.getOrderStuff(order_id)
+
+        $.LoadingOverlay('hide')
+        return this.$notify({
+          group: 'app',
+          type: 'success',
+          title: 'Berhasil dihapus permanen',
+        })
+      } catch (error) {
+        console.log(error)
+        $.LoadingOverlay('hide')
+        return this.$notify({
+          group: 'app',
+          type: 'error',
+          title: 'Kesalahan pada server',
+          text: error,
+        })
+      }
+    },
     async orderStuffRestore(id, order_id) {
       try {
         $.LoadingOverlay('show')
 
         let url
         if (this.auth.user.rule_id == 1) {
-          url = `${this.baseurl}/superadmin/order/stuff/restore`
+          url = `${this.baseurl}/superadmin/order/stuff`
         } else if (this.auth.user.rule_id == 2) {
           url = `${this.baseurl}/admin/order/stuff/restore`
         }
@@ -543,6 +617,51 @@ export default {
           group: 'app',
           type: 'success',
           title: 'Berhasil dihapus',
+        })
+      } catch (error) {
+        console.log(error)
+        $.LoadingOverlay('hide')
+        return this.$notify({
+          group: 'app',
+          type: 'error',
+          title: 'Kesalahan pada server',
+          text: error,
+        })
+      }
+    },
+    async orderDelete(id) {
+      try {
+        $.LoadingOverlay('show')
+
+        let url
+        if (this.auth.user.rule_id == 1) {
+          url = `${this.baseurl}/superadmin/order`
+        } else if (this.auth.user.rule_id == 2) {
+          url = `${this.baseurl}/admin/order`
+        }
+
+        let payload = {
+          id: id,
+        }
+        console.log(payload)
+
+        const config = {
+          headers: {
+            Authorization: `${this.auth.token.type} ${this.auth.token.token}`,
+          },
+          data: payload,
+        }
+
+        const res = await this.$axios.$delete(url, config)
+        console.log(res)
+
+        this.$nuxt.refresh()
+
+        $.LoadingOverlay('hide')
+        return this.$notify({
+          group: 'app',
+          type: 'success',
+          title: 'Berhasil dihapus permanen',
         })
       } catch (error) {
         console.log(error)

@@ -1,10 +1,16 @@
 <template>
   <div>
     <div class="container">
-      <b-button type="button" variant="primary" @click="redirectBack()">
-        <font-awesome-icon icon="arrow-left" />
-        <span>Kembali</span>
-      </b-button>
+      <div>
+        <b-button type="button" variant="primary" @click="redirectBack()">
+          <font-awesome-icon icon="arrow-left" />
+          <span>Kembali</span>
+        </b-button>
+        <b-button type="button" variant="primary" @click="redirectOrder()">
+          <span>Buat Isi Tatanan</span>
+          <font-awesome-icon icon="arrow-right" />
+        </b-button>
+      </div>
       <div class="title mt-3">
         <h3>Ubah Program</h3>
       </div>
@@ -21,6 +27,9 @@ export default {
   methods: {
     redirectBack() {
       this.$router.back()
+    },
+    redirectOrder() {
+      this.$router.push('/dashboard/program/order/create')
     },
   },
 }

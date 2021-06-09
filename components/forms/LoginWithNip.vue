@@ -33,6 +33,9 @@
         </b-input-group>
       </div>
       <b-button type="submit" variant="primary">Masuk</b-button>
+      <b-button type="button" variant="primary" @click="redirectBack()"
+        >Kembali</b-button
+      >
     </b-form>
   </div>
 </template>
@@ -62,11 +65,6 @@ export default {
       })
 
       this.formValidation('login-with-nip-form')
-
-      this.rescaleCaptcha()
-      $(window).resize(function () {
-        rescaleCaptcha()
-      })
     } catch (error) {
       console.log(error)
     }
@@ -156,6 +154,9 @@ export default {
       }
       var pristine = new Pristine(form, config)
       return pristine
+    },
+    redirectBack() {
+      this.$router.back()
     },
   },
 }

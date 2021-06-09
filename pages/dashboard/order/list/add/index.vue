@@ -9,7 +9,7 @@
       </div>
       <h3>Buat Isi Tatanan</h3>
       <div class="mt-3">
-        <FormsCreateEmployeeOrder />
+        <Forms-Create-Employee-Order />
       </div>
     </div>
   </div>

@@ -33,6 +33,9 @@
         </b-input-group>
       </div>
       <b-button type="submit" variant="primary">Masuk</b-button>
+      <b-button type="button" variant="primary" @click="redirectBack()"
+        >Kembali</b-button
+      >
     </b-form>
   </div>
 </template>
@@ -57,10 +60,6 @@ export default {
     try {
       await this.$recaptcha.init()
       this.formValidation('login-with-email-form')
-
-      $(window).resize(function () {
-        this.rescaleCaptcha()
-      })
     } catch (e) {
       console.error(e)
     }
@@ -150,6 +149,9 @@ export default {
       }
       var pristine = new Pristine(form, config)
       return pristine
+    },
+    redirectBack() {
+      this.$router.back()
     },
   },
 }
