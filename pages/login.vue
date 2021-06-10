@@ -6,10 +6,17 @@
           <div class="card card-signin my-5 shadow-lg">
             <div class="card-body">
               <div class="text-center">
-                <img class="img-fluid" src="/logo.png" alt="logo" width="70" />
-                <span class="text-primary">
-                  <small class="font-weight-bold">FORKOHAT BALIKPAPAN</small>
-                </span>
+                <b-link href="/" class="text-decoration-none">
+                  <img
+                    class="img-fluid"
+                    src="/logo.png"
+                    alt="logo"
+                    width="70"
+                  />
+                  <span class="text-primary">
+                    <small class="font-weight-bold">FORKOHAT BALIKPAPAN</small>
+                  </span>
+                </b-link>
               </div>
               <h5 class="card-title text-center">Masuk</h5>
               <b-tabs content-class="mt-3" align="center">
