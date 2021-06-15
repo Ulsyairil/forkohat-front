@@ -20,7 +20,6 @@
                   <a data-toggle="tab" :href="'#tabItem' + value.id" :class="{ 'text-white': activeIndex === index}">
                     <font-awesome-icon icon="archway" class="mr-15" />
                     {{ value.name }}
-                    <span class="badge badge-light badge-pill ml-15">06</span>
                   </a>
                 </li>
               </ul>

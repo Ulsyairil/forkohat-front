@@ -29,7 +29,7 @@
               tag="a"
               active-class="active-link"
               class="nav-link text-primary"
-              to="/event"
+              to="/events"
               >Event</nuxt-link
             >
           </li>
@@ -71,18 +71,6 @@
           :sync="true"
           @change="toggleBgMode()"
         /> -->
-        <ul class="navbar-nav nav-pills">
-          <li class="nav-item">
-            <nuxt-link
-              tag="a"
-              active-class="active-link"
-              class="nav-link text-primary"
-              to="/login"
-            >
-              <font-awesome-icon icon="sign-in-alt" />
-            </nuxt-link>
-          </li>
-        </ul>
         <b-nav-toggle target="sidebar"></b-nav-toggle>
       </b-nav>
     </b-navbar>

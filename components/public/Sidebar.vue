@@ -29,7 +29,7 @@
               tag="a"
               active-class="active-link"
               class="nav-link"
-              to="/event"
+              to="/events"
               >Event</nuxt-link
             >
           </li>
