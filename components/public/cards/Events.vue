@@ -30,16 +30,22 @@
           v-for="(value, index) in events.data"
           :key="index"
         >
-          <b-card
-            :title="value.name"
-            :img-src="domain + value.eventFiles[0].url"
-            img-alt="events Banner"
-            style="max-width: 20rem"
-            class="mb-2"
-            img-top
-          >
-            <b-button href="#" variant="primary"> Lihat Event </b-button>
-          </b-card>
+          <div class="card shadow-sm" style="width: 20rem">
+            <img
+              class="card-img-top img-responsive img-fluid"
+              :src="domain + value.eventFiles[0].url"
+              img-alt="events Banner"
+              style="max-width: 100%; height: 200px;"
+            />
+            <div class="card-body">
+              <span class="small" style="color: #E71E1E;">{{ value.created_at }}</span>
+              <h5 class="card-title text-center mt-3 mb-4" style="color: #0140B5">{{ value.name }}</h5>
+              <p class="card-text small text-secondary">
+                {{ value.content.substring(0, 200) + '.....' }}
+              </p>
+              <a class="btn btn-primary" @click="moreButton(value.id)"> Lihat Event </a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -60,7 +66,6 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -147,6 +152,10 @@ export default {
     },
     linkGen(pageNum) {
       return pageNum === 1 ? '?' : `?page=${pageNum}`
+    },
+    moreButton(id) {
+      console.log(id)
+      this.$router.push(`/events/${id}`)
     },
   },
 }
