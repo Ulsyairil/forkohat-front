@@ -17,14 +17,14 @@
                 :title="value.name"
                 :img-src="domain + value.programFiles[0].url"
                 img-alt="Card image"
-                img-height="320"
-                img-width="300"
+                img-height="220"
+                img-width="200"
                 img-left
-                class="mb-5 mt-5"
+                class="mb-5 mt-5 border-0 rounded-0 bg-transparent"
               >
                 <b-card-text>
-                  Some quick example text to build on the card and make up the
-                  bulk of the card's content.
+                  <p>{{ value.description }}</p>
+                  <b-button @click="orderProgram(value.id)" variant="primary">Lihat Tatanan <font-awesome-icon icon="angle-double-right" /></b-button>
                 </b-card-text>
               </b-card>
             </div>
@@ -34,27 +34,19 @@
                 :title="value.name"
                 :img-src="domain + value.programFiles[0].url"
                 img-alt="Card image"
-                img-height="320"
-                img-width="300"
+                img-height="220"
+                img-width="200"
                 img-right
+                class="mb-5 mt-5 border-0 rounded-0 bg-transparent"
               >
                 <b-card-text>
-                  Some quick example text to build on the card and make up the
-                  bulk of the card's content.
+                  <p>{{ value.description }}</p>
+                  <b-button @click="orderProgram(value.id)" variant="primary">Lihat Tatanan <font-awesome-icon icon="angle-double-right" /></b-button>
                 </b-card-text>
               </b-card>
             </div>
           </div>
         </div>
-
-        <b-pagination-nav
-          class="mt-4"
-          :link-gen="linkGen"
-          :number-of-pages="programs.pages"
-          align="center"
-          use-router
-          pills
-        ></b-pagination-nav>
       </div>
     </div>
 
@@ -76,6 +68,7 @@ export default {
         total: '',
         data: [],
       },
+      
     }
   },
   async fetch() {
@@ -100,15 +93,19 @@ export default {
       console.log(this.programs)
     } catch (error) {
       console.log(error)
-        return this.$notify({
-          group: 'app',
-          type: 'error',
-          title: 'Kesalahan pada server',
-          text: error,
-        })
+      return this.$notify({
+        group: 'app',
+        type: 'error',
+        title: 'Kesalahan pada server',
+        text: error,
+      })
     }
   },
   methods: {
+    orderProgram(id) {
+      console.log(id)
+      this.$router.push(`/orders/${id}`)
+    },
     currentPage() {
       if (this.$route.query.page == undefined) {
         return 1

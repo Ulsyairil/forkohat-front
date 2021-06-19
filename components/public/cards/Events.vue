@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5 mt-4">
     <div class="text-center">
-      <h2>Berita</h2>
+      <h2>Event</h2>
       <hr style="height: 5px; width: 100px" class="bg-azure" />
     </div>
     <div class="mb-3 mt-5">
@@ -11,7 +11,7 @@
             <b-form-input
               style="max-width: 300px"
               placeholder="Cari..."
-              v-model="news.search"
+              v-model="events.search"
             ></b-form-input>
             <b-input-group-append>
               <b-button type="submit" variant="primary">
@@ -23,43 +23,43 @@
       </b-form>
     </div>
 
-    <div v-if="news.data.length > 0">
+    <div v-if="events.data.length > 0">
       <div class="row">
         <div
           class="col-md-4 mb-4 mb-md-0"
-          v-for="(value, index) in news.data"
+          v-for="(value, index) in events.data"
           :key="index"
         >
-          <div class="card shadow mt-5" style="width: 20rem">
+          <div class="card shadow-sm" style="width: 20rem">
             <img
               class="card-img-top img-responsive img-fluid"
-              :src="domain + value.newsFiles[0].url"
+              :src="domain + value.eventFiles[0].url"
               img-alt="events Banner"
               style="max-width: 100%; height: 200px;"
             />
             <div class="card-body">
               <span class="small" style="color: #E71E1E;">{{ value.created_at }}</span>
-              <h5 class="card-title text-center mt-3 mb-4" style="color: #0140B5">{{ value.title }}</h5>
+              <h5 class="card-title text-center mt-3 mb-4" style="color: #0140B5">{{ value.name }}</h5>
               <p class="card-text small text-secondary">
                 {{ value.content.substring(0, 200) + '.....' }}
               </p>
-              <a class="btn btn-primary" @click="moreButton(value.id)"> Selengkapnya </a>
+              <a class="btn btn-primary" @click="moreButton(value.id)"> Lihat Event </a>
             </div>
           </div>
         </div>
       </div>
 
       <b-pagination-nav
-        class="mt-5"
+        class="mt-4"
         :link-gen="linkGen"
-        :number-of-pages="news.pages"
+        :number-of-pages="events.pages"
         align="center"
         use-router
         pills
       ></b-pagination-nav>
     </div>
 
-    <div v-if="news.data.length == 0">
+    <div v-if="events.data.length == 0">
       <h4>Data tidak ditemukan</h4>
     </div>
   </div>
@@ -71,7 +71,7 @@ export default {
     return {
       baseurl: this.$config.baseurl,
       domain: this.$config.domain,
-      news: {
+      events: {
         search: '',
         pages: '',
         perPage: 10,
@@ -83,12 +83,12 @@ export default {
   async fetch() {
     try {
       let url
-      url = `${this.baseurl}/news`
+      url = `${this.baseurl}/event`
 
       let payload = {
         order_id: this.$route.params.id,
         page: this.currentPage(),
-        limit: '3',
+        limit: '10',
         search: '',
       }
 
@@ -97,10 +97,10 @@ export default {
       const res = await this.$axios.$post(url, payload)
       console.log(res)
 
-      this.news.pages = res.lastPage
-      this.news.total = res.total
-      this.news.data = res.data
-      console.log(this.news)
+      this.events.pages = res.lastPage
+      this.events.total = res.total
+      this.events.data = res.data
+      console.log(this.events)
     } catch (error) {
       console.log(error)
       return this.$notify({
@@ -115,13 +115,13 @@ export default {
     async searchForm() {
       try {
         let url
-        url = `${this.baseurl}/news`
+        url = `${this.baseurl}/event`
 
         let payload = {
           order_id: this.$route.params.id,
           page: this.currentPage(),
           limit: '10',
-          search: this.news.search,
+          search: this.events.search,
         }
 
         console.log(payload)
@@ -129,10 +129,10 @@ export default {
         const res = await this.$axios.$post(url, payload)
         console.log(res)
 
-        this.news.pages = res.lastPage
-        this.news.total = res.total
-        this.news.data = res.data
-        console.log(this.news)
+        this.events.pages = res.lastPage
+        this.events.total = res.total
+        this.events.data = res.data
+        console.log(this.events)
       } catch (error) {
         console.log(error)
         return this.$notify({
@@ -155,7 +155,7 @@ export default {
     },
     moreButton(id) {
       console.log(id)
-      this.$router.push(`/news/${id}`)
+      this.$router.push(`/events/${id}`)
     },
   },
 }

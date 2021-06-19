@@ -40,6 +40,14 @@ export default {
         rel: 'stylesheet',
         href: '/css/themify-icons.min.css',
       },
+      {
+        rel: 'stylesheet',
+        href: '/css/owl.carousel.min.css',
+      },
+      {
+        rel: 'stylesheet',
+        href: '/css/owl.theme.default.min.css',
+      },
     ],
     script: [
       {
@@ -80,6 +88,9 @@ export default {
       { src: 'https://www.google.com/recaptcha/api.js' },
       {
         src: '/js/dflip.min.js',
+      },
+      {
+        src: '/js/owl.carousel.min.js',
       },
     ],
   },

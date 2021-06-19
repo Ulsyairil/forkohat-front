@@ -1,58 +1,94 @@
 <template>
-  <b-row class="p-4">
-    <b-col cols="4">
-      <b-card
-        title="Card title"
-        sub-title="Card subtitle"
-        img-src="https://picsum.photos/600/300/?image=25"
-        img-alt="Image"
-        img-top
-        tag="article"
-        class="shadow"
-      >
-        <b-card-text>
-          Some quick example text to build on the <em>card title</em> and make
-          up the bulk of the card's content.
-        </b-card-text>
+  <div>
+    <div v-if="news.data.length > 0">
+      <b-row class="p-4">
+        <b-col md="4" v-for="(value, index) in news.data" :key="index">
+          <div class="card shadow mt-5">
+            <img
+              class="card-img-top img-responsive img-fluid"
+              :src="domain + value.newsFiles[0].url"
+              img-alt="events Banner"
+              style="max-width: 100%; height: 200px"
+            />
+            <div class="card-body">
+              <span class="small" style="color: #e71e1e">{{
+                value.created_at
+              }}</span>
+              <h5
+                class="card-title text-center mt-3 mb-4"
+                style="color: #0140b5"
+              >
+                {{ value.title }}
+              </h5>
+              <p class="card-text small text-secondary d-none d-md-block">
+                {{ value.content.substring(0, 200) + '.....' }}
+              </p>
+              <a class="btn btn-primary" @click="moreButton(value.id)">
+                Selengkapnya
+              </a>
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+    </div>
 
-        <b-button href="#" variant="primary">Go somewhere</b-button>
-      </b-card>
-    </b-col>
-    <b-col cols="4">
-      <b-card
-        title="Card title"
-        sub-title="Card subtitle"
-        img-src="https://picsum.photos/600/300/?image=25"
-        img-alt="Image"
-        img-top
-        tag="article"
-        class="shadow"
-      >
-        <b-card-text>
-          Some quick example text to build on the <em>card title</em> and make
-          up the bulk of the card's content.
-        </b-card-text>
-
-        <b-button href="#" variant="primary">Go somewhere</b-button>
-      </b-card>
-    </b-col>
-    <b-col cols="4">
-      <b-card
-        title="Card title"
-        sub-title="Card subtitle"
-        img-src="https://picsum.photos/600/300/?image=25"
-        img-alt="Image"
-        img-top
-        tag="article"
-        class="shadow"
-      >
-        <b-card-text>
-          Some quick example text to build on the <em>card title</em> and make
-          up the bulk of the card's content.
-        </b-card-text>
-
-        <b-button href="#" variant="primary">Go somewhere</b-button>
-      </b-card>
-    </b-col>
-  </b-row>
+    <div v-if="news.data.length == 0">
+      <h4>Data tidak ditemukan</h4>
+    </div>
+  </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      baseurl: this.$config.baseurl,
+      domain: this.$config.domain,
+      news: {
+        search: '',
+        pages: '',
+        perPage: 10,
+        total: '',
+        data: [],
+      },
+    }
+  },
+  async fetch() {
+    try {
+      let url
+      url = `${this.baseurl}/news`
+
+      let payload = {
+        order_id: this.$route.params.id,
+        page: 1,
+        limit: '3',
+        search: '',
+      }
+
+      console.log(payload)
+
+      const res = await this.$axios.$post(url, payload)
+      console.log(res)
+
+      this.news.pages = res.lastPage
+      this.news.total = res.total
+      this.news.data = res.data
+      console.log(this.news)
+    } catch (error) {
+      console.log(error)
+      return this.$notify({
+        group: 'app',
+        type: 'error',
+        title: 'Kesalahan pada server',
+        text: error,
+      })
+    }
+  },
+  methods: {
+    moreButton(id) {
+      console.log(id)
+      this.$router.push(`/news/${id}`)
+    },
+  },
+}
+</script>

@@ -2,48 +2,12 @@
   <b-container fluid class="p-0">
     <b-row>
       <b-col cols="12">
-        <b-carousel
-          id="carousel-fade"
-          style="text-shadow: 0px 0px 2px #000"
-          fade
-          indicators
-          img-width="1024"
-          img-height="480"
-        >
-          <b-carousel-slide>
-            <template #img>
-              <img
-                class="d-block img-fluid w-100"
-                width="1024"
-                height="480"
-                src="https://picsum.photos/1024/480/?image=55"
-                alt="image slot"
-              />
-            </template>
-          </b-carousel-slide>
-          <b-carousel-slide>
-            <template #img>
-              <img
-                class="d-block img-fluid w-100"
-                width="1024"
-                height="480"
-                src="https://picsum.photos/1024/480/?image=55"
-                alt="image slot"
-              />
-            </template>
-          </b-carousel-slide>
-          <b-carousel-slide>
-            <template #img>
-              <img
-                class="d-block img-fluid w-100"
-                width="1024"
-                height="480"
-                src="https://picsum.photos/1024/480/?image=55"
-                alt="image slot"
-              />
-            </template>
-          </b-carousel-slide>
-        </b-carousel>
+        <div class="owl-carousel owl-theme" id="home-carousel">
+          <img src="https://placeimg.com/1600/500/any?1" />
+          <img src="https://placeimg.com/1600/500/any?2" />
+          <img src="https://placeimg.com/1600/500/any?3" />
+          <img src="https://placeimg.com/1600/500/any?4" />
+        </div>
       </b-col>
       <b-col class="pt-5" cols="12" style="background-image: url(bg/news.png)">
         <div class="mb-5 text-center">
@@ -54,7 +18,7 @@
           <HomeNews />
         </div>
         <div class="text-center m-5">
-          <a href="javascript:void(0)" class="btn btn-primary btn-round btn-lg">
+          <a href="/news" class="btn btn-primary btn-round btn-lg">
             Lihat Berita Lainnya
           </a>
         </div>
@@ -78,15 +42,6 @@
         </div>
         <HomeEvent-Desktop />
         <HomeEvent-Mobile />
-      </b-col>
-      <b-col class="pt-5" cols="12">
-        <div class="mb-5 text-center">
-          <h2>FAQ</h2>
-          <hr style="height: 5px; width: 100px" class="bg-azure" />
-        </div>
-        <div class="pt-2 pl-3">
-          <HomeFAQ />
-        </div>
       </b-col>
       <b-col class="pt-5" cols="12">
         <div class="mb-5 text-center">
@@ -150,7 +105,21 @@ export default {
       sliding: null,
     }
   },
+  mounted() {
+    this.initCarousel()
+  },
   methods: {
+    initCarousel() {
+      $('.owl-carousel').owlCarousel({
+        responsiveClass: true,
+        responsive: {
+          0: {
+            items: 1,
+            nav: true,
+          },
+        },
+      })
+    },
     onSlideStart(slide) {
       this.sliding = true
     },
