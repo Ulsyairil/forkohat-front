@@ -2,7 +2,8 @@
   <b-container fluid class="ovhidden">
     <b-row class="justify-content-md-center">
       <b-col md="12" class="pl-0 pr-0">
-        <b-img-lazy id="image-header"
+        <b-img-lazy
+          id="image-header"
           fluid
           :src="news.image.current_url"
           class="img-responsive"
@@ -21,11 +22,10 @@
       <b-col md="9" class="text-right">
         <span class="mdall" style="color: #0e49b5"
           >Bagikan Ke :
-          <font-awesome-icon icon="ambulance" class="ml-1" /><font-awesome-icon
-            icon="anchor"
-            class="ml-1" />
-          <font-awesome-icon icon="archway" class="ml-1"
-        /></span>
+          <a href="https://twitter.com"><i class="fab fa-twitter-square ml-1"></i></a>
+          <a href="https://facebook.com"><i class="fab fa-facebook-square ml-1"></i></a>
+          <a href="https://instagram.com"><i class="fab fa-instagram ml-1"></i></a>
+        </span>
         <hr />
       </b-col>
       <b-col md="9" class="mt-2">
@@ -62,7 +62,7 @@
         </b-card>
       </b-col>
       <b-col md="9" class="mt-4">
-        <h5 style="color: #0E49B5" class="mb-5">Artikel Terkait</h5>
+        <h5 style="color: #0e49b5" class="mb-5">Artikel Terkait</h5>
       </b-col>
     </b-row>
   </b-container>
@@ -74,24 +74,24 @@ p.with-breaks {
 }
 
 .ovhidden {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 #image-header {
-      max-width: 100%;
-      width: 1600px;
-      height: 600px;
-  }
+  max-width: 100%;
+  width: 1600px;
+  height: 600px;
+}
 
 @media only screen and (max-width: 600px) {
   #image-header {
-      max-width: 100%;
-      height: 350px;
+    max-width: 100%;
+    height: 350px;
   }
 
   .author-mobile {
-      text-align: center;
-      margin-top: 20px;
+    text-align: center;
+    margin-top: 20px;
   }
 }
 </style>
@@ -136,7 +136,7 @@ export default {
       const res = await this.$axios.$get(url)
       console.log(res)
       this.news.id = res.id
-      this.news.author = res.author_id;
+      this.news.author = res.author_id
       this.news.title = res.title
       this.news.content = res.content
       this.news.created_at = res.created_at
@@ -144,7 +144,7 @@ export default {
       this.news.users.name = res.users.name
       this.news.file.current_value = null
       this.news.file.current_value = []
-      
+
       res.newsFiles.forEach((value) => {
         if (value.type == 'banner') {
           this.news.image.current_url = `${this.domain}${value.url}`
@@ -154,7 +154,6 @@ export default {
           this.news.file.current_value.push(value)
         }
       })
-
 
       console.log(this.news)
     } catch (error) {

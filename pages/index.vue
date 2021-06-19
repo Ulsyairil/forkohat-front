@@ -54,7 +54,7 @@
           <HomeNews />
         </div>
         <div class="text-center m-5">
-          <a href="/news" class="btn btn-primary btn-round btn-lg">
+          <a href="javascript:void(0)" class="btn btn-primary btn-round btn-lg">
             Lihat Berita Lainnya
           </a>
         </div>
@@ -68,16 +68,25 @@
           class="text-center"
           style="margin-top: -125px; margin-bottom: -50px"
         >
-          <b-img class="mt-4 mb-4" src="images/health_protocol_bg.png" fluid></b-img>
+          <b-img src="images/health_protocol_bg.png"></b-img>
         </div>
       </b-col>
-      <b-col cols="12">
+      <b-col class="pt-5" cols="12">
         <div class="mb-5 text-center">
           <h2>Event</h2>
           <hr style="height: 5px; width: 100px" class="bg-azure" />
         </div>
         <HomeEvent-Desktop />
         <HomeEvent-Mobile />
+      </b-col>
+      <b-col class="pt-5" cols="12">
+        <div class="mb-5 text-center">
+          <h2>FAQ</h2>
+          <hr style="height: 5px; width: 100px" class="bg-azure" />
+        </div>
+        <div class="pt-2 pl-3">
+          <HomeFAQ />
+        </div>
       </b-col>
       <b-col class="pt-5" cols="12">
         <div class="mb-5 text-center">
