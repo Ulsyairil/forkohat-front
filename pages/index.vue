@@ -18,7 +18,7 @@
           <HomeNews />
         </div>
         <div class="text-center m-5">
-          <a href="javascript:void(0)" class="btn btn-primary btn-round btn-lg">
+          <a href="/news" class="btn btn-primary btn-round btn-lg">
             Lihat Berita Lainnya
           </a>
         </div>
