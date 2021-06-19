@@ -45,15 +45,6 @@
       </b-col>
       <b-col class="pt-5" cols="12">
         <div class="mb-5 text-center">
-          <h2>FAQ</h2>
-          <hr style="height: 5px; width: 100px" class="bg-azure" />
-        </div>
-        <div class="pt-2 pl-3">
-          <HomeFAQ />
-        </div>
-      </b-col>
-      <b-col class="pt-5" cols="12">
-        <div class="mb-5 text-center">
           <h2>Kontak</h2>
           <hr style="height: 5px; width: 100px" class="bg-azure" />
         </div>
