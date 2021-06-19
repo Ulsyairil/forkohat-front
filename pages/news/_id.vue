@@ -14,7 +14,7 @@
           {{ news.title }}
         </h4>
 
-        <p class="text-justify mt-5">
+        <p class="text-justify mt-5 with-breaks">
           {{ news.content }}
         </p>
       </b-col>
@@ -71,7 +71,6 @@
 <style lang="scss">
 p.with-breaks {
   white-space: pre-wrap;
-  color: blue;
 }
 
 .ovhidden {

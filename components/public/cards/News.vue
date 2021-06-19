@@ -30,7 +30,7 @@
           v-for="(value, index) in news.data"
           :key="index"
         >
-          <div class="card shadow-sm" style="width: 20rem">
+          <div class="card shadow mt-5" style="width: 20rem">
             <img
               class="card-img-top img-responsive img-fluid"
               :src="domain + value.newsFiles[0].url"
@@ -50,7 +50,7 @@
       </div>
 
       <b-pagination-nav
-        class="mt-4"
+        class="mt-5"
         :link-gen="linkGen"
         :number-of-pages="news.pages"
         align="center"
@@ -88,7 +88,7 @@ export default {
       let payload = {
         order_id: this.$route.params.id,
         page: this.currentPage(),
-        limit: '10',
+        limit: '3',
         search: '',
       }
 
