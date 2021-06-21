@@ -24,30 +24,35 @@
     </div>
 
     <div v-if="events.data.length > 0">
-      <div class="row">
-        <div
-          class="col-md-4 mb-4 mb-md-0"
-          v-for="(value, index) in events.data"
-          :key="index"
-        >
-          <div class="card shadow-sm" style="width: 20rem">
+      <b-row>
+        <b-col md="4" v-for="(value, index) in events.data" :key="index">
+          <div class="card shadow mt-5">
             <img
               class="card-img-top img-responsive img-fluid"
               :src="domain + value.eventFiles[0].url"
               img-alt="events Banner"
-              style="max-width: 100%; height: 200px;"
+              style="max-width: 100%; height: 200px"
             />
             <div class="card-body">
-              <span class="small" style="color: #E71E1E;">{{ value.created_at }}</span>
-              <h5 class="card-title text-center mt-3 mb-4" style="color: #0140B5">{{ value.name }}</h5>
-              <p class="card-text small text-secondary">
+              <span class="small" style="color: #e71e1e">{{
+                value.created_at
+              }}</span>
+              <h5
+                class="card-title text-center mt-3 mb-4"
+                style="color: #0140b5"
+              >
+                {{ value.name }}
+              </h5>
+              <p class="card-text small text-secondary d-none d-md-block">
                 {{ value.content.substring(0, 200) + '.....' }}
               </p>
-              <a class="btn btn-primary" @click="moreButton(value.id)"> Lihat Event </a>
+              <a class="btn btn-primary" @click="moreButton(value.id)">
+                Selengkapnya
+              </a>
             </div>
           </div>
-        </div>
-      </div>
+        </b-col>
+      </b-row>
 
       <b-pagination-nav
         class="mt-4"

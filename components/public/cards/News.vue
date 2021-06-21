@@ -24,30 +24,35 @@
     </div>
 
     <div v-if="news.data.length > 0">
-      <div class="row">
-        <div
-          class="col-md-4 mb-4 mb-md-0"
-          v-for="(value, index) in news.data"
-          :key="index"
-        >
-          <div class="card shadow mt-5" style="width: 20rem">
+      <b-row>
+        <b-col md="4" v-for="(value, index) in news.data" :key="index">
+          <div class="card shadow mt-5">
             <img
               class="card-img-top img-responsive img-fluid"
               :src="domain + value.newsFiles[0].url"
               img-alt="events Banner"
-              style="max-width: 100%; height: 200px;"
+              style="max-width: 100%; height: 200px"
             />
             <div class="card-body">
-              <span class="small" style="color: #E71E1E;">{{ value.created_at }}</span>
-              <h5 class="card-title text-center mt-3 mb-4" style="color: #0140B5">{{ value.title }}</h5>
-              <p class="card-text small text-secondary">
+              <span class="small" style="color: #e71e1e">{{
+                value.created_at
+              }}</span>
+              <h5
+                class="card-title text-center mt-3 mb-4"
+                style="color: #0140b5"
+              >
+                {{ value.title }}
+              </h5>
+              <p class="card-text small text-secondary d-none d-md-block">
                 {{ value.content.substring(0, 200) + '.....' }}
               </p>
-              <a class="btn btn-primary" @click="moreButton(value.id)"> Selengkapnya </a>
+              <a class="btn btn-primary" @click="moreButton(value.id)">
+                Selengkapnya
+              </a>
             </div>
           </div>
-        </div>
-      </div>
+        </b-col>
+      </b-row>
 
       <b-pagination-nav
         class="mt-5"
@@ -86,7 +91,6 @@ export default {
       url = `${this.baseurl}/news`
 
       let payload = {
-        order_id: this.$route.params.id,
         page: this.currentPage(),
         limit: '3',
         search: '',
@@ -118,7 +122,6 @@ export default {
         url = `${this.baseurl}/news`
 
         let payload = {
-          order_id: this.$route.params.id,
           page: this.currentPage(),
           limit: '10',
           search: this.news.search,
