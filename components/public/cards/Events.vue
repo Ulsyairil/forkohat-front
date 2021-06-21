@@ -25,7 +25,11 @@
 
     <div v-if="events.data.length > 0">
       <div class="card-deck row">
-        <div class="col-md-4" v-for="(value, index) in events.data" :key="index">
+        <div
+          class="col-md-4"
+          v-for="(value, index) in events.data"
+          :key="index"
+        >
           <div class="card shadow mt-5">
             <img
               class="card-img-top img-responsive img-fluid"

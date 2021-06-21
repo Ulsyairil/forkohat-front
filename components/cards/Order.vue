@@ -61,6 +61,8 @@
           class="mt-4"
           :link-gen="linkGen"
           :number-of-pages="order_stuff.pages"
+          v-model="order_stuff.currentPage"
+          @input="changePage()"
           use-router
           pills
         ></b-pagination-nav>
@@ -99,10 +101,11 @@ export default {
       domain: this.$config.domain,
       order_stuff: {
         pages: '',
+        currentPage: 0,
         perPage: 10,
-        total: '',
-        data: [],
+        total: 0,
         search: '',
+        data: [],
       },
     }
   },
@@ -114,14 +117,16 @@ export default {
         },
       }
 
+      this.order_stuff.currentPage = this.pageNow()
+
       let url
       url = `${this.baseurl}/employee/order/stuffs`
 
       let payload = {
         order_id: this.$route.params.id,
-        page: this.currentPage(),
-        limit: '10',
-        search: '',
+        page: this.order_stuff.currentPage,
+        limit: this.order_stuff.perPage,
+        search: this.order_stuff.search,
       }
 
       console.log(payload)
@@ -145,48 +150,17 @@ export default {
   },
   methods: {
     async searchForm() {
-      try {
-        const config = {
-          headers: {
-            Authorization: `${this.auth.token.type} ${this.auth.token.token}`,
-          },
-        }
-
-        let url
-        url = `${this.baseurl}/employee/order/stuffs`
-
-        let payload = {
-          order_id: this.$route.params.id,
-          page: this.currentPage(),
-          limit: '10',
-          search: this.order_stuff.search,
-        }
-
-        console.log(payload)
-
-        const res = await this.$axios.$post(url, payload, config)
-        console.log(res)
-
-        this.order_stuff.pages = res.lastPage
-        this.order_stuff.total = res.total
-        this.order_stuff.data = res.data
-        console.log(this.order_stuff)
-      } catch (error) {
-        console.log(error)
-        return this.$notify({
-          group: 'app',
-          type: 'error',
-          title: 'Kesalahan pada server',
-          text: error,
-        })
-      }
+      this.$nuxt.refresh()
     },
-    currentPage() {
+    pageNow() {
       if (this.$route.query.page == undefined) {
         return 1
       } else {
         return this.$route.query.page
       }
+    },
+    changePage() {
+      this.$nuxt.refresh()
     },
     linkGen(pageNum) {
       return pageNum === 1 ? '?' : `?page=${pageNum}`

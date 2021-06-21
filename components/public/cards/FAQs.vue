@@ -14,10 +14,14 @@
                   class="list-group-item d-flex align-items-left"
                   v-for="(value, index) in faqs.data"
                   :key="index"
-                  :class="{ 'active': activeIndex === index}"
+                  :class="{ active: activeIndex === index }"
                   @click="setActive(index)"
                 >
-                  <a data-toggle="tab" :href="'#tabItem' + value.id" :class="{ 'text-white': activeIndex === index}">
+                  <a
+                    data-toggle="tab"
+                    :href="'#tabItem' + value.id"
+                    :class="{ 'text-white': activeIndex === index }"
+                  >
                     <font-awesome-icon icon="archway" class="mr-15" />
                     {{ value.name }}
                   </a>
@@ -28,7 +32,7 @@
           <div class="col-xl-7">
             <div class="tab-content">
               <div
-                :class="{ 'active': activeIndex === index}"
+                :class="{ active: activeIndex === index }"
                 class="tab-pane"
                 :id="'tabItem' + value.id"
                 v-for="(value, index) in faqs.data"
@@ -49,7 +53,7 @@
                     >
                       <div class="card-header d-flex justify-content-between">
                         <a
-                        class="collapsed"
+                          class="collapsed"
                           role="button"
                           data-toggle="collapse"
                           :href="'#collapse_' + valueT.id + 'i'"
@@ -266,7 +270,7 @@ export default {
       faqs: {
         data: [],
       },
-      activeIndex: 0
+      activeIndex: 0,
     }
   },
   async fetch() {
@@ -288,8 +292,11 @@ export default {
         text: error,
       })
     }
-  },methods: {
-  	setActive(index) { this.activeIndex = index }
-  }
+  },
+  methods: {
+    setActive(index) {
+      this.activeIndex = index
+    },
+  },
 }
 </script>
