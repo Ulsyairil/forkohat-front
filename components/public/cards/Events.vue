@@ -24,36 +24,43 @@
     </div>
 
     <div v-if="events.data.length > 0">
-      <div class="row">
-        <div
-          class="col-md-4 mb-4 mb-md-0"
-          v-for="(value, index) in events.data"
-          :key="index"
-        >
-          <div class="card shadow-sm" style="width: 20rem">
+      <div class="card-deck row">
+        <div class="col-md-4" v-for="(value, index) in events.data" :key="index">
+          <div class="card shadow mt-5">
             <img
               class="card-img-top img-responsive img-fluid"
               :src="domain + value.eventFiles[0].url"
               img-alt="events Banner"
-              style="max-width: 100%; height: 200px;"
+              style="max-width: 100%; height: 200px"
             />
             <div class="card-body">
-              <span class="small" style="color: #E71E1E;">{{ value.created_at }}</span>
-              <h5 class="card-title text-center mt-3 mb-4" style="color: #0140B5">{{ value.name }}</h5>
-              <p class="card-text small text-secondary">
+              <span class="small" style="color: #e71e1e">{{
+                value.created_at
+              }}</span>
+              <h5
+                class="card-title text-center mt-3 mb-4"
+                style="color: #0140b5"
+              >
+                {{ value.name }}
+              </h5>
+              <p class="card-text small text-secondary d-none d-md-block">
                 {{ value.content.substring(0, 200) + '.....' }}
               </p>
-              <a class="btn btn-primary" @click="moreButton(value.id)"> Lihat Event </a>
+              <a class="btn btn-primary" @click="moreButton(value.id)">
+                Selengkapnya
+              </a>
             </div>
           </div>
         </div>
       </div>
 
       <b-pagination-nav
-        class="mt-4"
+        class="mt-5"
         :link-gen="linkGen"
         :number-of-pages="events.pages"
         align="center"
+        v-model="events.currentPage"
+        @input="changePage()"
         use-router
         pills
       ></b-pagination-nav>
@@ -73,9 +80,10 @@ export default {
       domain: this.$config.domain,
       events: {
         search: '',
-        pages: '',
+        currentPage: 0,
+        pages: 0,
         perPage: 10,
-        total: '',
+        total: 0,
         data: [],
       },
     }
@@ -85,10 +93,12 @@ export default {
       let url
       url = `${this.baseurl}/event`
 
+      this.events.currentPage = this.pageNow()
+
       let payload = {
         order_id: this.$route.params.id,
-        page: this.currentPage(),
-        limit: '10',
+        page: this.pageNow(),
+        limit: this.events.perPage,
         search: '',
       }
 
@@ -143,7 +153,10 @@ export default {
         })
       }
     },
-    currentPage() {
+    changePage() {
+      this.$nuxt.refresh()
+    },
+    pageNow() {
       if (this.$route.query.page == undefined) {
         return 1
       } else {
@@ -155,7 +168,7 @@ export default {
     },
     moreButton(id) {
       console.log(id)
-      this.$router.push(`/events/${id}`)
+      this.$router.push(`/news/${id}`)
     },
   },
 }

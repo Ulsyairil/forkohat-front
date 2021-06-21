@@ -24,13 +24,9 @@
     </div>
 
     <div v-if="news.data.length > 0">
-      <div class="row">
-        <div
-          class="col-md-4 mb-4 mb-md-0 mr-md-2 ml-md-2"
-          v-for="(value, index) in news.data"
-          :key="index"
-        >
-          <div class="card shadow mt-5" style="width: 20rem">
+      <div class="card-deck row">
+        <div class="col-md-4" v-for="(value, index) in news.data" :key="index">
+          <div class="card shadow mt-5">
             <img
               class="card-img-top img-responsive img-fluid"
               :src="domain + value.newsFiles[0].url"
@@ -47,7 +43,7 @@
               >
                 {{ value.title }}
               </h5>
-              <p class="card-text small text-secondary">
+              <p class="card-text small text-secondary d-none d-md-block">
                 {{ value.content.substring(0, 200) + '.....' }}
               </p>
               <a class="btn btn-primary" @click="moreButton(value.id)">

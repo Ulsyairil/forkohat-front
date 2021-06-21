@@ -17,8 +17,8 @@
                 :title="value.name"
                 :img-src="domain + value.programFiles[0].url"
                 img-alt="Card image"
-                img-height="220"
-                img-width="200"
+                img-height="200"
+                img-width="180"
                 img-left
                 class="mb-5 mt-5 border-0 rounded-0 bg-transparent"
               >
@@ -34,8 +34,8 @@
                 :title="value.name"
                 :img-src="domain + value.programFiles[0].url"
                 img-alt="Card image"
-                img-height="220"
-                img-width="200"
+                img-height="200"
+                img-width="180"
                 img-right
                 class="mb-5 mt-5 border-0 rounded-0 bg-transparent"
               >
