@@ -24,8 +24,8 @@
     </div>
 
     <div v-if="news.data.length > 0">
-      <b-row>
-        <b-col md="4" v-for="(value, index) in news.data" :key="index">
+      <div class="card-deck row">
+        <div class="col-md-4" v-for="(value, index) in news.data" :key="index">
           <div class="card shadow mt-5">
             <img
               class="card-img-top img-responsive img-fluid"
@@ -51,8 +51,8 @@
               </a>
             </div>
           </div>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
 
       <b-pagination-nav
         class="mt-5"
