@@ -64,6 +64,18 @@
       </b-collapse>
 
       <b-nav class="ml-auto">
+        <ul class="navbar-nav nav-pills">
+          <li class="nav-item">
+            <nuxt-link
+              tag="a"
+              active-class="active-link"
+              class="nav-link text-primary"
+              to="/login"
+            >
+              <font-awesome-icon icon="sign-in-alt" />
+            </nuxt-link>
+          </li>
+        </ul>
         <!-- <toggle-button
           class="mt-3"
           :value="toggle_button"
