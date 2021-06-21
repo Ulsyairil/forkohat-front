@@ -59,6 +59,8 @@
         :link-gen="linkGen"
         :number-of-pages="news.pages"
         align="center"
+        v-model="news.currentPage"
+        @input="changePage()"
         use-router
         pills
       ></b-pagination-nav>
@@ -78,9 +80,10 @@ export default {
       domain: this.$config.domain,
       news: {
         search: '',
-        pages: '',
+        currentPage: 0,
+        pages: 0,
         perPage: 10,
-        total: '',
+        total: 0,
         data: [],
       },
     }
@@ -90,9 +93,12 @@ export default {
       let url
       url = `${this.baseurl}/news`
 
+      this.news.currentPage = this.pageNow()
+
       let payload = {
-        page: this.currentPage(),
-        limit: '3',
+        order_id: this.$route.params.id,
+        page: this.pageNow(),
+        limit: this.news.perPage,
         search: '',
       }
 
@@ -122,8 +128,9 @@ export default {
         url = `${this.baseurl}/news`
 
         let payload = {
-          page: this.currentPage(),
-          limit: '10',
+          order_id: this.$route.params.id,
+          page: this.pageNow(),
+          limit: this.news.perPage,
           search: this.news.search,
         }
 
@@ -146,7 +153,10 @@ export default {
         })
       }
     },
-    currentPage() {
+    changePage() {
+      this.$nuxt.refresh()
+    },
+    pageNow() {
       if (this.$route.query.page == undefined) {
         return 1
       } else {
