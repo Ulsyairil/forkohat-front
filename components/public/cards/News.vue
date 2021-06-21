@@ -26,7 +26,7 @@
     <div v-if="news.data.length > 0">
       <div class="row">
         <div
-          class="col-md-4 mb-4 mb-md-0"
+          class="col-md-4 mb-4 mb-md-0 mr-md-2 ml-md-2"
           v-for="(value, index) in news.data"
           :key="index"
         >
@@ -35,15 +35,24 @@
               class="card-img-top img-responsive img-fluid"
               :src="domain + value.newsFiles[0].url"
               img-alt="events Banner"
-              style="max-width: 100%; height: 200px;"
+              style="max-width: 100%; height: 200px"
             />
             <div class="card-body">
-              <span class="small" style="color: #E71E1E;">{{ value.created_at }}</span>
-              <h5 class="card-title text-center mt-3 mb-4" style="color: #0140B5">{{ value.title }}</h5>
+              <span class="small" style="color: #e71e1e">{{
+                value.created_at
+              }}</span>
+              <h5
+                class="card-title text-center mt-3 mb-4"
+                style="color: #0140b5"
+              >
+                {{ value.title }}
+              </h5>
               <p class="card-text small text-secondary">
                 {{ value.content.substring(0, 200) + '.....' }}
               </p>
-              <a class="btn btn-primary" @click="moreButton(value.id)"> Selengkapnya </a>
+              <a class="btn btn-primary" @click="moreButton(value.id)">
+                Selengkapnya
+              </a>
             </div>
           </div>
         </div>
@@ -54,6 +63,8 @@
         :link-gen="linkGen"
         :number-of-pages="news.pages"
         align="center"
+        v-model="news.currentPage"
+        @input="changePage()"
         use-router
         pills
       ></b-pagination-nav>
@@ -73,9 +84,10 @@ export default {
       domain: this.$config.domain,
       news: {
         search: '',
-        pages: '',
+        currentPage: 0,
+        pages: 0,
         perPage: 10,
-        total: '',
+        total: 0,
         data: [],
       },
     }
@@ -85,10 +97,12 @@ export default {
       let url
       url = `${this.baseurl}/news`
 
+      this.news.currentPage = this.pageNow()
+
       let payload = {
         order_id: this.$route.params.id,
-        page: this.currentPage(),
-        limit: '3',
+        page: this.pageNow(),
+        limit: this.news.perPage,
         search: '',
       }
 
@@ -119,8 +133,8 @@ export default {
 
         let payload = {
           order_id: this.$route.params.id,
-          page: this.currentPage(),
-          limit: '10',
+          page: this.pageNow(),
+          limit: this.news.perPage,
           search: this.news.search,
         }
 
@@ -143,7 +157,10 @@ export default {
         })
       }
     },
-    currentPage() {
+    changePage() {
+      this.$nuxt.refresh()
+    },
+    pageNow() {
       if (this.$route.query.page == undefined) {
         return 1
       } else {
