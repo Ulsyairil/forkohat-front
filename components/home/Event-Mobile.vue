@@ -58,7 +58,9 @@
     </div>
 
     <div v-if="events.data.length == 0">
-      <h4>Data tidak ditemukan</h4>
+      <div class="container">
+        <h4>Event tidak ditemukan</h4>
+      </div>
     </div>
   </div>
 </template>

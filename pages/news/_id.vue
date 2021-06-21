@@ -15,16 +15,25 @@
           {{ news.title }}
         </h4>
 
-        <p class="text-justify mt-5 with-breaks">
-          {{ news.content }}
-        </p>
+        <div class="text-justify mt-5 with-breaks" v-html="news.content"></div>
+
+        <a href="javascript:void(0)" @click="$router.back()">
+          <font-awesome-icon icon="arrow-left" />
+          Kembali
+        </a>
       </b-col>
       <b-col md="9" class="text-right">
         <span class="mdall" style="color: #0e49b5"
           >Bagikan Ke :
-          <a href="https://twitter.com"><i class="fab fa-twitter-square ml-1"></i></a>
-          <a href="https://facebook.com"><i class="fab fa-facebook-square ml-1"></i></a>
-          <a href="https://instagram.com"><i class="fab fa-instagram ml-1"></i></a>
+          <a href="https://twitter.com"
+            ><i class="fab fa-twitter-square ml-1"></i
+          ></a>
+          <a href="https://facebook.com"
+            ><i class="fab fa-facebook-square ml-1"></i
+          ></a>
+          <a href="https://instagram.com"
+            ><i class="fab fa-instagram ml-1"></i
+          ></a>
         </span>
         <hr />
       </b-col>
@@ -61,9 +70,9 @@
           </b-row>
         </b-card>
       </b-col>
-      <b-col md="9" class="mt-4">
+      <!-- <b-col md="9" class="mt-4">
         <h5 style="color: #0e49b5" class="mb-5">Artikel Terkait</h5>
-      </b-col>
+      </b-col> -->
     </b-row>
   </b-container>
 </template>

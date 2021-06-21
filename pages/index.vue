@@ -32,7 +32,7 @@
           class="text-center"
           style="margin-top: -125px; margin-bottom: -50px"
         >
-          <b-img src="images/health_protocol_bg.png"></b-img>
+          <b-img class="img-fluid" src="images/health_protocol_bg.png"></b-img>
         </div>
       </b-col>
       <b-col class="pt-5" cols="12">
@@ -58,15 +58,25 @@
           <hr style="height: 5px; width: 100px" class="bg-azure" />
         </div>
         <div class="pt-5 pb-5">
-          <div class="row text-center align-items-center">
-            <div class="col-4">
-              <img class="img-fluid" src="/images/balikpapan_logo.png" alt="" />
-            </div>
-            <div class="col-4">
-              <img class="img-fluid" src="/images/kemenkes_logo.png" alt="" />
-            </div>
-            <div class="col-4">
-              <img class="img-fluid" src="/images/swastisaba_logo.png" alt="" />
+          <div class="container">
+            <div class="row text-center align-items-center">
+              <div class="col-4">
+                <img
+                  class="img-fluid"
+                  src="/images/balikpapan_logo.png"
+                  alt=""
+                />
+              </div>
+              <div class="col-4">
+                <img class="img-fluid" src="/images/kemenkes_logo.png" alt="" />
+              </div>
+              <div class="col-4">
+                <img
+                  class="img-fluid"
+                  src="/images/swastisaba_logo.png"
+                  alt=""
+                />
+              </div>
             </div>
           </div>
         </div>

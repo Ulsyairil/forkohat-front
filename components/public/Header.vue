@@ -8,7 +8,11 @@
       fixed="top"
       class="border-bottom"
     >
-      <b-navbar-brand href="#" class="ml-5">
+      <b-navbar-brand
+        href="javascript:void(0)"
+        class="ml-5"
+        @click="$router.push('/')"
+      >
         <b-img-lazy class="img-fluid" src="/logo.png" width="50"></b-img-lazy>
       </b-navbar-brand>
 
