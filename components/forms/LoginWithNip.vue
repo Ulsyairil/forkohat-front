@@ -33,8 +33,8 @@
         </b-input-group>
       </div>
       <b-button type="submit" variant="primary">Masuk</b-button>
-      <b-button type="button" variant="primary" @click="redirectBack()"
-        >Kembali</b-button
+      <b-button type="button" variant="primary" @click="redirectHome()"
+        >Beranda</b-button
       >
     </b-form>
   </div>
@@ -155,8 +155,8 @@ export default {
       var pristine = new Pristine(form, config)
       return pristine
     },
-    redirectBack() {
-      this.$router.back()
+    redirectHome() {
+      this.$router.push('/')
     },
   },
 }
