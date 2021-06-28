@@ -6,7 +6,11 @@
           <div class="card card-signin my-5 shadow-lg">
             <div class="card-body">
               <div class="text-center">
-                <b-link href="/" class="text-decoration-none">
+                <b-link
+                  href="javascript:void(0)"
+                  class="text-decoration-none"
+                  @click="$router.push('/')"
+                >
                   <img
                     class="img-fluid"
                     src="/logo.png"

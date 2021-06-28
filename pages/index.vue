@@ -2,13 +2,29 @@
   <b-container fluid class="p-0">
     <b-row>
       <b-col cols="12">
-        <div class="owl-carousel owl-theme" id="home-carousel">
-          <img src="https://placeimg.com/1600/500/any?1" />
-          <img src="https://placeimg.com/1600/500/any?2" />
-          <img src="https://placeimg.com/1600/500/any?3" />
-          <img src="https://placeimg.com/1600/500/any?4" />
-        </div>
+        <b-carousel
+          id="carousel-1"
+          v-model="slide"
+          :interval="4000"
+          controls
+          indicators
+          background="#ababab"
+          img-width="1024"
+          img-height="480"
+          style="text-shadow: 1px 1px 2px #333"
+          @sliding-start="onSlideStart()"
+          @sliding-end="onSlideEnd()"
+        >
+          <b-carousel-slide
+            v-for="(value, index) in slideData"
+            :key="index"
+            :caption="value.carousel_name"
+            :text="value.carousel_description"
+            :img-src="domain + value.url"
+          ></b-carousel-slide>
+        </b-carousel>
       </b-col>
+
       <b-col class="pt-5" cols="12" style="background-image: url(bg/news.png)">
         <div class="mb-5 text-center">
           <h2>Berita</h2>
@@ -111,25 +127,32 @@
 export default {
   data() {
     return {
+      baseurl: this.$config.baseurl,
+      domain: this.$config.domain,
       slide: 0,
       sliding: null,
+      slideData: [],
     }
   },
-  mounted() {
-    this.initCarousel()
+  async fetch() {
+    try {
+      const url = `${this.baseurl}/carousels`
+
+      const res = await this.$axios.$get(url)
+      console.log(res)
+
+      this.slideData = res
+    } catch (error) {
+      console.log(error)
+      return this.$notify({
+        group: 'app',
+        type: 'error',
+        title: 'Kesalahan pada server',
+        text: error,
+      })
+    }
   },
   methods: {
-    initCarousel() {
-      $('.owl-carousel').owlCarousel({
-        responsiveClass: true,
-        responsive: {
-          0: {
-            items: 1,
-            nav: true,
-          },
-        },
-      })
-    },
     onSlideStart(slide) {
       this.sliding = true
     },

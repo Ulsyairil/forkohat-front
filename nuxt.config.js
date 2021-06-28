@@ -118,6 +118,8 @@ export default {
     // Usage : https://www.npmjs.com/package/vue-notification
     { src: '~/plugins/vue-notification.js', mode: 'client' },
     { src: '~/plugins/grid-vue.js', mode: 'client' },
+    { src: '~/plugins/vue-splide.js', mode: 'client' },
+    { src: '~/plugins/vue-carousel.js', mode: 'client' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

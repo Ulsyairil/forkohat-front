@@ -11,16 +11,11 @@
           <hr style="height: 5px; width: 100px" class="bg-azure" />
         </div>
 
-        <div class="owl-carousel owl-theme">
-          <img src="https://placeimg.com/1600/800/any?1" />
-          <img src="https://placeimg.com/1600/800/any?2" />
-          <img src="https://placeimg.com/1600/800/any?3" />
-          <img src="https://placeimg.com/1600/800/any?4" />
-          <img src="https://placeimg.com/1600/800/any?5" />
-          <img src="https://placeimg.com/1600/800/any?6" />
-          <img src="https://placeimg.com/1600/800/any?7" />
-          <img src="https://placeimg.com/1600/800/any?8" />
-        </div>
+        <carousel>
+          <slide v-for="(value, index) in slideData" :key="index">
+            <b-img-lazy class="p-2" fluid :src="domain + value.url" />
+          </slide>
+        </carousel>
       </b-col>
     </b-row>
   </b-container>
@@ -30,36 +25,28 @@
 export default {
   data() {
     return {
-      slide: 0,
-      sliding: null,
+      baseurl: this.$config.baseurl,
+      domain: this.$config.domain,
+      slideData: [],
     }
   },
-  mounted() {
-    this.initCarousel()
-  },
-  methods: {
-    initCarousel() {
-      $('.owl-carousel').owlCarousel({
-        responsiveClass: true,
-        margin: 10,
-        responsive: {
-          0: {
-            items: 1,
-            nav: true,
-          },
-          600: {
-            items: 3,
-            nav: false,
-          },
-        },
+  async fetch() {
+    try {
+      const url = `${this.baseurl}/galleries`
+
+      const res = await this.$axios.$get(url)
+      console.log(res)
+
+      this.slideData = res
+    } catch (error) {
+      console.log(error)
+      return this.$notify({
+        group: 'app',
+        type: 'error',
+        title: 'Kesalahan pada server',
+        text: error,
       })
-    },
-    onSlideStart(slide) {
-      this.sliding = true
-    },
-    onSlideEnd(slide) {
-      this.sliding = false
-    },
+    }
   },
 }
 </script>
