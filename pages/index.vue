@@ -2,27 +2,49 @@
   <b-container fluid class="p-0">
     <b-row>
       <b-col cols="12">
-        <b-carousel
-          id="carousel-1"
-          v-model="slide"
-          :interval="4000"
-          controls
-          indicators
-          background="#ababab"
-          img-width="1024"
-          img-height="480"
-          style="text-shadow: 1px 1px 2px #333"
-          @sliding-start="onSlideStart()"
-          @sliding-end="onSlideEnd()"
-        >
-          <b-carousel-slide
-            v-for="(value, index) in slideData"
-            :key="index"
-            :caption="value.carousel_name"
-            :text="value.carousel_description"
-            :img-src="domain + value.url"
-          ></b-carousel-slide>
-        </b-carousel>
+        <div v-if="slideData.length > 0">
+          <b-carousel
+            id="carousel-1"
+            v-model="slide"
+            :interval="4000"
+            controls
+            indicators
+            background="#ababab"
+            img-width="1024"
+            img-height="480"
+            style="text-shadow: 1px 1px 2px #333"
+            @sliding-start="onSlideStart()"
+            @sliding-end="onSlideEnd()"
+          >
+            <b-carousel-slide
+              v-for="(value, index) in slideData"
+              :key="index"
+              :caption="value.carousel_name"
+              :text="value.carousel_description"
+              :img-src="domain + value.url"
+            ></b-carousel-slide>
+          </b-carousel>
+        </div>
+
+        <div v-if="slideData.length == 0">
+          <b-carousel
+            id="carousel-1"
+            v-model="slide"
+            :interval="4000"
+            controls
+            indicators
+            background="#ababab"
+            img-width="1024"
+            img-height="480"
+            style="text-shadow: 1px 1px 2px #333"
+            @sliding-start="onSlideStart()"
+            @sliding-end="onSlideEnd()"
+          >
+            <b-carousel-slide
+              img-src="https://place-hold.it/1024x500?text=Data Tidak Ditemukan&fontsize=23"
+            ></b-carousel-slide>
+          </b-carousel>
+        </div>
       </b-col>
 
       <b-col class="pt-5" cols="12" style="background-image: url(bg/news.png)">

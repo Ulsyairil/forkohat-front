@@ -11,11 +11,25 @@
           <hr style="height: 5px; width: 100px" class="bg-azure" />
         </div>
 
-        <carousel>
-          <slide v-for="(value, index) in slideData" :key="index">
-            <b-img-lazy class="p-2" fluid :src="domain + value.url" />
-          </slide>
-        </carousel>
+        <div v-if="slideData.length > 0">
+          <carousel>
+            <slide v-for="(value, index) in slideData" :key="index">
+              <b-img-lazy class="p-2" fluid :src="domain + value.url" />
+            </slide>
+          </carousel>
+        </div>
+
+        <div v-if="slideData.length > 0">
+          <carousel>
+            <slide>
+              <b-img-lazy
+                class="p-2"
+                fluid
+                src="https://place-hold.it/1024x500?text=Data Tidak Ditemukan&fontsize=23"
+              />
+            </slide>
+          </carousel>
+        </div>
       </b-col>
     </b-row>
   </b-container>
