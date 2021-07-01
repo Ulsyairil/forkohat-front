@@ -181,4 +181,9 @@ export default {
     baseurl: 'http://127.0.0.1:3333/api/v1',
     domain: 'http://127.0.0.1:3333',
   },
+
+  // Change server port
+  server: {
+    port: 49001, // default: 3000
+  },
 }
