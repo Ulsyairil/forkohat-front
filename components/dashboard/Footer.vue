@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer bg-light text-primary">
+  <footer class="footer-dashboard bg-light text-primary">
     <div class="container">
       <span class="font-weight-bold"
         >&copy; {{ year }} FORKOHAT BALIKPAPAN</span
@@ -9,7 +9,7 @@
 </template>
 
 <style lang="scss">
-.footer {
+.footer-dashboard {
   position: absolute;
   bottom: 0;
   width: 100%;
