@@ -2,7 +2,7 @@
   <b-button
     type="button"
     variant="primary"
-    id="btn-scroll-top"
+    id="btn-scroll-top-dashboard"
     @click.prevent="topFunction()"
     pill
   >
@@ -11,7 +11,7 @@
 </template>
 
 <style lang="scss">
-#btn-scroll-top {
+#btn-scroll-top-dashboard {
   display: none; /* Hidden by default */
   position: fixed; /* Fixed/sticky position */
   bottom: 25px; /* Place the button at the bottom of the page */
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     scrollFunction() {
-      const btn = document.getElementById('btn-scroll-top')
+      const btn = document.getElementById('btn-scroll-top-dashboard')
       if (
         document.body.scrollTop > 20 ||
         document.documentElement.scrollTop > 20
