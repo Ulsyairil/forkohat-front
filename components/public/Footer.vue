@@ -1,9 +1,37 @@
 <template>
-  <footer class="footer bg-light text-primary">
+  <footer class="footer text-white">
     <div class="container">
-      <span class="font-weight-bold"
-        >&copy; {{ year }} FORKOHAT BALIKPAPAN</span
-      >
+      <div class="row">
+        <div class="col-6">
+          <span class="font-footer"
+            >&copy; {{ year }} FORKOHAT BALIKPAPAN
+          </span>
+        </div>
+
+        <div class="col-6 text-right">
+          <a href="javascript:void(0)">
+            <font-awesome-icon
+              class="text-white mr-1 ml-1"
+              :icon="['fab', 'facebook']"
+              size="lg"
+            />
+          </a>
+          <a href="javascript:void(0)">
+            <font-awesome-icon
+              class="text-white mr-1 ml-1"
+              :icon="['fab', 'instagram']"
+              size="lg"
+            />
+          </a>
+          <a href="javascript:void(0)">
+            <font-awesome-icon
+              class="text-white mr-1 ml-1"
+              :icon="['fab', 'twitter']"
+              size="lg"
+            />
+          </a>
+        </div>
+      </div>
     </div>
   </footer>
 </template>
@@ -15,8 +43,26 @@
   width: 100%;
   height: 60px;
   line-height: 60px;
-  background-color: #f5f5f5;
-  border-top: solid #007bff;
+  background-color: #007bff;
+}
+
+.font-footer {
+  font-weight: bold;
+  font-size: 12pt;
+}
+
+@media only screen and (max-width: 425px) {
+  .font-footer {
+    font-weight: bold;
+    font-size: 11px;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .font-footer {
+    font-weight: bold;
+    font-size: 10px;
+  }
 }
 </style>
 
