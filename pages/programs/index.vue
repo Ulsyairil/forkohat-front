@@ -12,14 +12,26 @@
         </div>
 
         <div v-if="slideData.length > 0">
-          <carousel>
+          <carousel
+            :perPageCustom="[
+              [400, 1],
+              [768, 2],
+              [1024, 3],
+            ]"
+          >
             <slide v-for="(value, index) in slideData" :key="index">
-              <b-img-lazy class="p-2" fluid :src="domain + value.url" />
+              <div class="text-center">
+                <b-img-lazy
+                  class="p-2 gallery_image"
+                  fluid
+                  :src="domain + value.url"
+                />
+              </div>
             </slide>
           </carousel>
         </div>
 
-        <div v-if="slideData.length > 0">
+        <div v-if="slideData.length == 0">
           <carousel>
             <slide>
               <b-img-lazy
@@ -34,6 +46,15 @@
     </b-row>
   </b-container>
 </template>
+
+<style lang="scss">
+@media only screen and (min-width: 748px) {
+  .gallery_image {
+    max-width: 300 !important;
+    max-height: 200px !important;
+  }
+}
+</style>
 
 <script>
 export default {
