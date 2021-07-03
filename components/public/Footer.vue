@@ -9,24 +9,31 @@
         </div>
 
         <div class="col-6 text-right">
-          <a href="javascript:void(0)">
+          <!-- <a href="javascript:void(0)">
             <font-awesome-icon
               class="text-white mr-1 ml-1"
               :icon="['fab', 'facebook']"
               size="lg"
             />
-          </a>
-          <a href="javascript:void(0)">
+          </a> -->
+          <a href="https://www.instagram.com/forkohatbppn" target="_blank">
             <font-awesome-icon
               class="text-white mr-1 ml-1"
               :icon="['fab', 'instagram']"
               size="lg"
             />
           </a>
-          <a href="javascript:void(0)">
+          <!-- <a href="javascript:void(0)">
             <font-awesome-icon
               class="text-white mr-1 ml-1"
               :icon="['fab', 'twitter']"
+              size="lg"
+            />
+          </a> -->
+          <a href="https://wa.me/+62811539633" target="_blank">
+            <font-awesome-icon
+              class="text-white mr-1 ml-1"
+              :icon="['fab', 'whatsapp']"
               size="lg"
             />
           </a>

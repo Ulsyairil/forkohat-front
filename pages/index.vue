@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid class="p-0">
+  <b-container fluid class="p-0 mt-5 mt-md-0">
     <b-row>
       <b-col cols="12">
         <div v-if="slideData.length > 0">
