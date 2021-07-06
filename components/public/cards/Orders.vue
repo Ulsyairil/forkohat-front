@@ -10,23 +10,29 @@
     </div>
 
     <b-col class="mt-5" v-if="orders.data.length > 0">
-      <b-list-group>
-        <b-list-group-item
+      <div class="row">
+        <div
+          class="col-md-6 mt-4"
           v-for="(value, index) in orders.data"
           :key="index"
-          class="flex-column align-items-start"
-          @click="openOrders(value.id)"
         >
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ value.name }}</h5>
-            <small class="text-muted">{{ value.created_at }}</small>
-          </div>
+          <div
+            class="flex-column align-items-start ml-2 mr-2 mt-3 orders"
+            @click="openOrders(value.id)"
+            style="cursor: pointer;"
+          >
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-4">{{ value.name }}</h5>
+            </div>
 
-          <p class="mb-1">
-            {{ value.description }}
-          </p>
-        </b-list-group-item>
-      </b-list-group>
+            <div class="">
+              <p class="mb-1">
+                {{ value.description }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </b-col>
 
     <b-col class="mt-5" v-if="orders.data.length == 0">
@@ -34,6 +40,16 @@
     </b-col>
   </div>
 </template>
+
+<style lang="scss">
+.order {
+  transition: 1s;
+}
+
+.orders:hover {
+  background-color: #ededed;
+}
+</style>
 
 <script>
 import Swal from 'sweetalert2'
