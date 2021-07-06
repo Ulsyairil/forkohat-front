@@ -17,14 +17,14 @@
                 :title="value.name"
                 :img-src="domain + value.programFiles[0].url"
                 img-alt="Card image"
-                img-height="200"
+                img-height="220"
                 img-width="180"
                 img-left
-                class="mb-5 mt-5 border-0 rounded-0 bg-transparent"
+                class="mb-4 mt-4 p-3 border-0 rounded-0 bg-transparent programs"
+                @click="orderProgram(value.id)"
               >
                 <b-card-text>
                   <p>{{ value.description }}</p>
-                  <b-button @click="orderProgram(value.id)" variant="primary">Lihat Tatanan <font-awesome-icon icon="angle-double-right" /></b-button>
                 </b-card-text>
               </b-card>
             </div>
@@ -34,14 +34,14 @@
                 :title="value.name"
                 :img-src="domain + value.programFiles[0].url"
                 img-alt="Card image"
-                img-height="200"
+                img-height="220"
                 img-width="180"
                 img-right
-                class="mb-5 mt-5 border-0 rounded-0 bg-transparent"
+                class="mb-4 mt-4 p-3 border-0 rounded-0 bg-transparent programs"
+                @click="orderProgram(value.id)"
               >
                 <b-card-text>
                   <p>{{ value.description }}</p>
-                  <b-button @click="orderProgram(value.id)" variant="primary">Lihat Tatanan <font-awesome-icon icon="angle-double-right" /></b-button>
                 </b-card-text>
               </b-card>
             </div>
@@ -55,6 +55,17 @@
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.programs {
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.programs:hover {
+  background-color: #f7f7f7 !important;
+}
+</style>
 
 <script>
 export default {

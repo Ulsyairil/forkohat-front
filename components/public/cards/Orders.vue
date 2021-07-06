@@ -17,7 +17,7 @@
           :key="index"
         >
           <div
-            class="flex-column align-items-start ml-2 mr-2 mt-3 orders"
+            class="flex-column align-items-start ml-2 mr-2 mt-3 orders p-2"
             @click="openOrders(value.id)"
             style="cursor: pointer;"
           >
@@ -26,7 +26,7 @@
             </div>
 
             <div class="">
-              <p class="mb-1">
+              <p class="">
                 {{ value.description }}
               </p>
             </div>
@@ -42,8 +42,8 @@
 </template>
 
 <style lang="scss">
-.order {
-  transition: 1s;
+.orders {
+  transition: 0.4s;
 }
 
 .orders:hover {
