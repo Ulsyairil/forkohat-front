@@ -23,6 +23,16 @@
         ></b-form-textarea>
       </b-form-group>
       <div class="form-group">
+        <label for="input-showed">Ditunjukkan</label>
+        <b-form-select
+          id="input-showed"
+          v-model="order_stuff.form.showed.selected"
+          :options="order_stuff.form.showed.options"
+          required
+          data-pristine-required-message="Harus diisi"
+        ></b-form-select>
+      </div>
+      <div class="form-group">
         <label for="input-pdf">Unggah Berkas PDF</label>
         <br />
         <b-form-file
@@ -36,6 +46,14 @@
           no-traverse
         ></b-form-file>
       </div>
+      <b-form-group label="Dibuat Oleh" label-for="order-stuff-created-by">
+        <b-form-input
+          v-model="order_stuff.form.created_by"
+          id="order-stuff-created-by"
+          type="text"
+          readonly
+        ></b-form-input>
+      </b-form-group>
       <div class="form-group">
         <label for="input-deleted_at">Tanggal Dihapus</label>
         <b-form-datepicker
@@ -119,6 +137,24 @@ export default {
           name: '',
           description: '',
           deleted_at: '',
+          showed: {
+            selected: '',
+            options: [
+              {
+                value: 'private',
+                text: 'Pribadi',
+              },
+              {
+                value: 'member',
+                text: 'Anggota',
+              },
+              {
+                value: 'public',
+                text: 'Umum',
+              },
+            ],
+          },
+          created_by: '',
         },
       },
       order_file: {
@@ -151,6 +187,8 @@ export default {
       this.order_stuff.form.name = orderStuffData.name
       this.order_stuff.form.description = orderStuffData.description
       this.order_stuff.form.deleted_at = orderStuffData.deleted_at
+      this.order_stuff.form.showed.selected = orderStuffData.showed
+      this.order_stuff.form.created_by = orderStuffData.users.name
 
       url = `${this.baseurl}/employee/order/stuff/files?order_stuff_id=${this.$route.params.id}`
 
@@ -303,6 +341,7 @@ export default {
           order_id: this.order_stuff.form.order,
           name: this.order_stuff.form.name,
           description: this.order_stuff.form.description,
+          showed: this.order_stuff.form.showed.selected,
         }
 
         const config = {

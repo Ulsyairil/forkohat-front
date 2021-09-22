@@ -178,14 +178,17 @@ export default {
 
   // Public env variable
   publicRuntimeConfig: {
-    // baseurl: 'http://127.0.0.1:3333/api/v1',
-    // domain: 'http://127.0.0.1:3333',
-    baseurl: 'https://apiforkohat.balikpapanpedia.com/api/v1',
-    domain: 'https://apiforkohat.balikpapanpedia.com',
+    baseurl: 'http://127.0.0.1:3333/api/v1',
+    domain: 'http://127.0.0.1:3333',
+    // baseurl: 'http://192.168.1.2:3333/api/v1',
+    // domain: 'http://192.168.1.2:3333',
+    // baseurl: 'https://apiforkohat.balikpapanpedia.com/api/v1',
+    // domain: 'https://apiforkohat.balikpapanpedia.com',
   },
 
   // Change server port
   server: {
-    port: 49001, // default: 3000
+    // port: 49001, // default: 3000
+    // host: "192.168.1.2",
   },
 }

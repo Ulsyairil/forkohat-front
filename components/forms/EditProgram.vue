@@ -127,6 +127,7 @@
                           <thead>
                             <tr>
                               <th scope="col">Nama Isi Tatanan</th>
+                              <th scope="col" class="text-center">Ditunjukkan</th>
                               <th scope="col" class="text-center">Dihapus</th>
                               <th
                                 scope="col"
@@ -143,6 +144,15 @@
                           >
                             <tr>
                               <td>{{ value.name }}</td>
+                              <td class="text-center">
+                                <div v-if="value.showed == 'private'">
+                                  Pribadi
+                                </div>
+                                <div v-if="value.showed == 'member'">
+                                  Anggota
+                                </div>
+                                <div v-if="value.showed == 'public'">Umum</div>
+                              </td>
                               <td
                                 v-if="value.deleted_at == null"
                                 class="text-center"
@@ -406,8 +416,7 @@ export default {
           description: '',
           image: {
             current_url: '',
-            url:
-              'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70',
+            url: 'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70',
             max: 5242880,
             type: ['image/jpg', 'image/jpeg', 'image/png'],
             value: null,

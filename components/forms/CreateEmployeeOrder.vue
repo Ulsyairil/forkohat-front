@@ -23,6 +23,16 @@
         ></b-form-textarea>
       </b-form-group>
       <div class="form-group">
+        <label for="input-showed">Ditunjukkan</label>
+        <b-form-select
+          id="input-showed"
+          v-model="order_stuff.form.showed.selected"
+          :options="order_stuff.form.showed.options"
+          required
+          data-pristine-required-message="Harus diisi"
+        ></b-form-select>
+      </div>
+      <div class="form-group">
         <label for="input-pdf">Unggah Berkas PDF</label>
         <br />
         <b-form-file
@@ -71,6 +81,23 @@ export default {
           order: this.$route.query.order_id,
           name: '',
           description: '',
+          showed: {
+            selected: 'private',
+            options: [
+              {
+                value: 'private',
+                text: 'Pribadi',
+              },
+              {
+                value: 'member',
+                text: 'Anggota',
+              },
+              {
+                value: 'public',
+                text: 'Umum',
+              },
+            ],
+          },
         },
       },
       order_file: {
@@ -104,6 +131,7 @@ export default {
           order_id: this.order_stuff.form.order,
           name: this.order_stuff.form.name,
           description: this.order_stuff.form.description,
+          showed: this.order_stuff.form.showed.selected,
         }
         console.log(payload)
 

@@ -42,9 +42,7 @@
               >Berita</nuxt-link
             >
           </li>
-          <li
-            class="nav-item"
-          >
+          <li class="nav-item">
             <nuxt-link
               tag="a"
               active-class="active-link"
@@ -53,14 +51,12 @@
               >FAQ</nuxt-link
             >
           </li>
-          <li
-            class="nav-item"
-          >
+          <li class="nav-item">
             <nuxt-link
               tag="a"
               active-class="active-link"
               class="nav-link"
-              to="/program"
+              to="/programs"
               >Program</nuxt-link
             >
           </li>

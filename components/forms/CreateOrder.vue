@@ -9,6 +9,7 @@
           :options="order_stuff.form.program.options"
           @change="findOrder()"
           required
+          data-pristine-required-message="Program harus dipilih"
         ></b-form-select>
       </div>
       <div class="form-group">
@@ -19,6 +20,7 @@
           v-model="order_stuff.form.order.selected"
           :options="order_stuff.form.order.options"
           required
+          data-pristine-required-message="Tatanan harus dipilih"
         ></b-form-select>
       </div>
       <b-form-group label="Judul" label-for="input-order-stuff-name">
@@ -42,6 +44,16 @@
           data-pristine-required-message="Deskripsi harus diisi"
         ></b-form-textarea>
       </b-form-group>
+      <div class="form-group">
+        <label for="input-showed">Ditunjukkan</label>
+        <b-form-select
+          id="input-showed"
+          v-model="order_stuff.form.showed.selected"
+          :options="order_stuff.form.showed.options"
+          required
+          data-pristine-required-message="Harus dipilih"
+        ></b-form-select>
+      </div>
       <div class="form-group">
         <label for="input-pdf">Unggah Berkas PDF</label>
         <br />
@@ -97,6 +109,23 @@ export default {
           },
           name: '',
           description: '',
+          showed: {
+            selected: 'private',
+            options: [
+              {
+                value: 'private',
+                text: 'Pribadi',
+              },
+              {
+                value: 'member',
+                text: 'Anggota',
+              },
+              {
+                value: 'public',
+                text: 'Umum',
+              },
+            ],
+          },
         },
       },
       order_file: {
@@ -168,6 +197,7 @@ export default {
           order_id: this.order_stuff.form.order.selected,
           name: this.order_stuff.form.name,
           description: this.order_stuff.form.description,
+          showed: this.order_stuff.form.showed.selected,
         }
 
         const config = {
