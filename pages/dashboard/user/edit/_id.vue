@@ -6,7 +6,7 @@
         <span>Kembali</span>
       </b-button>
       <div class="title mt-3">
-        <h3>Ubah Program</h3>
+        <h3>Ubah Pengguna</h3>
       </div>
     </div>
     <div class="container">
