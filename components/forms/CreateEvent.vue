@@ -1,17 +1,17 @@
 <template>
   <div>
     <b-form id="event-create-form" @submit.prevent="formSubmit()">
-      <b-form-group label="Nama Event" label-for="input-name">
+      <b-form-group label="Judul Kegiatan*" label-for="input-name">
         <b-form-input
           v-model="form.name"
           id="input-name"
           type="text"
-          placeholder="Masukkan nama event"
+          placeholder="Masukkan judul kegiatan"
           required
         ></b-form-input>
       </b-form-group>
       <div class="form-group">
-        <label>Konten</label>
+        <label>Konten*</label>
         <vue-editor
           v-model="form.content"
           :editor-toolbar="editor.customToolbar"
@@ -20,7 +20,7 @@
       <b-row>
         <b-col>
           <div class="form-group">
-            <label for="input-registration">Tanggal Registrasi</label>
+            <label for="input-registration">Tanggal Mulai Kegiatan*</label>
             <b-form-datepicker
               id="input-registration"
               v-model="form.registration"
@@ -30,7 +30,7 @@
         </b-col>
         <b-col>
           <div class="form-group">
-            <label for="input-expired">Tanggal Berakhir</label>
+            <label for="input-expired">Tanggal Kegiatan Berakhir*</label>
             <b-form-datepicker
               id="input-expired"
               v-model="form.expired"
@@ -39,8 +39,26 @@
           </div>
         </b-col>
       </b-row>
+      <b-form-group label="URL" label-for="input-event-url">
+        <b-form-input
+          v-model="form.url"
+          id="input-event-url"
+          type="url"
+          placeholder="Masukkan URL"
+        ></b-form-input>
+      </b-form-group>
       <div class="form-group">
-        <label for="input-image">Unggah Brosur Event</label>
+        <label for="input-program">Ditunjukkan*</label>
+        <b-form-select
+          id="input-program"
+          v-model="form.showed.selected"
+          :options="form.showed.options"
+          required
+          data-pristine-required-message="Tatanan harus dipilih"
+        ></b-form-select>
+      </div>
+      <div class="form-group">
+        <label for="input-image">Unggah Brosur Kegiatan*</label>
         <br />
         <img
           class="img-fluid mb-2 event-image"
@@ -171,6 +189,24 @@ export default {
         content: '',
         registration: '',
         expired: '',
+        url: '',
+        showed: {
+          selected: 'private',
+          options: [
+            {
+              value: 'private',
+              text: 'Pribadi',
+            },
+            {
+              value: 'member',
+              text: 'Anggota',
+            },
+            {
+              value: 'public',
+              text: 'Umum',
+            },
+          ],
+        },
         image: {
           url:
             'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70',
@@ -196,6 +232,8 @@ export default {
       this.form.expired = ''
       this.form.image.url =
         'https://place-hold.it/1280x720?text=Gambar Belum Diunggah&fontsize=70'
+      this.form.url = ''
+      this.form.showed.selected = 'private'
       this.$refs.image.reset()
       this.$refs.file.reset()
     },
@@ -233,10 +271,13 @@ export default {
           })
         }
 
+        formData.append('order_id', this.$route.params.id)
         formData.append('name', this.form.name)
         formData.append('content', this.form.content)
         formData.append('registration_date', this.form.registration)
         formData.append('expired_date', this.form.expired)
+        formData.append('url', this.form.url)
+        formData.append('showed', this.form.showed.selected)
         formData.append('image', this.form.image.value)
 
         for (let index = 0; index < this.form.file.value.length; index++) {
@@ -252,9 +293,8 @@ export default {
           url = `${this.baseurl}/superadmin/event`
         } else if (this.auth.user.rule_id == 2) {
           url = `${this.baseurl}/admin/event`
-        } else {
-          url = `${this.baseurl}/employee/event`
         }
+
         const config = {
           headers: {
             Authorization: `${this.auth.token.type} ${this.auth.token.token}`,

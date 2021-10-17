@@ -16,6 +16,10 @@
         <font-awesome-icon icon="arrow-left" />
         Kembali
       </b-button>
+      <b-button type="button" variant="primary" @click="redirectHome()">
+        <font-awesome-icon icon="home" />
+        Beranda
+      </b-button>
     </div>
   </div>
 </template>
@@ -256,6 +260,9 @@ export default {
   methods: {
     redirectBack() {
       this.$router.back()
+    },
+    redirectHome() {
+      this.$router.push('/')
     },
   },
 }

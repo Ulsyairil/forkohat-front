@@ -29,7 +29,6 @@ table {
 </style>
 
 <script>
-import moment from 'moment'
 export default {
   data() {
     const baseurl = this.$config.baseurl
@@ -38,9 +37,9 @@ export default {
     let url
 
     if (authUser.rule_id == 1) {
-      url = `${baseurl}/superadmin/events?order_id=${this.$route.params.id}`
+      url = `${baseurl}/superadmin/orders?program_id=${this.$route.params.id}`
     } else if (authUser.rule_id == 2) {
-      url = `${baseurl}/admin/events?order_id=${this.$route.params.id}`
+      url = `${baseurl}/admin/orders?program_id=${this.$route.params.id}`
     }
 
     console.log(`rule_id = ${authUser.rule_id}`)
@@ -65,54 +64,16 @@ export default {
       theme: 'mermaid',
       columns: [
         'ID',
-        'Event',
-        'Penulis',
+        'Program',
         {
-          name: 'Ditunjukkan',
-          formatter: (cell, row) => {
-            if (cell === 'private') {
-              return 'Pribadi'
-            }
-
-            if (cell === 'public') {
-              return 'Umum'
-            }
-
-            if (cell === 'member') {
-              return 'Anggota'
-            }
+          name: 'Aksi',
+          sort: {
+            enabled: false,
           },
-        },
-        {
-          name: 'Dibuat',
-          formatter: (cell, row) => {
-            return moment(cell).locale('id').format('llll')
-          },
-        },
-        {
-          name: 'Diperbarui',
-          formatter: (cell, row) => {
-            return moment(cell).locale('id').format('llll')
-          },
-        },
-        {
-          name: 'Dihapus',
-          formatter: (cell, row) => {
-            if (cell == null) {
-              return '-'
-            }
-
-            if (cell != null) {
-              return moment(cell).locale('id').format('llll')
-            }
-          },
-        },
-        ,
-        {
-          name: 'Ubah',
           formatter: (cell, row) => {
             return this.$gridjs.h('i', {
-              className: 'fas fa-edit m-2 text-warning pointer_cursor',
+              className:
+                'fas fa-arrow-alt-circle-right fa-2x m-2 text-primary pointer_cursor',
               onClick: () => this.editButton(row.cells[0].data),
             })
           },
@@ -124,16 +85,7 @@ export default {
         headers: {
           Authorization: `${auth.type} ${auth.token}`,
         },
-        then: (data) =>
-          data.map((event) => [
-            event.id,
-            event.name,
-            event.users.name,
-            event.showed,
-            event.created_at,
-            event.updated_at,
-            event.deleted_at,
-          ]),
+        then: (data) => data.map((event) => [event.id, event.name]),
         handle: (res) => {
           if (res.status === 404) return { data: [] }
           if (res.ok) return res.json()
@@ -168,11 +120,11 @@ export default {
   methods: {
     editButton(id) {
       console.log(id)
-      this.$router.push(`/dashboard/event/program/order/edit/${id}`)
+      this.$router.push(`/dashboard/event/program/order/${id}`)
     },
   },
   mounted() {
-    console.log(this.$auth.$storage.getCookie('user'))
+    console.log(this.$route.params.id)
   },
 }
 </script>

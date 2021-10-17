@@ -86,7 +86,7 @@
         type="button"
         variant="primary"
         v-b-tooltip.hover
-        title="Tambah Topik Pertanyaan"
+        title="Tambah Tatanan"
         @click="addOrder()"
       >
         <font-awesome-icon icon="plus-square" />

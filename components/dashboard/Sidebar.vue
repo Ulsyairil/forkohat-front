@@ -30,7 +30,7 @@
               active-class="active-link"
               class="nav-link"
               to="/dashboard/event"
-              >Event</nuxt-link
+              >Kegiatan</nuxt-link
             >
           </li>
           <li class="nav-item">

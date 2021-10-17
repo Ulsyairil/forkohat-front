@@ -1,15 +1,9 @@
 <template>
   <div>
     <div class="container">
-      <h3 class="mb-3">Daftar Event</h3>
+      <h3 class="mb-3">Program</h3>
       <div>
-        <b-button type="button" variant="primary" @click="redirect()">
-          <span>Buat Event</span>
-          <font-awesome-icon icon="arrow-right" />
-        </b-button>
-      </div>
-      <div>
-        <TablesEvent />
+        <Tables-Event-Program />
       </div>
     </div>
   </div>
@@ -26,10 +20,6 @@ export default {
       },
     }
   },
-  methods: {
-    redirect() {
-      this.$router.push('/dashboard/event/create')
-    },
-  },
+  methods: {},
 }
 </script>

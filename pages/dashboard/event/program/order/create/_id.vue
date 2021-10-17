@@ -8,11 +8,11 @@
         </b-button>
       </div>
       <div class="title mt-2">
-        <h3>Ubah Event</h3>
+        <h3>Buat Kegiatan</h3>
       </div>
     </div>
     <div class="container">
-      <FormsEditEvent />
+      <FormsCreateEvent />
     </div>
   </div>
 </template>

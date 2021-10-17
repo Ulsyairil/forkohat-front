@@ -112,17 +112,17 @@
           </div>
         </b-col>
       </b-row>
-      <b-form-group label="Nama Event" label-for="input-name">
+      <b-form-group label="Judul Kegiatan*" label-for="input-name">
         <b-form-input
           v-model="form.name"
           id="input-name"
           type="text"
-          placeholder="Masukkan nama event"
+          placeholder="Masukkan judul kegiatan"
           required
         ></b-form-input>
       </b-form-group>
       <div class="form-group">
-        <label>Konten</label>
+        <label>Konten*</label>
         <vue-editor
           v-model="form.content"
           :editor-toolbar="editor.customToolbar"
@@ -131,7 +131,7 @@
       <b-row>
         <b-col>
           <div class="form-group">
-            <label for="input-registration">Tanggal Registrasi</label>
+            <label for="input-registration">Tanggal Mulai Kegiatan*</label>
             <b-form-datepicker
               id="input-registration"
               v-model="form.registration"
@@ -141,7 +141,7 @@
         </b-col>
         <b-col>
           <div class="form-group">
-            <label for="input-expired">Tanggal Berakhir</label>
+            <label for="input-expired">Tanggal Kegiatan Berakhir*</label>
             <b-form-datepicker
               id="input-expired"
               v-model="form.expired"
@@ -150,8 +150,26 @@
           </div>
         </b-col>
       </b-row>
+      <b-form-group label="URL" label-for="input-event-url">
+        <b-form-input
+          v-model="form.url"
+          id="input-event-url"
+          type="url"
+          placeholder="Masukkan URL"
+        ></b-form-input>
+      </b-form-group>
       <div class="form-group">
-        <label for="input-image">Unggah Brosur Event</label>
+        <label for="input-program">Ditunjukkan*</label>
+        <b-form-select
+          id="input-program"
+          v-model="form.showed.selected"
+          :options="form.showed.options"
+          required
+          data-pristine-required-message="Tatanan harus dipilih"
+        ></b-form-select>
+      </div>
+      <div class="form-group">
+        <label for="input-image">Ubah Brosur Kegiatan*</label>
         <br />
         <img
           class="img-fluid mb-2 event-image"
@@ -350,6 +368,24 @@ export default {
         content: '',
         registration: '',
         expired: '',
+        url: '',
+        showed: {
+          selected: '',
+          options: [
+            {
+              value: 'private',
+              text: 'Pribadi',
+            },
+            {
+              value: 'member',
+              text: 'Anggota',
+            },
+            {
+              value: 'public',
+              text: 'Umum',
+            },
+          ],
+        },
         image: {
           url: '/images/image_not_uploaded.gif',
           current_url: '',
@@ -373,8 +409,6 @@ export default {
         url = `${this.baseurl}/superadmin/event?event_id=${this.$route.params.id}`
       } else if (this.auth.user.rule_id == 2) {
         url = `${this.baseurl}/admin/event?event_id=${this.$route.params.id}`
-      } else {
-        url = `${this.baseurl}/employee/event?event_id=${this.$route.params.id}`
       }
 
       const config = {
@@ -392,6 +426,8 @@ export default {
       this.form.registration = res.registration_date
       this.form.expired = res.expired_date
       this.form.deleted_at = res.deleted_at
+      this.form.url = res.url
+      this.form.showed.selected = res.showed
       this.form.file.current_value = null
       this.form.file.current_value = []
 
@@ -651,6 +687,8 @@ export default {
         formData.append('content', this.form.content)
         formData.append('registration_date', this.form.registration)
         formData.append('expired_date', this.form.expired)
+        formData.append('url', this.form.url)
+        formData.append('showed', this.form.showed.selected)
 
         if (this.form.image.value != '' || this.form.image.value != null) {
           formData.append('image', this.form.image.value)
@@ -669,8 +707,6 @@ export default {
           url = `${this.baseurl}/superadmin/event`
         } else if (this.auth.user.rule_id == 2) {
           url = `${this.baseurl}/admin/event`
-        } else {
-          url = `${this.baseurl}/employee/event`
         }
 
         const config = {
