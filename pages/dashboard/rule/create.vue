@@ -6,11 +6,11 @@
         <span>Kembali</span>
       </b-button>
       <div class="title mt-3">
-        <h3>Ubah Pengguna</h3>
+        <h3>Buat Pengguna</h3>
       </div>
     </div>
     <div class="container">
-      <FormsEditUser />
+      <FormsCreateUser />
     </div>
   </div>
 </template>

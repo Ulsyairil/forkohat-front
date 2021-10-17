@@ -64,6 +64,7 @@ export default {
       },
       theme: 'mermaid',
       columns: [
+        'ID',
         'Nama',
         'Email',
         {
@@ -109,6 +110,7 @@ export default {
         },
         then: (data) =>
           data.map((user) => [
+            user.id,
             user.name,
             user.email,
             user.created_at,
