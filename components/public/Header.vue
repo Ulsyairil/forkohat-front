@@ -77,6 +77,15 @@
               tag="a"
               active-class="active-link"
               class="nav-link text-primary"
+              to="/tatanan"
+              >Tatanan</nuxt-link
+            >
+          </li>
+          <li class="nav-item">
+            <nuxt-link
+              tag="a"
+              active-class="active-link"
+              class="nav-link text-primary"
               to="/events"
               >Kegiatan</nuxt-link
             >
