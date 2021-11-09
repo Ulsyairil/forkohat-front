@@ -12,13 +12,13 @@
     <b-col class="mt-5" v-if="orders.data.length > 0">
       <div class="row">
         <div
-          class="col-md-6 mt-4 border orders"
+          class="col-md-6 mt-4"
           v-for="(value, index) in orders.data"
           :key="index"
           @click="openOrders(value.id)"
         >
           <div
-            class="row no-gutters mb-2"
+            class="row no-gutters h-100 orders mb-2 border"
             style="cursor: pointer"
           >
             <div class="col-md-3">
