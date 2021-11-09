@@ -15,20 +15,27 @@
           class="col-md-6 mt-4"
           v-for="(value, index) in orders.data"
           :key="index"
+          @click="openOrders(value.id)"
         >
           <div
-            class="flex-column align-items-start ml-2 mr-2 mt-3 orders p-2"
-            @click="openOrders(value.id)"
-            style="cursor: pointer;"
+            class="row no-gutters h-100 orders mb-2 border"
+            style="cursor: pointer"
           >
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-4">{{ value.name }}</h5>
+            <div class="col-md-3">
+              <img
+                fluid=""
+                :src="`/images/tatanan-${index+1}.png`"
+                alt="Image"
+                class="rounded-0 img-responsive card-img m-2 p-3"
+              />
             </div>
-
-            <div class="">
-              <p class="">
-                {{ value.description }}
-              </p>
+            <div class="col-md-9 mt-3">
+              <div class="card-body pt-0 author-mobile">
+                <h4 class="card-name">{{ value.name }}</h4>
+                <p>
+                  {{ value.description }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
