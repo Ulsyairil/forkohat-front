@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5 mt-4">
     <div class="text-center">
-      <h2>Event</h2>
+      <h2>Kegiatan</h2>
       <hr style="height: 5px; width: 100px" class="bg-azure" />
     </div>
     <div class="mb-3 mt-5">

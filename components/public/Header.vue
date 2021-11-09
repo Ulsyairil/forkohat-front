@@ -18,14 +18,58 @@
 
       <b-collapse is-nav>
         <ul class="navbar-nav nav-pills">
+          <li
+            :class="`nav-item dropdown ${this.homeDropdown}`"
+            @mouseover="menuDropdown(true)"
+            @mouseleave="menuDropdown(false)"
+          >
+            <a
+              :class="`nav-link text-primary dropdown-toggle ${activeLink()}`"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-expanded="true"
+            >
+              Beranda
+            </a>
+            <div
+              :class="`dropdown-menu ${this.homeDropdown}`"
+              aria-labelledby="navbarDropdown"
+            >
+              <nuxt-link
+                tag="a"
+                active-class="active-link"
+                class="dropdown-item text-primary"
+                to="/"
+                exact
+                >Beranda</nuxt-link
+              >
+              <nuxt-link
+                tag="a"
+                active-class="active-link"
+                class="dropdown-item text-primary"
+                to="/visi&misi"
+                exact
+                >Visi & Misi</nuxt-link
+              >
+              <nuxt-link
+                tag="a"
+                active-class="active-link"
+                class="dropdown-item text-primary"
+                to="/struktur-organisasi"
+                exact
+                >Struktur Organisasi</nuxt-link
+              >
+            </div>
+          </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
               active-class="active-link"
               class="nav-link text-primary"
-              to="/"
-              exact
-              >Beranda</nuxt-link
+              to="/programs"
+              >Program</nuxt-link
             >
           </li>
           <li class="nav-item">
@@ -34,7 +78,7 @@
               active-class="active-link"
               class="nav-link text-primary"
               to="/events"
-              >Event</nuxt-link
+              >Kegiatan</nuxt-link
             >
           </li>
           <li class="nav-item">
@@ -53,15 +97,6 @@
               class="nav-link text-primary"
               to="/faqs"
               >FAQ</nuxt-link
-            >
-          </li>
-          <li class="nav-item">
-            <nuxt-link
-              tag="a"
-              active-class="active-link"
-              class="nav-link text-primary"
-              to="/programs"
-              >Program</nuxt-link
             >
           </li>
         </ul>
@@ -121,6 +156,7 @@ import initials from 'initials'
 export default {
   data() {
     return {
+      homeDropdown: '',
       baseurl: this.$config.baseurl,
       auth: {
         token: this.$auth.$storage.getCookie('token'),
@@ -129,35 +165,30 @@ export default {
       toggle_button: null,
     }
   },
-  mounted() {
-    //console.log(this.auth.user.rule_id)
-    // let theme = this.$auth.$storage.getLocalStorage('theme')
-    // let body = document.querySelector('body')
-    // let sidebar = document.getElementById('sidebar')
-    // let footer = document.querySelector('footer')
-    // if (theme === null) {
-    //   this.$auth.$storage.setLocalStorage('theme', 'light')
-    // }
-    // if (theme === 'light') {
-    //   body.className = 'light-mode'
-    //   navbar.classList.replace('navbar-dark', 'navbar-light')
-    //   navbar.classList.replace('bg-dark', 'bg-light')
-    //   sidebar.classList.replace('bg-dark', 'bg-light')
-    //   sidebar.classList.replace('text-light', 'text-dark')
-    //   footer.classList.replace('bg-dark', 'bg-light')
-    //   this.toggle_button = false
-    // }
-    // if (theme === 'dark') {
-    //   body.className = 'dark-mode'
-    //   navbar.classList.replace('navbar-light', 'navbar-dark')
-    //   navbar.classList.replace('bg-light', 'bg-dark')
-    //   sidebar.classList.replace('bg-light', 'bg-dark')
-    //   sidebar.classList.replace('text-dark', 'text-light')
-    //   footer.classList.replace('text-dark', 'text-light')
-    //   this.toggle_button = true
-    // }
-  },
+  mounted() {},
   methods: {
+    menuDropdown(boolean) {
+      if (boolean == true) {
+        return (this.homeDropdown = 'show')
+      } else {
+        return (this.homeDropdown = '')
+      }
+    },
+    activeLink() {
+      switch (this.$route.fullPath) {
+        case '/':
+          return 'active-link'
+          break
+
+        case '/visi&misi':
+          return 'active-link'
+          break
+
+        case '/struktur-organisasi':
+          return 'active-link'
+          break
+      }
+    },
     async logoutButton() {
       try {
         $.LoadingOverlay('show')
@@ -183,31 +214,6 @@ export default {
     initialName() {
       return initials(this.auth.user.name)
     },
-    // toggleBgMode() {
-    //   let body = document.querySelector('body')
-    //   let sidebar = document.getElementById('sidebar')
-    //   let navbar = document.getElementById('navbar')
-    //   let footer = document.querySelector('footer')
-    //   if (body.className == 'light-mode') {
-    //     body.className = 'dark-mode'
-    //     navbar.classList.replace('navbar-light', 'navbar-dark')
-    //     navbar.classList.replace('bg-light', 'bg-dark')
-    //     sidebar.classList.replace('bg-light', 'bg-dark')
-    //     sidebar.classList.replace('text-dark', 'text-light')
-    //     footer.classList.replace('bg-light', 'bg-dark')
-    //     this.toggle_button = true
-    //     this.$auth.$storage.setLocalStorage('theme', 'dark')
-    //   } else {
-    //     body.className = 'light-mode'
-    //     navbar.classList.replace('navbar-dark', 'navbar-light')
-    //     navbar.classList.replace('bg-dark', 'bg-light')
-    //     sidebar.classList.replace('bg-dark', 'bg-light')
-    //     sidebar.classList.replace('text-light', 'text-dark')
-    //     footer.classList.replace('bg-dark', 'bg-light')
-    //     this.toggle_button = false
-    //     this.$auth.$storage.setLocalStorage('theme', 'light')
-    //   }
-    // },
   },
 }
 </script>

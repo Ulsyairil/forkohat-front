@@ -14,14 +14,51 @@
     <div class="px-3 py-2">
       <div>
         <ul class="nav nav-pills flex-column">
+          <li class="nav-item dropdown">
+            <a
+              :class="`nav-link text-primary dropdown-toggle ${activeLink()}`"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-expanded="true"
+            >
+              Beranda
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <nuxt-link
+                tag="a"
+                active-class="active-link"
+                class="dropdown-item text-primary"
+                to="/"
+                exact
+                >Beranda</nuxt-link
+              >
+              <nuxt-link
+                tag="a"
+                active-class="active-link"
+                class="dropdown-item text-primary"
+                to="/visi&misi"
+                exact
+                >Visi & Misi</nuxt-link
+              >
+              <nuxt-link
+                tag="a"
+                active-class="active-link"
+                class="dropdown-item text-primary"
+                to="/struktur-organisasi"
+                exact
+                >Struktur Organisasi</nuxt-link
+              >
+            </div>
+          </li>
           <li class="nav-item">
             <nuxt-link
               tag="a"
               active-class="active-link"
               class="nav-link"
-              to="/"
-              exact
-              >Beranda</nuxt-link
+              to="/programs"
+              >Program</nuxt-link
             >
           </li>
           <li class="nav-item">
@@ -30,7 +67,7 @@
               active-class="active-link"
               class="nav-link"
               to="/events"
-              >Event</nuxt-link
+              >Kegiatan</nuxt-link
             >
           </li>
           <li class="nav-item">
@@ -49,15 +86,6 @@
               class="nav-link"
               to="/faqs"
               >FAQ</nuxt-link
-            >
-          </li>
-          <li class="nav-item">
-            <nuxt-link
-              tag="a"
-              active-class="active-link"
-              class="nav-link"
-              to="/programs"
-              >Program</nuxt-link
             >
           </li>
         </ul>
@@ -89,6 +117,21 @@ export default {
     this.checkWidth()
   },
   methods: {
+    activeLink() {
+      switch (this.$route.fullPath) {
+        case '/':
+          'active-link'
+          break
+
+        case '/visi&misi':
+          'active-link'
+          break
+
+        case '/struktur-organisasi':
+          'active-link'
+          break
+      }
+    },
     checkWidth() {
       var width = window.innerWidth > 0 ? window.innerWidth : screen.width
 
