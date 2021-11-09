@@ -3,14 +3,14 @@
     <div v-if="news.data.length > 0">
       <b-row class="p-4">
         <b-col md="4" v-for="(value, index) in news.data" :key="index">
-          <div class="card shadow mt-5">
+          <div class="card h-100 shadow mt-2">
             <img
               class="card-img-top img-responsive img-fluid"
               :src="domain + value.newsFiles[0].url"
               img-alt="events Banner"
-              style="max-width: 100%; height: 200px"
+              style="max-width: 100%; height: 230px"
             />
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
               <span class="small" style="color: #e71e1e">{{
                 value.created_at
               }}</span>
@@ -20,10 +20,13 @@
               >
                 {{ value.title }}
               </h5>
-              <p class="card-text small text-secondary d-none d-md-block">
-                {{ value.content.substring(0, 200) + '.....' }}
-              </p>
-              <a class="btn btn-primary" @click="moreButton(value.id)">
+
+              <div
+                class="card-text small text-secondary d-none d-md-block"
+                v-html="value.content.substring(0, 200) + '<p>. . . . . </p>'"
+              ></div>
+
+              <a class="btn btn-primary mt-auto" @click="moreButton(value.id)">
                 Selengkapnya
               </a>
             </div>

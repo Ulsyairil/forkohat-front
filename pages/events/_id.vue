@@ -14,9 +14,11 @@
           {{ event.name }}
         </h4>
 
-        <p class="text-justify mt-5">
-          {{ event.content }}
-        </p>
+        <div class="text-justify mt-5 with-breaks" v-html="event.content"></div>
+        <a href="javascript:void(0)" @click="$router.back()">
+          <font-awesome-icon icon="arrow-left" />
+          Kembali
+        </a>
       </b-col>
       <b-col md="9" class="text-right">
         <span class="mdall" style="color: #0e49b5"

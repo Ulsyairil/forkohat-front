@@ -24,16 +24,16 @@
     </div>
 
     <div v-if="news.data.length > 0">
-      <div class="card-deck row">
+      <div class="row">
         <div class="col-md-4" v-for="(value, index) in news.data" :key="index">
-          <div class="card shadow mt-5">
+          <div class="card shadow h-100 mt-5">
             <img
               class="card-img-top img-responsive img-fluid"
               :src="domain + value.newsFiles[0].url"
               img-alt="events Banner"
-              style="max-width: 100%; height: 200px"
+              style="max-width: 100%; height: 230px"
             />
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
               <span class="small" style="color: #e71e1e">{{
                 value.created_at
               }}</span>
@@ -43,27 +43,29 @@
               >
                 {{ value.title }}
               </h5>
-              <p class="card-text small text-secondary d-none d-md-block">
-                {{ value.content.substring(0, 200) + '.....' }}
-              </p>
-              <a class="btn btn-primary" @click="moreButton(value.id)">
+              <div
+                class="card-text small text-secondary d-none d-md-block"
+                v-html="value.content.substring(0, 200) + '<p>. . . . . </p>'"
+              ></div>
+              <a class="btn btn-primary mt-auto" @click="moreButton(value.id)">
                 Selengkapnya
               </a>
             </div>
           </div>
         </div>
+        <div class="col-md-12 mt-5">
+          <b-pagination-nav
+            class="mt-5"
+            :link-gen="linkGen"
+            :number-of-pages="news.pages"
+            align="center"
+            v-model="news.currentPage"
+            @input="changePage()"
+            use-router
+            pills
+          ></b-pagination-nav>
+        </div>
       </div>
-
-      <b-pagination-nav
-        class="mt-5"
-        :link-gen="linkGen"
-        :number-of-pages="news.pages"
-        align="center"
-        v-model="news.currentPage"
-        @input="changePage()"
-        use-router
-        pills
-      ></b-pagination-nav>
     </div>
 
     <div v-if="news.data.length == 0">
