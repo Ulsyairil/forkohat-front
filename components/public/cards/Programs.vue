@@ -14,131 +14,139 @@
           >
             <div v-if="index % 2 != 0">
               <!-- Desktop -->
-              <div class="d-none d-md-block">
-                <b-row class="mt-2 mb-2" no-gutters>
-                  <b-col md="3" align-self="center" class="text-center">
-                    <b-card-img
-                      :src="domain + value.programFiles[0].url"
-                      alt="Image"
-                      class="p-2 rounded-0"
-                      style="
-                        max-height: 200px !important;
-                        max-width: 180px !important;
-                      "
-                    ></b-card-img>
-                  </b-col>
-                  <b-col md="9">
-                    <b-card-body :title="value.name">
-                      <b-card-text>
-                        {{ value.description }}
-                      </b-card-text>
-                      <b-button
-                        type="button"
-                        variant="primary"
-                        @click="orderProgram(value.id)"
-                      >
-                        Lihat Tatanan
-                        <font-awesome-icon icon="arrow-right" />
-                      </b-button>
-                    </b-card-body>
-                  </b-col>
-                </b-row>
+              <div v-if="value.id != 7">
+                <div class="d-none d-md-block">
+                  <b-row class="mt-2 mb-2" no-gutters>
+                    <b-col md="3" align-self="center" class="text-center">
+                      <b-card-img
+                        :src="domain + value.programFiles[0].url"
+                        alt="Image"
+                        class="p-2 rounded-0"
+                        style="
+                          max-height: 200px !important;
+                          max-width: 180px !important;
+                        "
+                      ></b-card-img>
+                    </b-col>
+                    <b-col md="9">
+                      <b-card-body :title="value.name">
+                        <b-card-text>
+                          {{ value.description }}
+                        </b-card-text>
+                        <b-button
+                          type="button"
+                          variant="primary"
+                          @click="orderProgram(value.id)"
+                        >
+                          Lihat Tatanan
+                          <font-awesome-icon icon="arrow-right" />
+                        </b-button>
+                      </b-card-body>
+                    </b-col>
+                  </b-row>
+                </div>
               </div>
 
               <!-- Mobile -->
-              <div class="d-md-none">
-                <b-row class="mt-2 mb-2" no-gutters>
-                  <b-col align-self="center">
-                    <b-card-img
-                      :src="domain + value.programFiles[0].url"
-                      alt="Image"
-                      class="p-2 rounded-0"
-                      style="
-                        max-height: 200px !important;
-                        max-width: 180px !important;
-                      "
-                    ></b-card-img>
-                  </b-col>
-                  <b-col align-self="center">
-                    <b-card-body :title="value.name">
-                      <b-button
-                        type="button"
-                        variant="primary"
-                        @click="orderProgram(value.id)"
-                      >
-                        Lihat Tatanan
-                        <font-awesome-icon icon="arrow-right" />
-                      </b-button>
-                    </b-card-body>
-                  </b-col>
-                </b-row>
+              <div v-if="value.id != 7">
+                <div class="d-md-none">
+                  <b-row class="mt-2 mb-2" no-gutters>
+                    <b-col align-self="center">
+                      <b-card-img
+                        :src="domain + value.programFiles[0].url"
+                        alt="Image"
+                        class="p-2 rounded-0"
+                        style="
+                          max-height: 200px !important;
+                          max-width: 180px !important;
+                        "
+                      ></b-card-img>
+                    </b-col>
+                    <b-col align-self="center">
+                      <b-card-body :title="value.name">
+                        <b-button
+                          type="button"
+                          variant="primary"
+                          @click="orderProgram(value.id)"
+                        >
+                          Lihat Tatanan
+                          <font-awesome-icon icon="arrow-right" />
+                        </b-button>
+                      </b-card-body>
+                    </b-col>
+                  </b-row>
+                </div>
               </div>
             </div>
 
             <div v-if="index % 2 == 0">
               <!-- Desktop -->
-              <div class="d-none d-md-block">
-                <b-row class="mt-2 mb-2" no-gutters>
-                  <b-col md="9">
-                    <b-card-body :title="value.name">
-                      <b-card-text>
-                        {{ value.description }}
-                      </b-card-text>
-                      <b-button
-                        type="button"
-                        variant="primary"
-                        @click="orderProgram(value.id)"
-                      >
-                        Lihat Tatanan
-                        <font-awesome-icon icon="arrow-right" />
-                      </b-button>
-                    </b-card-body>
-                  </b-col>
-                  <b-col md="3" align-self="center" class="text-center">
-                    <b-card-img
-                      :src="domain + value.programFiles[0].url"
-                      alt="Image"
-                      class="p-2 rounded-0"
-                      style="
-                        max-height: 300px !important;
-                        max-width: 200px !important;
-                      "
-                    ></b-card-img>
-                  </b-col>
-                </b-row>
+              <div v-if="value.id != 7">
+                <div class="d-none d-md-block">
+                  <b-row class="mt-2 mb-2" no-gutters>
+                    <b-col md="9">
+                      <b-card-body :title="value.name">
+                        <b-card-text>
+                          {{ value.description }}
+                        </b-card-text>
+                        <b-button
+                          type="button"
+                          variant="primary"
+                          @click="orderProgram(value.id)"
+                        >
+                          Lihat Tatanan
+                          <font-awesome-icon icon="arrow-right" />
+                        </b-button>
+                      </b-card-body>
+                    </b-col>
+                    <b-col md="3" align-self="center" class="text-center">
+                      <b-card-img
+                        :src="domain + value.programFiles[0].url"
+                        alt="Image"
+                        class="p-2 rounded-0"
+                        style="
+                          max-height: 300px !important;
+                          max-width: 200px !important;
+                        "
+                      ></b-card-img>
+                    </b-col>
+                  </b-row>
+                </div>
               </div>
 
               <!-- Mobile -->
-              <div class="d-md-none">
-                <b-row
-                  class="mt-2 mb-2"
-                  no-gutters
-                  @click="orderProgram(value.id)"
-                >
-                  <b-col align-self="center">
-                    <b-card-img
-                      :src="domain + value.programFiles[0].url"
-                      alt="Image"
-                      class="p-2 rounded-0"
-                      style="
-                        max-height: 200px !important;
-                        max-width: 180px !important;
-                      "
-                    ></b-card-img>
-                  </b-col>
-                  <b-col align-self="center">
-                    <b-card-body :title="value.name">
-                      <b-button
-                        type="button"
-                        variant="primary"
-                        @click="orderProgram(value.id)"
-                      >
-                        Lihat Tatanan
-                        <font-awesome-icon icon="arrow-right" />
-                      </b-button>
-                    </b-card-body>
-                  </b-col>
-                </b-row>
+              <div v-if="value.id != 7">
+                <div class="d-md-none">
+                  <b-row
+                    class="mt-2 mb-2"
+                    no-gutters
+                    @click="orderProgram(value.id)"
+                  >
+                    <b-col align-self="center">
+                      <b-card-img
+                        :src="domain + value.programFiles[0].url"
+                        alt="Image"
+                        class="p-2 rounded-0"
+                        style="
+                          max-height: 200px !important;
+                          max-width: 180px !important;
+                        "
+                      ></b-card-img>
+                    </b-col>
+                    <b-col align-self="center">
+                      <b-card-body :title="value.name">
+                        <b-button
+                          type="button"
+                          variant="primary"
+                          @click="orderProgram(value.id)"
+                        >
+                          Lihat Tatanan
+                          <font-awesome-icon icon="arrow-right" />
+                        </b-button>
+                      </b-card-body>
+                    </b-col>
+                  </b-row>
+                </div>
               </div>
             </div>
           </div>
