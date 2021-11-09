@@ -178,8 +178,10 @@ export default {
 
   // Public env variable
   publicRuntimeConfig: {
-    baseurl: 'http://127.0.0.1:3333/api/v1',
-    domain: 'http://127.0.0.1:3333',
+    // baseurl: 'http://127.0.0.1:3333/api/v1',
+    // domain: 'http://127.0.0.1:3333',
+    baseurl: 'http://103.144.82.125/dev/api/v1',
+    domain: 'http://103.144.82.125/dev/',
     // baseurl: 'http://192.168.1.2:3333/api/v1',
     // domain: 'http://192.168.1.2:3333',
     // baseurl: 'https://apiforkohat.balikpapanpedia.com/api/v1',
