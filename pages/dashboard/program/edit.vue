@@ -14,7 +14,14 @@
       </ul>
     </nav>
 
-    <div class="mt-2">
+    <div class="mt-2 d-flex">
+      <a
+        href="javascript:void(0)"
+        class="align-self-center mr-2"
+        @click="previousPage()"
+      >
+        <em class="icon ni ni-chevron-left-circle" style="font-size: 30px"></em>
+      </a>
       <h3 class="text-black-50">Ubah Program</h3>
     </div>
 
@@ -23,9 +30,8 @@
     <img
       src="https://via.placeholder.com/150"
       alt="current-program-picture"
-      class="rounded"
+      class="rounded zoom"
       style="height: auto; max-width: 300px !important"
-      data-zoomable
     />
 
     <form id="add-program-form" class="mt-3" @submit.prevent="submitForm()">
@@ -59,7 +65,7 @@
       <img
         :src="form.previewImage"
         alt="program-picture"
-        class="rounded"
+        class="rounded zoom"
         style="height: auto; max-width: 300px !important"
       />
 
@@ -72,7 +78,7 @@
           Unggah Logo Program
         </label>
         <div class="form-control-wrap">
-          <div class="custom-file">
+          <div class="custom-file" style="z-index: 0">
             <input
               type="file"
               class="custom-file-input"
@@ -99,7 +105,7 @@ import Validation from '../../../helpers/form-validation'
 export default {
   layout: 'dashboard',
   head: {
-    title: 'Ubah Program | Dashbor Balikpapan',
+    title: 'Ubah Program | Dasbor',
   },
   data() {
     return {
@@ -113,13 +119,13 @@ export default {
     }
   },
   mounted() {
-    // Validating form using html
+    // Validating Form
     Validation('add-program-form')
-
-    // Using for zoom image
-    mediumZoom(document.querySelectorAll('[data-zoomable]'))
   },
   methods: {
+    previousPage() {
+      this.$router.go(-1)
+    },
     deleteImage() {
       this.form.imageError = ''
       this.form.image = null

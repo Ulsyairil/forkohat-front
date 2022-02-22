@@ -8,8 +8,15 @@
         <li class="breadcrumb-item">
           <NuxtLink to="/dashboard/program">Program</NuxtLink>
         </li>
+        <li class="breadcrumb-item">
+          <NuxtLink
+            :to="`/dashboard/program/tatanan?program_id=${this.$route.query.program_id}`"
+          >
+            Tatanan
+          </NuxtLink>
+        </li>
         <li class="breadcrumb-item active">
-          <a href="javascript:void(0)">Tatanan</a>
+          <a href="javascript:void(0)">Kegiatan</a>
         </li>
       </ul>
     </nav>
@@ -22,35 +29,36 @@
       >
         <em class="icon ni ni-chevron-left-circle" style="font-size: 30px"></em>
       </a>
-      <h3 class="text-black-50">Tatanan</h3>
+      <h3 class="text-black-50">Kegiatan</h3>
     </div>
 
     <hr class="divider" />
 
     <NuxtLink
-      :to="`/dashboard/program/tatanan/add?program_id=${this.$route.query.program_id}`"
+      :to="`/dashboard/program/tatanan/kegiatan/add?program_id=${this.$route.query.program_id}&tatanan_id=${this.$route.query.tatanan_id}`"
       class="btn btn-primary mb-3"
     >
-      Buat Tatanan
+      Tambah Kegiatan
     </NuxtLink>
 
     <div class="row">
-      <div class="col-md-4">
-        <div class="form-group">
-          <div class="form-control-wrap">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text">
-                  <em class="icon ni ni-search"></em>
-                </span>
-              </div>
-              <input type="text" class="form-control" placeholder="Cari" />
+      <div class="col-md-3">
+        <div class="form-group m-2">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <em class="icon ni ni-account-setting"></em>
+              </span>
             </div>
+            <select class="form-control">
+              <option value="public" selected>Publik</option>
+              <option value="member">Member</option>
+            </select>
           </div>
         </div>
       </div>
-      <div class="col-md-3 mt-2 mt-md-0">
-        <div class="form-group">
+      <div class="col-md-3">
+        <div class="form-group m-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -64,8 +72,8 @@
           </div>
         </div>
       </div>
-      <div class="col-md-2 mt-2 mt-md-0">
-        <div class="form-group">
+      <div class="col-md-3">
+        <div class="form-group m-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -81,8 +89,8 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3 mt-2 mt-md-0">
-        <div class="form-group">
+      <div class="col-md-3">
+        <div class="form-group m-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
@@ -93,6 +101,20 @@
               <option value="false" selected>Tidak</option>
               <option value="true">Ya</option>
             </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="form-group m-2">
+          <div class="form-control-wrap">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <em class="icon ni ni-search"></em>
+                </span>
+              </div>
+              <input type="text" class="form-control" placeholder="Cari" />
+            </div>
           </div>
         </div>
       </div>
@@ -117,33 +139,33 @@
             <div>
               <NuxtLink
                 class="btn btn-sm btn-primary"
-                :to="`/dashboard/program/tatanan/edit?id=${
+                :to="`/dashboard/program/tatanan/kegiatan/edit?id=${
                   index + 1
-                }&program_id=${$route.query.program_id}`"
+                }&program_id=${$route.query.program_id}&tatanan_id=${
+                  $route.query.tatanan_id
+                }`"
               >
                 <em class="icon ni ni-edit"></em>
               </NuxtLink>
+              <button type="button" class="btn btn-sm btn-warning">
+                <em class="icon ni ni-trash"></em>
+              </button>
               <button type="button" class="btn btn-sm btn-danger">
                 <em class="icon ni ni-cross-round"></em>
               </button>
-            </div>
-            <div class="mt-2">
-              <NuxtLink
-                class="btn btn-sm btn-primary"
-                :to="`/dashboard/program/tatanan/isi?program_id=${
-                  $route.query.program_id
-                }&tatanan_id=${index + 1}`"
-              >
-                Isi Tatanan
-              </NuxtLink>
-              <NuxtLink
-                class="btn btn-sm btn-primary"
-                :to="`/dashboard/program/tatanan/kegiatan?program_id=${
-                  $route.query.program_id
-                }&tatanan_id=${index + 1}`"
-              >
-                Kegiatan
-              </NuxtLink>
+
+              <div class="mt-2">
+                <NuxtLink
+                  class="btn btn-sm btn-primary"
+                  :to="`/dashboard/program/tatanan/kegiatan/berkas?program_id=${
+                    $route.query.program_id
+                  }&tatanan_id=${$route.query.tatanan_id}&kegiatan_id=${
+                    index + 1
+                  }`"
+                >
+                  Berkas / Gambar
+                </NuxtLink>
+              </div>
             </div>
           </div>
         </div>
@@ -155,7 +177,7 @@
         <li :class="`page-item ${activePage(1)}`">
           <NuxtLink
             class="page-link disabled"
-            :to="`?program_id=${this.$route.query.program_id}`"
+            :to="`?program_id=${this.$route.query.program_id}&tatanan_id=${this.$route.query.tatanan_id}`"
           >
             1
           </NuxtLink>
@@ -163,7 +185,7 @@
         <li :class="`page-item ${activePage(2)}`">
           <NuxtLink
             class="page-link disabled"
-            :to="`?program_id=${this.$route.query.program_id}&page=2`"
+            :to="`?program_id=${this.$route.query.program_id}&tatanan_id=${this.$route.query.tatanan_id}&page=2`"
           >
             2
           </NuxtLink>
@@ -171,7 +193,7 @@
         <li :class="`page-item ${activePage(3)}`">
           <NuxtLink
             class="page-link disabled"
-            :to="`?program_id=${this.$route.query.program_id}&page=3`"
+            :to="`?program_id=${this.$route.query.program_id}&tatanan_id=${this.$route.query.tatanan_id}&page=3`"
           >
             3
           </NuxtLink>
@@ -185,33 +207,33 @@
 export default {
   layout: 'dashboard',
   head: {
-    title: 'Tatanan | Dasbor',
+    title: 'Kegiatan | Dasbor',
   },
   data() {
     return {
       arrangements: [
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Minim culpa labore aliquip velit non elit fugiat magna.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Minim culpa labore aliquip velit non elit fugiat magna.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Minim culpa labore aliquip velit non elit fugiat magna.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Minim culpa labore aliquip velit non elit fugiat magna.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Minim culpa labore aliquip velit non elit fugiat magna.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Minim culpa labore aliquip velit non elit fugiat magna.',
           image: 'https://via.placeholder.com/150',
         },
       ],

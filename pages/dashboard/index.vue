@@ -16,7 +16,7 @@
 export default {
   layout: 'dashboard',
   head: {
-    title: 'Beranda | Dasbor Forkohat',
+    title: 'Beranda | Dasbor',
   },
 }
 </script>

@@ -6,14 +6,7 @@
           <a href="/dashboard">Beranda</a>
         </li>
         <li class="breadcrumb-item">
-          <NuxtLink to="/dashboard/program">Program</NuxtLink>
-        </li>
-        <li class="breadcrumb-item">
-          <NuxtLink
-            :to="`/dashboard/program/tatanan?program_id=${this.$route.query.program_id}`"
-          >
-            Tatanan
-          </NuxtLink>
+          <NuxtLink to="/dashboard/berita">Berita</NuxtLink>
         </li>
         <li class="breadcrumb-item active">
           <a href="javascript:void(0)">Tambah</a>
@@ -29,7 +22,7 @@
       >
         <em class="icon ni ni-chevron-left-circle" style="font-size: 30px"></em>
       </a>
-      <h3 class="text-black-50">Tambah Tatanan</h3>
+      <h3 class="text-black-50">Tambah Berita</h3>
     </div>
 
     <hr class="divider" />
@@ -37,7 +30,7 @@
     <form id="add-arrangement-form" @submit.prevent="submitForm()">
       <div class="form-group">
         <label class="form-label" for="title">
-          Nama Tatanan
+          Judul Berita
           <span class="text-danger">*</span>
         </label>
         <div class="form-control-wrap">
@@ -53,13 +46,12 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label" for="description">
-          Deskripsi Singkat Tatanan
+      <div class="mb-2">
+        <label class="form-label">
+          Tajuk Berita
+          <span class="text-danger">*</span>
         </label>
-        <div class="form-control-wrap">
-          <textarea class="form-control" id="description"></textarea>
-        </div>
+        <div id="description-editor" class="bg-white"></div>
       </div>
 
       <img
@@ -76,7 +68,7 @@
 
       <div class="form-group mt-3">
         <label class="form-label" for="upload-image">
-          Unggah Logo Tatanan
+          Unggah Gambar Berita
           <span class="text-danger">*</span>
         </label>
         <div class="form-control-wrap">
@@ -91,7 +83,7 @@
               data-pristine-required-message="Gambar Harus Diunggah"
             />
             <label class="custom-file-label" for="upload-image">
-              Unggah Logo
+              Unggah Gambar
             </label>
           </div>
         </div>
@@ -104,8 +96,9 @@
 </template>
 
 <script>
-import Validation from '../../../../helpers/form-validation'
+import Validation from '../../../helpers/form-validation'
 
+let quill = null
 export default {
   layout: 'dashboard',
   head: {
@@ -124,6 +117,11 @@ export default {
   },
   mounted() {
     Validation('add-arrangement-form')
+
+    // Init quill editor
+    quill = new Quill('#description-editor', {
+      theme: 'snow',
+    })
   },
   methods: {
     previousPage() {

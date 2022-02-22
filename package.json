@@ -11,11 +11,16 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
+    "agent-base": "^6.0.2",
+    "bootstrap-vue": "^2.21.2",
     "core-js": "^3.15.1",
     "jquery": "^3.6.0",
+    "medium-zoom": "^1.0.6",
     "moment": "^2.29.1",
     "nuxt": "^2.15.7",
-    "terser": "^5.9.0"
+    "open": "^8.4.0",
+    "terser": "^5.9.0",
+    "vue-file-agent": "^1.7.3"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-methods": "^7.16.0",

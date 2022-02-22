@@ -5,11 +5,8 @@
         <li class="breadcrumb-item">
           <NuxtLink to="/dashboard">Beranda</NuxtLink>
         </li>
-        <li class="breadcrumb-item">
-          <NuxtLink to="/dashboard/program">Program</NuxtLink>
-        </li>
         <li class="breadcrumb-item active">
-          <a href="javascript:void(0)">Tatanan</a>
+          <a href="javascript:void(0)">Berita</a>
         </li>
       </ul>
     </nav>
@@ -22,16 +19,13 @@
       >
         <em class="icon ni ni-chevron-left-circle" style="font-size: 30px"></em>
       </a>
-      <h3 class="text-black-50">Tatanan</h3>
+      <h3 class="text-black-50">Berita</h3>
     </div>
 
     <hr class="divider" />
 
-    <NuxtLink
-      :to="`/dashboard/program/tatanan/add?program_id=${this.$route.query.program_id}`"
-      class="btn btn-primary mb-3"
-    >
-      Buat Tatanan
+    <NuxtLink to="/dashboard/berita/add" class="btn btn-primary mb-3">
+      Buat Berita
     </NuxtLink>
 
     <div class="row">
@@ -49,6 +43,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-md-3 mt-2 mt-md-0">
         <div class="form-group">
           <div class="input-group">
@@ -64,6 +59,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-md-2 mt-2 mt-md-0">
         <div class="form-group">
           <div class="input-group">
@@ -81,6 +77,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-md-3 mt-2 mt-md-0">
         <div class="form-group">
           <div class="input-group">
@@ -99,12 +96,8 @@
     </div>
 
     <div class="row mt-2">
-      <div
-        class="col-md-4 d-flex"
-        v-for="(value, index) in arrangements"
-        :key="index"
-      >
-        <div class="card card-bordered text-black-50 m-2 flex-fill">
+      <div class="col-md-4" v-for="(value, index) in news" :key="index">
+        <div class="card card-bordered text-black-50 m-2">
           <div class="text-center mt-4">
             <img
               :src="value.image"
@@ -117,33 +110,13 @@
             <div>
               <NuxtLink
                 class="btn btn-sm btn-primary"
-                :to="`/dashboard/program/tatanan/edit?id=${
-                  index + 1
-                }&program_id=${$route.query.program_id}`"
+                :to="`/dashboard/berita/edit?id=${index + 1}`"
               >
                 <em class="icon ni ni-edit"></em>
               </NuxtLink>
               <button type="button" class="btn btn-sm btn-danger">
                 <em class="icon ni ni-cross-round"></em>
               </button>
-            </div>
-            <div class="mt-2">
-              <NuxtLink
-                class="btn btn-sm btn-primary"
-                :to="`/dashboard/program/tatanan/isi?program_id=${
-                  $route.query.program_id
-                }&tatanan_id=${index + 1}`"
-              >
-                Isi Tatanan
-              </NuxtLink>
-              <NuxtLink
-                class="btn btn-sm btn-primary"
-                :to="`/dashboard/program/tatanan/kegiatan?program_id=${
-                  $route.query.program_id
-                }&tatanan_id=${index + 1}`"
-              >
-                Kegiatan
-              </NuxtLink>
             </div>
           </div>
         </div>
@@ -153,26 +126,17 @@
     <nav class="mt-3">
       <ul class="pagination justify-content-center">
         <li :class="`page-item ${activePage(1)}`">
-          <NuxtLink
-            class="page-link disabled"
-            :to="`?program_id=${this.$route.query.program_id}`"
-          >
+          <NuxtLink class="page-link disabled" to="/dashboard/berita">
             1
           </NuxtLink>
         </li>
         <li :class="`page-item ${activePage(2)}`">
-          <NuxtLink
-            class="page-link disabled"
-            :to="`?program_id=${this.$route.query.program_id}&page=2`"
-          >
+          <NuxtLink class="page-link disabled" to="/dashboard/berita?page=2">
             2
           </NuxtLink>
         </li>
         <li :class="`page-item ${activePage(3)}`">
-          <NuxtLink
-            class="page-link disabled"
-            :to="`?program_id=${this.$route.query.program_id}&page=3`"
-          >
+          <NuxtLink class="page-link disabled" to="/dashboard/berita?page=3">
             3
           </NuxtLink>
         </li>
@@ -185,33 +149,33 @@
 export default {
   layout: 'dashboard',
   head: {
-    title: 'Tatanan | Dasbor',
+    title: 'Berita | Dasbor',
   },
   data() {
     return {
-      arrangements: [
+      news: [
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Ut nisi adipisicing consectetur.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Ut nisi adipisicing consectetur.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Ut nisi adipisicing consectetur.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Ut nisi adipisicing consectetur.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Ut nisi adipisicing consectetur.',
           image: 'https://via.placeholder.com/150',
         },
         {
-          title: 'Minim consectetur reprehenderit proident ea nisi.',
+          title: 'Ut nisi adipisicing consectetur.',
           image: 'https://via.placeholder.com/150',
         },
       ],

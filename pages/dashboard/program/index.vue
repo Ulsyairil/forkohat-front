@@ -11,7 +11,14 @@
       </ul>
     </nav>
 
-    <div class="mt-2">
+    <div class="mt-2 d-flex">
+      <a
+        href="javascript:void(0)"
+        class="align-self-center mr-2"
+        @click="previousPage()"
+      >
+        <em class="icon ni ni-chevron-left-circle" style="font-size: 30px"></em>
+      </a>
       <h3 class="text-black-50">Program</h3>
     </div>
 
@@ -132,7 +139,7 @@
 export default {
   layout: 'dashboard',
   head: {
-    title: 'Program | Dashbor Balikpapan',
+    title: 'Program | Dasbor',
   },
   data() {
     return {
@@ -174,6 +181,9 @@ export default {
       if (this.$route.query.page === undefined && page === 1) {
         return 'active'
       }
+    },
+    previousPage() {
+      this.$router.go(-1)
     },
   },
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="nk-header is-light" style="z-index: 0">
+  <div class="nk-header is-light" style="z-index: 1">
     <div class="container-fluid">
       <div class="nk-header-wrap">
         <div class="nk-menu-trigger mr-sm-2 d-lg-none">
@@ -45,76 +45,82 @@
             </div>
           </div>
           <ul class="nk-menu nk-menu-main ui-s2">
-            <!-- Menu With Sub Item -->
-            <!-- <li class="nk-menu-item has-sub">
-              <a href="#" class="nk-menu-link nk-menu-toggle">
-                <span class="nk-menu-text">Dashboards</span>
+            <!-- Menu Item -->
+            <NuxtLink
+              tag="li"
+              to="/dashboard/program"
+              class="nk-menu-item"
+              active-class="active"
+            >
+              <a href="javascript:void(0)" class="nk-menu-link">
+                <span class="nk-menu-text">Program</span>
+              </a>
+            </NuxtLink>
+
+            <NuxtLink
+              tag="li"
+              to="/dashboard/berita"
+              class="nk-menu-item"
+              active-class="active"
+            >
+              <a href="javascript:void(0)" class="nk-menu-link">
+                <span class="nk-menu-text">Berita</span>
+              </a>
+            </NuxtLink>
+
+            <NuxtLink
+              tag="li"
+              class="nk-menu-item"
+              active-class="active"
+              to="/dashboard/topik"
+            >
+              <a href="javascript:void(0)" class="nk-menu-link">
+                <span class="nk-menu-text">FAQ</span>
+              </a>
+            </NuxtLink>
+
+            <NuxtLink
+              tag="li"
+              class="nk-menu-item"
+              active-class="active"
+              to="/dashboard/peran"
+            >
+              <a href="javascript:void(0)" class="nk-menu-link">
+                <span class="nk-menu-text">Peran</span>
+              </a>
+            </NuxtLink>
+
+            <li class="nk-menu-item has-sub">
+              <a href="javascript:void(0)" class="nk-menu-link nk-menu-toggle">
+                <span class="nk-menu-text">Organisasi</span>
               </a>
               <ul class="nk-menu-sub">
                 <li class="nk-menu-item">
-                  <a href="html/index.html" class="nk-menu-link">
-                    <span class="nk-menu-text">Default Dashboard</span>
+                  <a href="javascript:void(0)" class="nk-menu-link">
+                    <span class="nk-menu-text">Struktur</span>
                   </a>
                 </li>
                 <li class="nk-menu-item">
-                  <a href="html/index-sales.html" class="nk-menu-link">
-                    <span class="nk-menu-text">Sales Dashboard</span>
+                  <a href="javascript:void(0)" class="nk-menu-link">
+                    <span class="nk-menu-text">Visi</span>
                   </a>
                 </li>
                 <li class="nk-menu-item">
-                  <a href="html/index-crypto.html" class="nk-menu-link">
-                    <span class="nk-menu-text">Crypto Dashboard</span>
-                  </a>
-                </li>
-                <li class="nk-menu-item">
-                  <a href="html/index-analytics.html" class="nk-menu-link">
-                    <span class="nk-menu-text">Analytics Dashboard</span>
+                  <a href="javascript:void(0)" class="nk-menu-link">
+                    <span class="nk-menu-text">Misi</span>
                   </a>
                 </li>
               </ul>
-            </li> -->
-            <!-- End Menu With Sub Item -->
-
-            <!-- Menu Item -->
-            <li
-              :class="`nk-menu-item 
-              ${activeLink('/dashboard/program')} 
-              ${activeLink('/dashboard/program/add')}
-              ${activeLink('/dashboard/program/edit')}
-              ${activeLink('/dashboard/program/tatanan')}
-              ${activeLink('/dashboard/program/tatanan/add')}
-              ${activeLink('/dashboard/program/tatanan/edit')}
-              ${activeLink('/dashboard/program/tatanan/isi')}
-              ${activeLink('/dashboard/program/tatanan/isi/add')}
-              ${activeLink('/dashboard/program/tatanan/isi/edit')}`"
-            >
-              <NuxtLink to="/dashboard/program" class="nk-menu-link">
-                <span class="nk-menu-text">Program</span>
-              </NuxtLink>
             </li>
 
             <li class="nk-menu-item">
-              <a href="javascript:void(0)" class="nk-menu-link"
-                ><span class="nk-menu-text">Berita</span></a
+              <a
+                href="javascript:void(0)"
+                class="nk-menu-link"
+                @click="livePreview()"
               >
-            </li>
-
-            <li class="nk-menu-item">
-              <a href="javascript:void(0)" class="nk-menu-link"
-                ><span class="nk-menu-text">FAQ</span></a
-              >
-            </li>
-
-            <li class="nk-menu-item">
-              <a href="javascript:void(0)" class="nk-menu-link"
-                ><span class="nk-menu-text">Pengguna</span></a
-              >
-            </li>
-
-            <li class="nk-menu-item">
-              <a href="javascript:void(0)" class="nk-menu-link"
-                ><span class="nk-menu-text">Preview</span></a
-              >
+                <span class="nk-menu-text">Preview</span>
+              </a>
             </li>
             <!-- End Menu Item -->
           </ul>
@@ -203,9 +209,12 @@ export default {
   methods: {
     activeLink(path) {
       if (this.$route.path === path) {
-        return 'active'
+        return "active";
       }
     },
+    livePreview() {
+      window.open(this.$router.options.base, "_blank");
+    },
   },
-}
+};
 </script>

@@ -21,7 +21,14 @@
       </ul>
     </nav>
 
-    <div class="mt-2">
+    <div class="mt-2 d-flex">
+      <a
+        href="javascript:void(0)"
+        class="align-self-center mr-2"
+        @click="previousPage()"
+      >
+        <em class="icon ni ni-chevron-left-circle" style="font-size: 30px"></em>
+      </a>
       <h3 class="text-black-50">Ubah Tatanan</h3>
     </div>
 
@@ -30,9 +37,8 @@
     <img
       src="https://via.placeholder.com/150"
       alt="current-arrangement-picture"
-      class="rounded"
+      class="rounded zoom"
       style="height: auto; max-width: 300px !important"
-      data-zoomable
     />
 
     <form id="add-arrangement-form" class="mt-3" @submit.prevent="submitForm()">
@@ -66,7 +72,7 @@
       <img
         :src="form.previewImage"
         alt="arrangement-picture"
-        class="rounded"
+        class="rounded zoom"
         style="height: auto; max-width: 300px !important"
       />
 
@@ -79,7 +85,7 @@
           Unggah Logo Tatanan
         </label>
         <div class="form-control-wrap">
-          <div class="custom-file">
+          <div class="custom-file" style="z-index: 0">
             <input
               type="file"
               class="custom-file-input"
@@ -106,7 +112,7 @@ import Validation from '../../../../helpers/form-validation'
 export default {
   layout: 'dashboard',
   head: {
-    title: 'Ubah Tatanan | Dashbor Balikpapan',
+    title: 'Ubah Tatanan | Dasbor',
   },
   data() {
     return {
@@ -120,13 +126,13 @@ export default {
     }
   },
   mounted() {
-    // Validating form using html
+    // Validating Form
     Validation('add-arrangement-form')
-
-    // Using for zoom image
-    mediumZoom(document.querySelectorAll('[data-zoomable]'))
   },
   methods: {
+    previousPage() {
+      this.$router.go(-1)
+    },
     deleteImage() {
       this.form.imageError = ''
       this.form.image = null

@@ -28,7 +28,14 @@
       </ul>
     </nav>
 
-    <div class="mt-2">
+    <div class="mt-2 d-flex">
+      <a
+        href="javascript:void(0)"
+        class="align-self-center mr-2"
+        @click="previousPage()"
+      >
+        <em class="icon ni ni-chevron-left-circle" style="font-size: 30px"></em>
+      </a>
       <h3 class="text-black-50">Buat Isi Tatanan</h3>
     </div>
 
@@ -113,7 +120,7 @@ import Validation from '../../../../../helpers/form-validation'
 export default {
   layout: 'dashboard',
   head: {
-    title: 'Buat Isi Tatanan | Dashbor Balikpapan',
+    title: 'Buat Isi Tatanan | Dasbor',
   },
   data() {
     return {
@@ -146,6 +153,9 @@ export default {
     Validation('add-arrangement-item-form')
   },
   methods: {
+    previousPage() {
+      this.$router.go(-1)
+    },
     deleteFile() {
       this.form.fileError = ''
       this.form.file = null

@@ -4,7 +4,7 @@
       <div class="nk-footer-wrap">
         <div class="nk-footer-copyright">
           {{ this.year }} &copy;
-          <a href="javascript:void(0)"> FORKOHAT BALIKPAPAN </a>
+          <NuxtLink to="/dashboard"> FORKOHAT BALIKPAPAN </NuxtLink>
         </div>
       </div>
     </div>
