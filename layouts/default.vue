@@ -97,9 +97,7 @@
     </v-app-bar>
 
     <v-main>
-      <v-container>
-        <Nuxt />
-      </v-container>
+      <Nuxt />
     </v-main>
 
     <v-footer app>
@@ -140,7 +138,7 @@ export default {
         return this.$store.state.localStorage.defaultDrawer
       },
       set(newValue) {
-        this.$store.dispatch('localStorage/changeDrawer', newValue)
+        this.$store.dispatch('localStorage/changeDefaultDrawer', newValue)
       },
     },
     setTheme() {
@@ -160,9 +158,6 @@ export default {
         ? this.$store.dispatch('localStorage/changeDefaultDrawer', false)
         : this.$store.dispatch('localStorage/changeDefaultDrawer', true)
     },
-  },
-  mounted() {
-    this.$store.dispatch('localStorage/changeDrawer', false)
   },
 }
 </script>

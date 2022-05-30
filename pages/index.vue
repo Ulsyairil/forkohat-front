@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-container>
     <h1>Sint irure quis ullamco occaecat Lorem commodo.</h1>
-  </div>
+  </v-container>
 </template>
 
 <script>

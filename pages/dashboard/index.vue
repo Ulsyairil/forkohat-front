@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-container>
     <h1>Selamat Datang</h1>
-  </div>
+  </v-container>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Galeri</h1>
+    <h1>Carousel</h1>
 
     <v-row>
       <v-col cols="12" sm="12" md="9" lg="9" xl="9">
@@ -22,7 +22,7 @@
         ></v-select>
       </v-col>
       <v-col cols="12" sm="12" md="12" lg="12" xl="12">
-        <v-btn color="primary" to="/dashboard/galeri/tambah">
+        <v-btn color="primary" to="/dashboard/carousel/tambah">
           <v-icon>add</v-icon>
           Tambah
         </v-btn>
@@ -38,13 +38,19 @@
           ></v-img>
 
           <v-card-title>
-            Aliqua ullamco ut consequat nostrud aliquip.
+            Velit sit veniam ullamco pariatur aute mollit nisi.
           </v-card-title>
+
+          <v-card-subtitle class="content-scroll">
+            Minim mollit dolor duis pariatur quis aute.Adipisicing laboris
+            commodo aliquip id nostrud laborum cillum laborum proident id dolore
+            exercitation officia non.
+          </v-card-subtitle>
 
           <v-card-actions>
             <v-btn
               color="orange lighten-2"
-              :to="`/dashboard/galeri/${index}`"
+              :to="`/dashboard/carousel/${index}`"
               text
             >
               <v-icon>edit</v-icon>

@@ -1,28 +1,37 @@
 <template>
   <v-container>
-    <h1>Galeri</h1>
+    <h1>Berita</h1>
 
     <v-row>
-      <v-col cols="12" sm="12" md="9" lg="9" xl="9">
+      <v-col cols="12" sm="12" md="8" lg="8" xl="8">
         <v-text-field
           prepend-inner-icon="search"
           label="Cari"
           clearable
           outlined
-          hide-details=""
+          hide-details="true"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" sm="12" md="3" lg="3" xl="3">
+      <v-col cols="12" sm="12" md="2" lg="2" xl="2">
+        <v-select
+          prepend-inner-icon="delete"
+          label="Sampah"
+          clearable
+          outlined
+          hide-details="true"
+        ></v-select>
+      </v-col>
+      <v-col cols="12" sm="12" md="2" lg="2" xl="2">
         <v-select
           prepend-inner-icon="sort"
           label="Sortir"
           clearable
           outlined
-          hide-details=""
+          hide-details="true"
         ></v-select>
       </v-col>
-      <v-col cols="12" sm="12" md="12" lg="12" xl="12">
-        <v-btn color="primary" to="/dashboard/galeri/tambah">
+      <v-col sm="12" md="12" lg="12" xl="12">
+        <v-btn color="primary" to="/dashboard/berita/tambah">
           <v-icon>add</v-icon>
           Tambah
         </v-btn>
@@ -30,21 +39,21 @@
     </v-row>
 
     <v-row>
-      <v-col v-for="index in 10" :key="index" sm="12" md="4" lg="4" xl="4">
-        <v-card class="mx-auto" max-width="344">
+      <v-col sm="12" md="4" lg="4" xl="4" v-for="index in 10" :key="index">
+        <v-card class="mx-auto" max-width="400">
           <v-img
-            src="https://random.imagecdn.app/600/200"
+            class="white--text align-end"
             height="200px"
-          ></v-img>
+            src="https://random.imagecdn.app/600/200"
+          >
+          </v-img>
 
-          <v-card-title>
-            Aliqua ullamco ut consequat nostrud aliquip.
-          </v-card-title>
+          <v-card-title>Est est est dolor ex sit.</v-card-title>
 
           <v-card-actions>
             <v-btn
               color="orange lighten-2"
-              :to="`/dashboard/galeri/${index}`"
+              :to="`/dashboard/berita/${index}`"
               text
             >
               <v-icon>edit</v-icon>
@@ -62,13 +71,6 @@
     </div>
   </v-container>
 </template>
-
-<style lang="scss" scoped>
-.content-scroll {
-  height: 100px;
-  overflow: auto;
-}
-</style>
 
 <script>
 export default {

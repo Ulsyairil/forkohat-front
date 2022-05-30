@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Galeri</h1>
+    <h1>FAQ</h1>
 
     <v-row>
       <v-col cols="12" sm="12" md="9" lg="9" xl="9">
@@ -22,34 +22,39 @@
         ></v-select>
       </v-col>
       <v-col cols="12" sm="12" md="12" lg="12" xl="12">
-        <v-btn color="primary" to="/dashboard/galeri/tambah">
+        <v-btn color="primary" to="/dashboard/faq/tambah">
           <v-icon>add</v-icon>
           Tambah
         </v-btn>
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-col v-for="index in 10" :key="index" sm="12" md="4" lg="4" xl="4">
-        <v-card class="mx-auto" max-width="344">
-          <v-img
-            src="https://random.imagecdn.app/600/200"
-            height="200px"
-          ></v-img>
-
-          <v-card-title>
-            Aliqua ullamco ut consequat nostrud aliquip.
-          </v-card-title>
+    <v-row align="stretch">
+      <v-col
+        cols="12"
+        sm="4"
+        md="4"
+        lg="4"
+        xl="4"
+        v-for="index in 12"
+        :key="index"
+      >
+        <v-card elevation="3">
+          <v-card-title
+            v-text="
+              `Ad adipisicing dolor sit est non minim proident esse non adipisicing.`
+            "
+          />
 
           <v-card-actions>
             <v-btn
-              color="orange lighten-2"
-              :to="`/dashboard/galeri/${index}`"
+              color="orange lighten-1"
+              :to="`/dashboard/faq/${index}`"
               text
             >
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-btn color="red lighten-2" text>
+            <v-btn color="red lighten-1" text>
               <v-icon>delete_forever</v-icon>
             </v-btn>
           </v-card-actions>
@@ -62,13 +67,6 @@
     </div>
   </v-container>
 </template>
-
-<style lang="scss" scoped>
-.content-scroll {
-  height: 100px;
-  overflow: auto;
-}
-</style>
 
 <script>
 export default {

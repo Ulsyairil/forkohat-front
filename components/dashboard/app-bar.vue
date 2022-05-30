@@ -12,7 +12,11 @@
 
     <v-img :src="logo" max-width="50px"></v-img>
 
-    <v-toolbar-title v-text="title" class="mx-3" />
+    <v-toolbar-title
+      v-if="!$vuetify.breakpoint.smAndDown"
+      v-text="title"
+      class="mx-3"
+    />
 
     <v-spacer />
 
@@ -32,7 +36,10 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn elevation="3" small fab v-bind="attrs" v-on="on">
           <v-avatar size="40">
-            <v-img src="https://i.pravatar.cc/300?img=55" alt="My Avatar" />
+            <v-img
+              src="https://ui-avatars.com/api/?name=John+Leider"
+              alt="My Avatar"
+            />
           </v-avatar>
         </v-btn>
       </template>
@@ -41,7 +48,10 @@
         <v-list>
           <v-list-item>
             <v-list-item-avatar>
-              <img src="https://i.pravatar.cc/300?img=55" alt="My Avatar" />
+              <img
+                src="https://ui-avatars.com/api/?name=John+Leider"
+                alt="My Avatar"
+              />
             </v-list-item-avatar>
 
             <v-list-item-content>

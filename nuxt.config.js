@@ -47,6 +47,8 @@ export default {
     ['nuxt-vuex-localstorage'],
     // Usage : https://www.npmjs.com/package/cookie-universal-nuxt
     'cookie-universal-nuxt',
+    // Usage : https://www.vue2editor.com/guide.html
+    'vue2-editor/nuxt',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

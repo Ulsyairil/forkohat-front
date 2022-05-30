@@ -9,7 +9,7 @@ export const mutations = {
   updateDarkMode(state, value) {
     state.darkMode = value
   },
-  updatDefaulteDrawer(state, value) {
+  updateDefaultDrawer(state, value) {
     state.defaultDrawer = value
   },
   updateDashboardDrawer(state, value) {

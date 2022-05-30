@@ -13,7 +13,7 @@
         :key="i"
         :to="item.to"
         router
-        exact
+        :exact="item.exact"
       >
         <v-list-item-action>
           <v-icon>{{ item.icon }}</v-icon>
@@ -36,26 +36,37 @@ export default {
           icon: 'home',
           title: 'Beranda',
           to: '/dashboard',
+          exact: true,
         },
         {
           icon: 'photo_library',
           title: 'Galeri',
           to: '/dashboard/galeri',
+          exact: false,
+        },
+        {
+          icon: 'view_carousel',
+          title: 'Carousel',
+          to: '/dashboard/carousel',
+          exact: false,
         },
         {
           icon: 'newspaper',
           title: 'Berita',
           to: '/dashboard/berita',
+          exact: false,
         },
         {
           icon: 'location_city',
           title: 'Program',
           to: '/dashboard/program',
+          exact: false,
         },
         {
           icon: 'contact_support',
           title: 'FAQ',
           to: '/dashboard/faq',
+          exact: false,
         },
       ],
       menu: false,
