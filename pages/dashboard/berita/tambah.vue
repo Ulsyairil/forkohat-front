@@ -17,14 +17,38 @@
     </v-row>
 
     <v-form class="mt-5">
-      <v-file-input
-        accept="image/*"
-        label="Upload Gambar Berita"
-        outlined
-        prepend-icon=""
-        prepend-inner-icon="add_a_photo"
-        clearable
-      ></v-file-input>
+      <div class="d-flex flex-row align-end justify-center flex-wrap mb-5">
+        <v-img
+          src="https://via.placeholder.com/600x400.png?text=Unggah+Gambar"
+          max-width="300"
+        />
+        <div
+          :class="`d-flex flex flex-column flex-wrap ${
+            $vuetify.breakpoint.xsOnly == true ? 'mt-5' : ''
+          }`"
+        >
+          <v-btn
+            :class="`ml-3 mb-3 align-self-start ${
+              $vuetify.breakpoint.xsOnly == true ? 'align-self-center' : ''
+            }`"
+            color="error"
+            text
+          >
+            <v-icon>delete</v-icon>
+            Hapus Gambar
+          </v-btn>
+          <v-file-input
+            class="mx-3"
+            accept="image/*"
+            label="Unggah Gambar"
+            prepend-icon=""
+            prepend-inner-icon="add_a_photo"
+            outlined
+            clearable
+          ></v-file-input>
+        </div>
+      </div>
+
       <v-text-field label="Judul Berita" outlined></v-text-field>
       <client-only>
         <VueEditor :editor-toolbar="editor.customToolbar" />

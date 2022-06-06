@@ -63,13 +63,6 @@
   </v-container>
 </template>
 
-<style lang="scss" scoped>
-.content-scroll {
-  height: 100px;
-  overflow: auto;
-}
-</style>
-
 <script>
 export default {
   layout: 'dashboard',

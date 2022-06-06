@@ -4,7 +4,9 @@
     <DashboardAppBar />
 
     <v-main>
-      <Nuxt />
+      <div class="mt-3">
+        <Nuxt />
+      </div>
     </v-main>
 
     <v-footer absolute inset app>
