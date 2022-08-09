@@ -8,20 +8,44 @@
     app
   >
     <v-list>
-      <v-list-item
-        v-for="(item, i) in items"
-        :key="i"
-        :to="item.to"
-        router
-        :exact="item.exact"
-      >
-        <v-list-item-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title v-text="item.title" />
-        </v-list-item-content>
-      </v-list-item>
+      <div v-for="(item, i) in items" :key="i">
+        <v-list-item
+          v-if="!item.subLinks"
+          :to="item.to"
+          router
+          :exact="item.exact"
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-group
+          v-else
+          no-action
+          :key="item.title"
+          :prepend-icon="item.icon"
+          :value="false"
+        >
+          <template v-slot:activator>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </template>
+
+          <v-list-item
+            v-for="sublink in item.subLinks"
+            :to="sublink.to"
+            :key="sublink.title"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ sublink.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>{{ sublink.title }}</v-list-item-title>
+          </v-list-item>
+        </v-list-group>
+      </div>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -67,6 +91,24 @@ export default {
           title: 'FAQ',
           to: '/dashboard/faq',
           exact: false,
+        },
+        {
+          icon: 'group',
+          title: 'Users',
+          subLinks: [
+            {
+              title: 'List Users',
+              to: '/dashboard/user/list',
+              icon: 'person',
+              exact: false,
+            },
+            {
+              title: 'Rules',
+              to: '/dashboard/user/rule',
+              icon: 'rule',
+              exact: false,
+            },
+          ],
         },
       ],
       menu: false,
