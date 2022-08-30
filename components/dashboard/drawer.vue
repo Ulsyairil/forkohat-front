@@ -28,7 +28,7 @@
           no-action
           :key="item.title"
           :prepend-icon="item.icon"
-          :value="false"
+          v-model="item.active"
         >
           <template v-slot:activator>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -94,16 +94,17 @@ export default {
         },
         {
           icon: 'group',
-          title: 'Users',
+          title: 'Pengguna',
+          active: false,
           subLinks: [
             {
-              title: 'List Users',
+              title: 'List Pengguna',
               to: '/dashboard/user/list',
               icon: 'person',
               exact: false,
             },
             {
-              title: 'Rules',
+              title: 'Rule',
               to: '/dashboard/user/rule',
               icon: 'rule',
               exact: false,
