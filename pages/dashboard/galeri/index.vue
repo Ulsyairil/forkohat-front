@@ -71,5 +71,22 @@ export default {
       page: 1,
     }
   },
+  fetch() {
+    this.init;
+  },
+  computed: {
+    async init() {
+      let payload = {
+        page: 1,
+        limit: 9,
+        order: 'desc',
+        showed: 'public',
+      }
+
+      const response = await this.$store.dispatch('gallery/list', payload)
+
+      console.log('asdhasdhjaskhdjk')
+    },
+  },
 }
 </script>
