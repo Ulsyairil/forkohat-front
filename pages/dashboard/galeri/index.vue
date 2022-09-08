@@ -30,7 +30,14 @@
     </v-row>
 
     <v-row>
-      <v-col v-for="index in 10" :key="index" sm="12" md="4" lg="4" xl="4">
+      <v-col
+        v-for="(value, index) in news.data"
+        :key="index"
+        sm="12"
+        md="4"
+        lg="4"
+        xl="4"
+      >
         <v-card class="mx-auto" max-width="344">
           <v-img
             src="https://random.imagecdn.app/600/200"
@@ -58,7 +65,7 @@
     </v-row>
 
     <div class="text-center my-5">
-      <v-pagination v-model="page" :length="6"></v-pagination>
+      <v-pagination v-model="news.page" :length="news.lastPage"></v-pagination>
     </div>
   </v-container>
 </template>
@@ -69,10 +76,14 @@ export default {
   data() {
     return {
       page: 1,
+      limit: 9,
+      order: 'desc',
+      showed: 'public',
+      news: [],
     }
   },
   fetch() {
-    this.init;
+    this.init
   },
   computed: {
     async init() {
@@ -84,8 +95,9 @@ export default {
       }
 
       const response = await this.$store.dispatch('gallery/list', payload)
-
-      console.log('asdhasdhjaskhdjk')
+      this.news = response.data
+      console.log(this.news)
+      console.log('heheheh')
     },
   },
 }
