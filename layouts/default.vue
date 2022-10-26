@@ -122,8 +122,8 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
+          title: 'Program',
+          to: '/program',
         },
       ],
       menu: false,
