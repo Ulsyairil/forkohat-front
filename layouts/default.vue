@@ -117,13 +117,13 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'FORKOHAT',
           to: '/',
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Informasi',
-          to: '/informasi',
+          title: 'Berita',
+          to: '/news',
         },
         {
           icon: 'mdi-chart-bubble',
