@@ -14,11 +14,13 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-    script: [
-      {
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' } , {rel: 'stylesheet' , type: 'text/css' , href: '/dflip/css/dflip.min.css'}],
+    script: [{
         src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js',
       },
+      {
+        src: '/dflip/js/dflip.min.js',
+      }
     ],
   },
 

@@ -1,16 +1,17 @@
 <template>
   <v-container>
-    <div class="text-center mt-15 mb-15">
+    <div class="text-center mt-10 mb-10">
       <h1>Program</h1>
+      <hr style="width:150px; margin: auto;" class="mt-1 teal" />
     </div>
     <v-row no-gutters class="mt-5 mb-15" align="center" justify="center">
       <v-col cols="3">
         <v-img
           contain
-          lazy-src="https://s3-alpha-sig.figma.com/img/478a/1666/12282982b5bfde17b14262dd64e5041c?Expires=1667779200&Signature=AFtWK9OgLuEX0Hd-tI5EM1HB1qjvRLowl~CLCUlfIgQB-QdTmfT4MJDrgp2oaYyZ4WQhbJgMcJQJS-Er62T7NvtJaUOEjHwO0hhFAIDzGymQpRW5xewFeNuRP7yxoUGCZsc4y-27rU0DA51pXy17oppx48eJByN0-tlNGpDw0nTlmjmT4RyuugKrMnTfx-SJFlhwSe28-SfKFeO6uBg~twY1wuq7g-uZ04Gc88BoB1a1EGpCgoL0xuHugi1MxS8WMddJlxtvRl8tyr3aqjP92KyqqJ8MaG-mruz4fy2aujXbif~p4WUOd8Y6P1m9dEUAjKZkwWElXzgBYxUzv533VQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+          lazy-src="https://s3-alpha-sig.figma.com/img/478a/1666/12282982b5bfde17b14262dd64e5041c?Expires=1670198400&Signature=Kkgkcthw0xmYQYmVmVYJF3HsOuFbFlU5HBXv6s5TqgKa3IQ62VoHzZ-64WwTGEaImqjL-GvH8ftcUm4O0XR~2ZwHBGeEa3Tg78BSbAM06cA-QsNRiIkbUyX4fnd3aaT2DJyxjOIkBLRoK3DPLhHOm666MhiuXF~OijoERrPu6pXEUg8I1KtFiQjeKOjbR2SxAf80uKyanuw7JY~s~Gxf7tLdyNUhzaMDBy9B8Xl3rtOhUYKV0OoPqosaYMhCL5Jq7uDI3ogKWibyS57gs~hcqOucIAtIltCNio6eE8dfToEK6cd8aYVLz8T4npL-zxvdlzM6Q8bDKe6d8-0oGaFInQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
           max-width="200"
           max-height="400"
-          src="https://s3-alpha-sig.figma.com/img/478a/1666/12282982b5bfde17b14262dd64e5041c?Expires=1667779200&Signature=AFtWK9OgLuEX0Hd-tI5EM1HB1qjvRLowl~CLCUlfIgQB-QdTmfT4MJDrgp2oaYyZ4WQhbJgMcJQJS-Er62T7NvtJaUOEjHwO0hhFAIDzGymQpRW5xewFeNuRP7yxoUGCZsc4y-27rU0DA51pXy17oppx48eJByN0-tlNGpDw0nTlmjmT4RyuugKrMnTfx-SJFlhwSe28-SfKFeO6uBg~twY1wuq7g-uZ04Gc88BoB1a1EGpCgoL0xuHugi1MxS8WMddJlxtvRl8tyr3aqjP92KyqqJ8MaG-mruz4fy2aujXbif~p4WUOd8Y6P1m9dEUAjKZkwWElXzgBYxUzv533VQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+          src="https://s3-alpha-sig.figma.com/img/478a/1666/12282982b5bfde17b14262dd64e5041c?Expires=1670198400&Signature=Kkgkcthw0xmYQYmVmVYJF3HsOuFbFlU5HBXv6s5TqgKa3IQ62VoHzZ-64WwTGEaImqjL-GvH8ftcUm4O0XR~2ZwHBGeEa3Tg78BSbAM06cA-QsNRiIkbUyX4fnd3aaT2DJyxjOIkBLRoK3DPLhHOm666MhiuXF~OijoERrPu6pXEUg8I1KtFiQjeKOjbR2SxAf80uKyanuw7JY~s~Gxf7tLdyNUhzaMDBy9B8Xl3rtOhUYKV0OoPqosaYMhCL5Jq7uDI3ogKWibyS57gs~hcqOucIAtIltCNio6eE8dfToEK6cd8aYVLz8T4npL-zxvdlzM6Q8bDKe6d8-0oGaFInQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
         ></v-img>
       </v-col>
       <v-col cols="9">
@@ -20,7 +21,7 @@
           Kalimantan Timur, Indonesia. Luas dari kecamatan ini adalah 13.216,62
           Ha atau 132,17 km²
         </p>
-        <v-btn rounded color="primary" dark> Details </v-btn>
+        <v-btn rounded color="primary" dark to="/program/1"> Details </v-btn>
       </v-col>
     </v-row>
 
@@ -28,10 +29,10 @@
       <v-col cols="3">
         <v-img
           contain
-          lazy-src="https://s3-alpha-sig.figma.com/img/2a08/461c/7d8c5c1d030e147cbe489ed7f7b1ad57?Expires=1667779200&Signature=Zuz7d4n7Dfu4Ticbgd8D2h~INKSWXJjBKJ~PgIFX3z6ju4ZqVzzAF7N8idTkv5Ny-~tRSZoDE13nI68I9ypmeHnyNEZ5lvDG1e5w8N2IZLtuyj4fjt1NZWRWV~RURPxD7p6SGqEWWp-D-E3sfk~g3O2r4poV13OsKsxPXA41sTx1bGDFiJWV10Yp2wHOODVSVwziFR4QVcCjQ1VTTEV9WePslsHKKnF81w1jnJEgyGDlUGb~-DulNYUkUa1t5VX8C9lPB7T698gGvFmV7ynkLqe5~voLPZzJsFWdyCgmAWld99aADHpPCp7Gv9z7aXKWG6e~cya0lj6iPAQWiLPdpw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+          lazy-src="https://s3-alpha-sig.figma.com/img/2a08/461c/7d8c5c1d030e147cbe489ed7f7b1ad57?Expires=1670198400&Signature=OlPKQWPJ~clRLAqu~vcQ7K0cw4xpr2~bLXi9mvni~cFqz6~ovx~wY6s2xaiyAUpdR9tYdbHZc8kbjKCWgYg-w3cWhCxYM8-Gr--IVE-LT~EAUAsSFZMrum8a24OQXXYoOI3GrUe8b7oBtdmHuNRzXowF~BQH2rk5OI3j8Z7odU~zdUda7E1rRpHFaopOf~AZ8c9UeyJxuzRS9jdj5NPp8v~lpyQIVBXHSxY2sVJN0uTZwLI754pGHcR0WYJkGPC963HdecAkUIvNjGDLLJfeg7-9dpkXmYXATcwCHh3W8KA9QE0DUR5c5xNCJ3X2VNs5KqD9xwXQEYv-S9uNw-7pOQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
           max-width="200"
           max-height="400"
-          src="https://s3-alpha-sig.figma.com/img/2a08/461c/7d8c5c1d030e147cbe489ed7f7b1ad57?Expires=1667779200&Signature=Zuz7d4n7Dfu4Ticbgd8D2h~INKSWXJjBKJ~PgIFX3z6ju4ZqVzzAF7N8idTkv5Ny-~tRSZoDE13nI68I9ypmeHnyNEZ5lvDG1e5w8N2IZLtuyj4fjt1NZWRWV~RURPxD7p6SGqEWWp-D-E3sfk~g3O2r4poV13OsKsxPXA41sTx1bGDFiJWV10Yp2wHOODVSVwziFR4QVcCjQ1VTTEV9WePslsHKKnF81w1jnJEgyGDlUGb~-DulNYUkUa1t5VX8C9lPB7T698gGvFmV7ynkLqe5~voLPZzJsFWdyCgmAWld99aADHpPCp7Gv9z7aXKWG6e~cya0lj6iPAQWiLPdpw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+          src="https://s3-alpha-sig.figma.com/img/2a08/461c/7d8c5c1d030e147cbe489ed7f7b1ad57?Expires=1670198400&Signature=OlPKQWPJ~clRLAqu~vcQ7K0cw4xpr2~bLXi9mvni~cFqz6~ovx~wY6s2xaiyAUpdR9tYdbHZc8kbjKCWgYg-w3cWhCxYM8-Gr--IVE-LT~EAUAsSFZMrum8a24OQXXYoOI3GrUe8b7oBtdmHuNRzXowF~BQH2rk5OI3j8Z7odU~zdUda7E1rRpHFaopOf~AZ8c9UeyJxuzRS9jdj5NPp8v~lpyQIVBXHSxY2sVJN0uTZwLI754pGHcR0WYJkGPC963HdecAkUIvNjGDLLJfeg7-9dpkXmYXATcwCHh3W8KA9QE0DUR5c5xNCJ3X2VNs5KqD9xwXQEYv-S9uNw-7pOQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
         ></v-img>
       </v-col>
       <v-col cols="9">

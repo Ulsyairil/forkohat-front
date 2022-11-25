@@ -122,6 +122,31 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
+          title: 'Informasi',
+          to: '/informasi',
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Program',
+          to: '/program',
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Event',
+          to: '/event',
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'FAQ',
+          to: '/faq',
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Contact',
+          to: '/contact',
+        },
+        {
+          icon: 'mdi-chart-bubble',
           title: 'Program',
           to: '/program',
         },
