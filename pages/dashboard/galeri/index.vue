@@ -40,13 +40,11 @@
       >
         <v-card class="mx-auto" max-width="344">
           <v-img
-            src="https://random.imagecdn.app/600/200"
+            :src="`${$axios.defaults.baseURL}/file/${value.image_mime}/${value.image_name}`"
             height="200px"
           ></v-img>
 
-          <v-card-title>
-            Aliqua ullamco ut consequat nostrud aliquip.
-          </v-card-title>
+          <v-card-title>{{ value.title }}</v-card-title>
 
           <v-card-actions>
             <v-btn
@@ -65,7 +63,7 @@
     </v-row>
 
     <div class="text-center my-5">
-      <v-pagination v-model="news.page" :length="news.lastPage"></v-pagination>
+      <v-pagination v-model="news.page" :length="news.lastPage" @input="onChangePage"></v-pagination>
     </div>
   </v-container>
 </template>
@@ -75,6 +73,7 @@ export default {
   layout: 'dashboard',
   data() {
     return {
+      baseURL: this.$axios.defaults.baseURL,
       page: 1,
       limit: 9,
       order: 'desc',
@@ -97,8 +96,23 @@ export default {
       const response = await this.$store.dispatch('gallery/list', payload)
       this.news = response.data
       console.log(this.news)
-      console.log('heheheh')
     },
+
+    
   },
+  methods: {
+    async onChangePage () {
+      let payload = {
+        page: this.news.page,
+        limit: 9,
+        order: 'desc',
+        showed: 'public',
+      }
+
+      const response = await this.$store.dispatch('gallery/list', payload)
+      this.news = response.data
+      console.log(this.news)
+    },
+  }
 }
 </script>
