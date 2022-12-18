@@ -132,11 +132,6 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'Event',
-          to: '/event',
-        },
-        {
-          icon: 'mdi-chart-bubble',
           title: 'FAQ',
           to: '/faq',
         },
@@ -144,11 +139,6 @@ export default {
           icon: 'mdi-chart-bubble',
           title: 'Contact',
           to: '/contact',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Program',
-          to: '/program',
         },
       ],
       menu: false,

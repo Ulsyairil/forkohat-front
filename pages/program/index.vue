@@ -50,6 +50,10 @@
         <v-btn rounded color="primary" dark> Details </v-btn>
       </v-col>
     </v-row>
+
+        <div class="text-center my-5">
+          <v-pagination length="3" @input="onChangePage"></v-pagination>
+        </div>
   </v-container>
 </template>
 
