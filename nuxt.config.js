@@ -14,13 +14,17 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' } , {rel: 'stylesheet' , type: 'text/css' , href: '/dflip/css/dflip.min.css'}],
-    script: [{
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: '/dflip/css/dflip.min.css' },
+    ],
+    script: [
+      {
         src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js',
       },
       {
         src: '/dflip/js/dflip.min.js',
-      }
+      },
     ],
   },
 
@@ -28,7 +32,10 @@ export default {
   css: ['@/node_modules/material-icons/iconfont/material-icons.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/vuelidate.js'],
+  plugins: [
+    { src: '~/plugins/client-side.js', mode: 'client' },
+    { src: '~/plugins/server-side.js', mode: 'server' },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -47,10 +54,10 @@ export default {
     '@nuxtjs/style-resources',
     // Usage : https: www.npmjs.com/package/nuxt-vuex-localstorage
     ['nuxt-vuex-localstorage'],
-    // Usage : https://www.npmjs.com/package/cookie-universal-nuxt
-    'cookie-universal-nuxt',
     // Usage : https://www.vue2editor.com/guide.html
     'vue2-editor/nuxt',
+    // Usage : https://auth.nuxtjs.org/
+    '@nuxtjs/auth-next',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -65,7 +72,8 @@ export default {
       // See : https://github.com/terser/terser#compress-options
       terserOptions: {
         compress: {
-          drop_console: true,
+          // Set true to build production
+          drop_console: false,
         },
       },
     },
@@ -78,7 +86,7 @@ export default {
   target: 'server',
 
   // Default loading is false
-  loading: false,
+  loading: true,
 
   // Change server port
   server: {
@@ -115,5 +123,40 @@ export default {
         iconfont: 'md',
       },
     },
+  },
+
+  // Nuxt auth configuration : https://auth.nuxtjs.org/guide/scheme
+  auth: {
+    redirect: false,
+    strategies: {
+      local: {
+        scheme: 'refresh',
+        token: {
+          property: 'token',
+          maxAge: 31536000,
+          global: true,
+        },
+        refreshToken: {
+          property: 'refreshToken',
+          data: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30,
+          tokenRequired: true,
+        },
+        user: {
+          property: false,
+        },
+        endpoints: {
+          login: { url: '/login', method: 'post' },
+          logout: { url: '/logout', method: 'post' },
+          refresh: { url: '/refresh-token', method: 'post' },
+          user: { url: '/me', method: 'get' },
+        },
+      },
+    },
+  },
+
+  // Nuxt env configuration : https://nuxtjs.org/docs/configuration-glossary/configuration-env/
+  env: {
+    serverBaseUrl: 'http://127.0.0.1:3333',
   },
 }

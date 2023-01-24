@@ -4,6 +4,25 @@
       <v-col>
         <v-flex class="d-flex flex-column align-center justify-center">
           <v-card class="pt-5 pb-5" width="500px" elevation="6" shaped>
+            <v-card-title>
+              <v-btn
+                type="button"
+                elevation="0"
+                color="white primary--text"
+                @click="$router.push('/')"
+              >
+                <v-icon>arrow_back</v-icon>
+                Kembali
+              </v-btn>
+            </v-card-title>
+
+            <div class="text-center">
+              <v-img class="mx-auto" :src="logo" max-width="100" />
+              <h1>FORKOHAT BALIKPAPAN</h1>
+            </div>
+
+            <v-divider class="mx-5 my-3" />
+
             <v-card-title class="align-center justify-center">
               <h2>Masuk</h2>
             </v-card-title>
@@ -29,6 +48,19 @@
                   counter
                   @click:append="showPassword = !showPassword"
                   outlined
+                  clearable
+                  required
+                ></v-text-field>
+
+                <client-only>
+                  <captcha-code ref="code" :enableClick="true"></captcha-code>
+                </client-only>
+
+                <v-text-field
+                  v-model="$v.captcha.$model"
+                  :error-messages="captchaErrors"
+                  type="text"
+                  placeholder="Masukkan Captcha"
                   clearable
                   required
                 ></v-text-field>
@@ -60,16 +92,20 @@
 import { validationMixin } from 'vuelidate'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import Swal from 'sweetalert2'
+import Logo from '~/assets/media/logo/forkohat_logo.png'
 
 export default {
-  layout: 'default',
+  layout: 'error-template',
   mixins: [validationMixin],
+  middleware: ['isAuthenticated'],
   data() {
     return {
+      logo: Logo,
       selected: 'username',
       username: '',
       password: '',
       showPassword: false,
+      captcha: '',
     }
   },
   validations: {
@@ -82,6 +118,9 @@ export default {
       required,
       minLength: minLength(8),
       maxLength: maxLength(254),
+    },
+    captcha: {
+      required,
     },
   },
   computed: {
@@ -101,6 +140,11 @@ export default {
       !this.$v.password.maxLength && errors.push('Maksimal 254 Karakter')
       return errors
     },
+    captchaErrors() {
+      const errors = []
+      if (!this.$v.captcha.$dirty) return errors
+      !this.$v.password.required && errors.push('Captcha Harus Diisi')
+    },
   },
   methods: {
     validateIsEmail(value) {
@@ -114,6 +158,14 @@ export default {
       console.log(this.selected)
     },
     async submitForm() {
+      if (this.$refs.code.getCode() != this.captcha) {
+        return Swal.fire({
+          icon: 'error',
+          confirmButtonColor: '#42a5f5',
+          titleText: 'Captcha Salah',
+        })
+      }
+
       this.$v.$touch()
 
       let payload = {
@@ -132,48 +184,26 @@ export default {
       }
 
       if (!this.$v.$invalid) {
-        const response = await this.$store.dispatch('auth/login', payload)
-
-        switch (response.status) {
-          case 401:
-            Swal.fire({
-              title: response.data.message,
-              icon: 'warning',
-            })
-            break
-
-          case 404:
-            Swal.fire({
-              title: response.data.message,
-              icon: 'warning',
-            })
-            break
-
-          case 500:
-            Swal.fire({
-              title: response.data.message,
-              icon: 'error',
-            })
-            break
-
-          case 200:
-            this.$cookies.set(
-              'forkohat-session',
-              JSON.stringify(response.data.token)
-            )
-            localStorage.setItem(
-              'forkohat-account',
-              JSON.stringify(response.data.data)
-            )
-            this.$router.push('/dashboard')
-            break
-
-          default:
+        await this.$auth
+          .loginWith('local', {
+            data: payload,
+          })
+          .then((response) => {
             console.log(response)
-            break
-        }
+            location.reload()
+          })
+          .catch((error) => {
+            console.log(error.response)
+
+            Swal.fire({
+              icon: 'warning',
+              confirmButtonColor: '#42a5f5',
+              titleText: error.response.data.message,
+            })
+          })
       }
     },
   },
+  mounted() {},
 }
 </script>
