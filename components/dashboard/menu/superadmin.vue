@@ -2,26 +2,15 @@
   <div>
     <v-list nav v-for="list in lists" :key="list.index">
       <template v-if="list.group == true">
-        <v-list-group
-          v-for="item in list.items"
-          :key="item.index"
-          :v-model="item.value"
-          :prepend-icon="item.icon"
-          :group="item.group"
-        >
+        <v-list-group v-for="item in list.items" :key="item.index" :v-model="item.value" :prepend-icon="item.icon"
+          :group="item.group">
           <template v-slot:activator>
             <v-list-item-content>
               <v-list-item-title>{{ item.title }}</v-list-item-title>
             </v-list-item-content>
           </template>
 
-          <v-list-item
-            v-for="subitem in item.subitems"
-            :key="subitem.index"
-            :to="subitem.to"
-            router
-            link
-          >
+          <v-list-item v-for="subitem in item.subitems" :key="subitem.index" :to="subitem.to" router link exact>
             <v-list-item-action>
               <v-icon>{{ subitem.icon }}</v-icon>
             </v-list-item-action>
@@ -33,13 +22,7 @@
       </template>
 
       <template v-else>
-        <v-list-item
-          v-for="item in list.items"
-          :key="item.index"
-          :to="item.to"
-          router
-          exact
-        >
+        <v-list-item v-for="item in list.items" :key="item.index" :to="item.to" router exact>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -111,7 +94,7 @@ export default {
                 },
                 {
                   icon: '',
-                  title: 'Rule',
+                  title: 'Aturan',
                   to: '/dashboard/superadmin/user/rule',
                 },
               ],
