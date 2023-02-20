@@ -70,7 +70,7 @@ export const actions = {
   async all(context, value) {
     try {
       const response = await this.$axios.get('/superadmin/rule/permissions', {
-        params: { rule_id: value.rule_id },
+        params: { rule_id: value },
       })
 
       console.log(response)

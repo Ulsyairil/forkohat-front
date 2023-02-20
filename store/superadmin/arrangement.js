@@ -146,7 +146,7 @@ export const actions = {
       payload.append('title', value.title)
       payload.append('description', value.description)
       payload.append('image', value.image)
-      const response = await this.$axios.put('/superadmin/arrangement', data)
+      const response = await this.$axios.put('/superadmin/arrangement', payload)
       console.log(response)
       return response
     } catch (error) {
