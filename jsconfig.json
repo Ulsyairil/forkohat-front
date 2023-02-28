@@ -22,4 +22,9 @@
     ".nuxt",
     "dist"
   ],
+  "vueCompilerOptions": {
+    "extensions": [
+      ".vue"
+    ]
+  }
 }

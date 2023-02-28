@@ -46,7 +46,6 @@
     "@faker-js/faker": "^7.4.0",
     "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/vuetify": "^1.12.3",
-    "@vue/runtime-dom": "latest",
     "deepmerge": "^4.2.2",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.5.1",

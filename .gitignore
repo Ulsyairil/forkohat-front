@@ -91,3 +91,6 @@ sw.*
 
 # Lock files
 *.lock
+
+# Fleet Configuration
+.fleet
