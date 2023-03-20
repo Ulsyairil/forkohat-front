@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - Forum Kota Sehat Balikpapan',
+    titleTemplate: '%s | Forum Kota Sehat Balikpapan',
     title: 'Forum Kota Sehat Balikpapan',
     htmlAttrs: {
       lang: 'id',
@@ -17,10 +17,15 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', type: 'text/css', href: '/dflip/css/dflip.min.css' },
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: '/dflip/css/themify-icons.min.css',
+      },
     ],
     script: [
       {
-        src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js',
+        src: '/dflip/js/libs/jquery.min.js',
       },
       {
         src: '/dflip/js/dflip.min.js',

@@ -1,3 +1,10 @@
+<style lang="scss">
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: 999;
+}
+</style>
+
 <template>
   <v-app :dark="setTheme">
     <DashboardDrawer />

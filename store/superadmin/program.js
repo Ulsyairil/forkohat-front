@@ -129,14 +129,15 @@ export const actions = {
   async edit(context, value) {
     try {
       const payload = new FormData()
-      payload.append('id', value.id)
+      payload.append('program_id', value.id)
       payload.append('title', value.title)
       payload.append('description', value.description)
       payload.append('image', value.image)
-      const response = await this.$axios.put('/superadmin/program', data)
-      console.log(response)
+      const response = await this.$axios.put('/superadmin/program', payload)
+      console.log(payload)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
