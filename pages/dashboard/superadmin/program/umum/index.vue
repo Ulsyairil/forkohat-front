@@ -5,50 +5,8 @@
         <v-btn color="primary" @click="$router.go(-1)" fab>
           <v-icon>arrow_back</v-icon>
         </v-btn>
-        &nbsp; Ubah Program
+        &nbsp; Daftar Tatanan
       </v-card-title>
-
-      <v-container>
-        <v-form ref="program_form" lazy-validation>
-          <div class="d-flex align-center">
-            <img
-              v-if="program_form.url != null"
-              :src="program_form.url"
-              style="max-width: 200px"
-              data-zoomable
-            />
-            <img
-              v-else
-              src="https://via.placeholder.com/1366x768?text=Unggah+Gambar"
-              style="max-width: 200px"
-              data-zoomable
-            />
-            <v-file-input
-              label="Thumbnail Program"
-              v-model="program_form.file"
-              accept="image/png, image/jpeg, image/jpg"
-              :rules="[validation.imageSize]"
-              @change="previewProgramImage"
-              show-size
-            ></v-file-input>
-          </div>
-          <v-text-field
-            label="Nama Program"
-            v-model="program_form.title"
-            :rules="[validation.required, validation.maxTextDefault]"
-          ></v-text-field>
-          <v-textarea
-            label="Deskripsi Singkat Program"
-            v-model="program_form.description"
-          ></v-textarea>
-        </v-form>
-
-        <v-btn type="button" color="primary" @click="update()">Simpan</v-btn>
-      </v-container>
-    </v-card>
-
-    <v-card class="mt-5">
-      <v-card-title> Daftar Tatanan </v-card-title>
 
       <v-container>
         <v-data-iterator
@@ -266,6 +224,7 @@
 <script>
 import Swal from 'sweetalert2'
 import mediumZoom from 'medium-zoom'
+
 export default {
   layout: 'dashboard',
   head() {
@@ -275,12 +234,6 @@ export default {
   },
   data() {
     return {
-      program_form: {
-        title: '',
-        description: '',
-        file: null,
-        url: null,
-      },
       arrangement_form: {
         id: null,
         title: '',
@@ -359,13 +312,6 @@ export default {
     fetchData() {
       this.$fetch()
     },
-    previewProgramImage() {
-      if (this.program_form.file != null) {
-        this.program_form.url = URL.createObjectURL(this.program_form.file)
-      } else {
-        this.program_form.url = null
-      }
-    },
     previewArrangementImage() {
       if (this.arrangement_form.file != null) {
         this.arrangement_form.url = URL.createObjectURL(
@@ -373,47 +319,6 @@ export default {
         )
       } else {
         this.arrangement_form.url = null
-      }
-    },
-    async update() {
-      const validate = this.$refs.program_form.validate()
-
-      if (validate) {
-        const response = await this.$store.dispatch('superadmin/program/edit', {
-          id: this.$route.params.id,
-          title: this.program_form.title,
-          description: this.program_form.description,
-          image: this.program_form.file,
-        })
-
-        switch (response.status) {
-          case 200:
-            Swal.fire({
-              icon: 'success',
-              titleText: 'Data berhasil diubah',
-              confirmButtonText: 'Kembali',
-              confirmButtonColor: '#42a5f5',
-            })
-            break
-
-          case 400 || 422:
-            Swal.fire({
-              icon: 'warning',
-              titleText: response.data.message,
-              confirmButtonText: 'Kembali',
-              confirmButtonColor: '#42a5f5',
-            })
-            break
-
-          case 500:
-            Swal.fire({
-              icon: 'error',
-              titleText: response.data.message,
-              confirmButtonText: 'Kembali',
-              confirmButtonColor: '#42a5f5',
-            })
-            break
-        }
       }
     },
     async destroy(id) {
@@ -604,32 +509,8 @@ export default {
     },
   },
   async fetch() {
-    const responseProgram = await this.$store.dispatch(
-      'superadmin/program/get',
-      this.$route.params.id
-    )
-
-    switch (responseProgram.status) {
-      case 200:
-        this.program_form.title = responseProgram.data.title
-        this.program_form.description = responseProgram.data.description
-        this.program_form.url = responseProgram.data.image_url
-        break
-
-      case 400 || 422:
-        return Swal.fire({
-          icon: 'warning',
-          titleText: responseProgram.data.message,
-          confirmButtonText: 'Kembali',
-          confirmButtonColor: '#42a5f5',
-        })
-
-      case 404:
-        return this.$nuxt.error({ statusCode: 404 })
-    }
-
     await this.$store.dispatch('superadmin/arrangement/pagination', {
-      program_id: this.$route.params.id,
+      program_id: 1,
       page: this.page,
       limit: this.limit,
       order: this.order,

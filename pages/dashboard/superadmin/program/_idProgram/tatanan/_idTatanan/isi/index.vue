@@ -12,7 +12,7 @@
         <v-btn color="primary" @click="$router.go(-1)" fab>
           <v-icon>arrow_back</v-icon>
         </v-btn>
-        &nbsp; Daftar Isi Tatanan - Nama Tatanan
+        &nbsp; "Nama Tatanan"/Daftar Isi Tatanan
       </v-card-title>
 
       <v-container>
@@ -276,13 +276,12 @@
 
 <script>
 import Swal from 'sweetalert2'
-import mediumZoom from 'medium-zoom'
 
 export default {
   layout: 'dashboard',
   head() {
     return {
-      title: 'Daftar Tatanan - <Nama Program>',
+      title: '<Nama Tatanan>/Artikel Tatanan',
     }
   },
   data() {
@@ -365,72 +364,72 @@ export default {
   computed: {
     page: {
       get() {
-        return this.$store.state.superadmin.arrangement_item.pagination.page
+        return this.$store.state.superadmin.arrangementItem.pagination.page
       },
       set(newValue) {
         this.$store.commit(
-          'superadmin/arrangement_item/exportPaginationPage',
+          'superadmin/arrangementItem/exportPaginationPage',
           newValue
         )
       },
     },
     limit: {
       get() {
-        return this.$store.state.superadmin.arrangement_item.pagination.limit
+        return this.$store.state.superadmin.arrangementItem.pagination.limit
       },
       set(newValue) {
         this.$store.commit(
-          'superadmin/arrangement_item/exportPaginationLimit',
+          'superadmin/arrangementItem/exportPaginationLimit',
           newValue
         )
       },
     },
     order: {
       get() {
-        return this.$store.state.superadmin.arrangement_item.pagination.order
+        return this.$store.state.superadmin.arrangementItem.pagination.order
       },
       set(newValue) {
         this.$store.commit(
-          'superadmin/arrangement_item/exportPaginationOrder',
+          'superadmin/arrangementItem/exportPaginationOrder',
           newValue
         )
       },
     },
     trash: {
       get() {
-        return this.$store.state.superadmin.arrangement_item.pagination.trash
+        return this.$store.state.superadmin.arrangementItem.pagination.trash
       },
       set(newValue) {
         this.$store.commit(
-          'superadmin/arrangement_item/exportPaginationTrash',
+          'superadmin/arrangementItem/exportPaginationTrash',
           newValue
         )
       },
     },
     showed: {
       get() {
-        return this.$store.state.superadmin.arrangement_item.pagination.showed
+        return this.$store.state.superadmin.arrangementItem.pagination.showed
       },
       set(newValue) {
         this.$store.commit(
-          'superadmin/arrangement_item/exportPaginationShowed',
+          'superadmin/arrangementItem/exportPaginationShowed',
           newValue
         )
       },
     },
     search: {
       get() {
-        return this.$store.state.superadmin.arrangement_item.pagination.search
+        return this.$store.state.superadmin.arrangementItem.pagination.search
       },
       set(newValue) {
         this.$store.commit(
-          'superadmin/arrangement_item/exportPaginationSearch',
+          'superadmin/arrangementItem/exportPaginationSearch',
           newValue
         )
       },
     },
     items() {
-      return this.$store.state.superadmin.arrangement_item.pagination.data
+      return this.$store.state.superadmin.arrangementItem.pagination.data
     },
   },
   methods: {
@@ -449,7 +448,7 @@ export default {
     },
     async resetPDF() {
       const response = await this.$store.dispatch(
-        'superadmin/arrangement_item/get',
+        'superadmin/arrangementItem/get',
         this.item_form.id
       )
 
@@ -484,7 +483,7 @@ export default {
     },
     async dump(id) {
       const response = await this.$store.dispatch(
-        'superadmin/arrangement_item/delete',
+        'superadmin/arrangementItem/delete',
         id
       )
 
@@ -521,7 +520,7 @@ export default {
     },
     async restore(id) {
       const response = await this.$store.dispatch(
-        'superadmin/arrangement_item/restore',
+        'superadmin/arrangementItem/restore',
         id
       )
 
@@ -568,7 +567,7 @@ export default {
 
       if (notif.isConfirmed) {
         const response = await this.$store.dispatch(
-          'superadmin/arrangement_item/destroy',
+          'superadmin/arrangementItem/destroy',
           id
         )
 
@@ -618,9 +617,9 @@ export default {
 
       if (validate) {
         const response = await this.$store.dispatch(
-          'superadmin/arrangement_item/create',
+          'superadmin/arrangementItem/create',
           {
-            arrangement_id: this.$route.params.id,
+            arrangement_id: this.$route.params.idTatanan,
             title: this.item_form.title,
             description: this.item_form.description,
             file: this.item_form.file,
@@ -662,7 +661,7 @@ export default {
     },
     async openEditItemDialog(id) {
       const response = await this.$store.dispatch(
-        'superadmin/arrangement_item/get',
+        'superadmin/arrangementItem/get',
         id
       )
 
@@ -702,10 +701,10 @@ export default {
 
       if (validate) {
         const response = await this.$store.dispatch(
-          'superadmin/arrangement_item/edit',
+          'superadmin/arrangementItem/edit',
           {
             id: this.item_form.id,
-            arrangement_id: this.$route.params.id,
+            arrangement_id: this.$route.params.idTatanan,
             title: this.item_form.title,
             description: this.item_form.description,
             file: this.item_form.file,
@@ -747,8 +746,8 @@ export default {
     },
   },
   async fetch() {
-    await this.$store.dispatch('superadmin/arrangement_item/pagination', {
-      arrangement_id: this.$route.params.id,
+    await this.$store.dispatch('superadmin/arrangementItem/pagination', {
+      arrangement_id: this.$route.params.idTatanan,
       page: this.page,
       limit: this.limit,
       order: this.order,
@@ -756,8 +755,6 @@ export default {
       showed: this.showed,
       search: this.search,
     })
-
-    mediumZoom('[data-zoomable]')
   },
   mounted() {
     this.fetchData()

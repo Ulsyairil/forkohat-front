@@ -70,7 +70,7 @@
                   <v-card-actions>
                     <v-btn
                       color="orange lighten-2"
-                      :to="`/dashboard/superadmin/program/tatanan/${item.id}`"
+                      :to="`/dashboard/superadmin/program/${item.id}`"
                       text
                     >
                       <v-icon>edit</v-icon>

@@ -34,7 +34,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/node_modules/material-icons/iconfont/material-icons.css'],
+  css: [
+    '@/node_modules/material-icons/iconfont/material-icons.css',
+    '@/node_modules/hover.css/css/hover-min.css',
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
