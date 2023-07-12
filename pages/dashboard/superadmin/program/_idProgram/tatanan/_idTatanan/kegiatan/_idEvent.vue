@@ -20,6 +20,13 @@
               style="cursor: zoom-in"
             />
             <v-img
+              v-else-if="event.image.preview != null"
+              :src="event.image.preview"
+              @click="showImg(0, event.image.preview)"
+              max-width="200"
+              style="cursor: zoom-in"
+            />
+            <v-img
               v-else
               :src="event.image.default"
               @click="showImg(0, event.image.default)"
@@ -45,91 +52,40 @@
             v-model="event.description"
             :rules="[validation.required]"
           ></v-textarea>
-          <v-dialog
-            ref="registration_dialog"
-            v-model="event.registrationDate.dialog"
-            :return-value.sync="event.registrationDate.value"
-            persistent
-            width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="dateRangeText"
+
+          <v-row align="center">
+            <v-col cols="12" md="5" lg="5">
+              <DashboardDateTimePicker
                 label="Tanggal Pendaftaran Kegiatan"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                clearable
-                @click:clear="clearRegistrationValue()"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="event.registrationDate.value"
-              scrollable
-              range
-            >
-              <v-spacer></v-spacer>
-              <v-btn
-                text
-                color="primary"
-                @click="event.registrationDate.dialog = false"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                text
-                color="primary"
-                @click="
-                  $refs.registration_dialog.save(event.registrationDate.value)
+                v-model="event.registrationDate"
+                @clearClicked="registrationDateClear()"
+              />
+            </v-col>
+            <v-col cols="12" md="1" lg="1">s/d</v-col>
+            <v-col cols="12" md="5" lg="5">
+              <DashboardDateTimePicker
+                label="Tanggal Akhir Pendaftaran Kegiatan"
+                v-model="event.endRegistrationDate"
+                :min="event.registrationDate"
+                :disabled="event.registrationDate == '' ? true : false"
+                :rules="
+                  event.registrationDate != '' ? [validation.required] : []
                 "
-              >
-                Terapkan
-              </v-btn>
-            </v-date-picker>
-          </v-dialog>
+              />
+            </v-col>
+          </v-row>
+
           <v-text-field
             label="URL Registrasi"
             v-model="event.registrationUrl"
             :rules="[validation.url]"
           ></v-text-field>
-          <v-dialog
-            ref="expired_dialog"
-            v-model="event.expiredDate.dialog"
-            :return-value.sync="event.expiredDate.value"
-            persistent
-            width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="event.expiredDate.value"
-                label="Tanggal Kegiatan Berakhir"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                clearable
-                :rules="[validation.required]"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="event.expiredDate.value" scrollable>
-              <v-spacer></v-spacer>
-              <v-btn
-                text
-                color="primary"
-                @click="event.expiredDate.dialog = false"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                text
-                color="primary"
-                @click="$refs.expired_dialog.save(event.expiredDate.value)"
-              >
-                Terapkan
-              </v-btn>
-            </v-date-picker>
-          </v-dialog>
+
+          <DashboardDateTimePicker
+            label="Tanggal Kegiatan Berakhir"
+            v-model="event.expiredDate"
+          />
+
           <v-select
             label="Ditampilkan"
             :items="event.showed.items"
@@ -193,90 +149,90 @@
       </v-container>
 
       <v-container>
-        <div v-if="eventFile.data.length == 0">Berkas Belum Diunggah</div>
+        <v-data-iterator
+          :items="eventFileData.data"
+          :items-per-page.sync="limit"
+          :page.sync="page"
+          :server-items-length="eventFileData.total"
+          @update:items-per-page="$fetch()"
+          @update:page="$fetch()"
+          no-data-text="Data Kosong"
+          no-results-text="Data Tidak Ditemukan"
+        >
+          <template v-slot:default="props">
+            <div v-for="(item, index) in props.items" :key="index">
+              <v-row align="center" justify="center" class="mb-0">
+                <v-col cols="12" sm="12" md="2" lg="2" class="text-center">
+                  <v-icon v-if="item.mime === 'pdf'" size="70px">
+                    picture_as_pdf
+                  </v-icon>
+                  <v-icon
+                    v-if="
+                      [
+                        'doc',
+                        'docs',
+                        'xls',
+                        'xlsx',
+                        'ppt',
+                        'pptx',
+                        'odt',
+                        'ods',
+                        'odp',
+                      ].includes(item.mime)
+                    "
+                    size="70px"
+                  >
+                    description
+                  </v-icon>
+                  <v-icon
+                    v-if="['jpg', 'jpeg', 'png'].includes(item.mime)"
+                    size="70px"
+                  >
+                    image
+                  </v-icon>
+                </v-col>
+                <v-col cols="12" sm="12" md="10" lg="10">
+                  <v-card-title>
+                    {{ item.title }}
+                  </v-card-title>
 
-        <div v-for="(item, index) in eventFile.data" :key="index">
-          <v-row align="center" justify="center" class="mb-0">
-            <v-col cols="12" sm="12" md="2" lg="2" class="text-center">
-              <v-icon v-if="getExtension(item.file.name) === 'pdf'" size="70px">
-                picture_as_pdf
-              </v-icon>
-              <v-icon
-                v-if="
-                  [
-                    'doc',
-                    'docs',
-                    'xls',
-                    'xlsx',
-                    'ppt',
-                    'pptx',
-                    'odt',
-                    'ods',
-                    'odp',
-                  ].includes(getExtension(item.file.name))
-                "
-                size="70px"
-              >
-                description
-              </v-icon>
-              <v-icon
-                v-if="
-                  ['jpg', 'jpeg', 'png'].includes(getExtension(item.file.name))
-                "
-                size="70px"
-              >
-                image
-              </v-icon>
-            </v-col>
-            <v-col cols="12" sm="12" md="10" lg="10">
-              <v-card-title>
-                {{ item.title }}
-              </v-card-title>
-
-              <div>
-                <v-btn
-                  v-if="
-                    ['jpg', 'jpeg', 'png'].includes(
-                      getExtension(item.file.name)
-                    )
-                  "
-                  color="primary"
-                  small
-                  text
-                  @click="previewEventFileImage(item.file)"
-                >
-                  <v-icon>search</v-icon>
-                </v-btn>
-                <v-btn
-                  v-if="['pdf'].includes(getExtension(item.file.name))"
-                  color="primary"
-                  small
-                  text
-                  class="_df_custom"
-                  :source="item.url"
-                >
-                  <v-icon>auto_stories</v-icon>
-                </v-btn>
-                <v-btn
-                  color="orange lighten-2"
-                  small
-                  text
-                  @click="getEventFile(index)"
-                >
-                  <v-icon>edit</v-icon>
-                </v-btn>
-                <v-btn
-                  color="red lighten-2"
-                  small
-                  text
-                  @click="deleteEventFile(index)"
-                >
-                  <v-icon>delete_forever</v-icon>
-                </v-btn>
-              </div>
-            </v-col>
-          </v-row>
-        </div>
+                  <div>
+                    <v-btn
+                      v-if="['jpg', 'jpeg', 'png'].includes(item.mime)"
+                      color="primary"
+                      @click="showImg(0, serverBaseUrl() + item.url)"
+                      small
+                      text
+                    >
+                      <v-icon>search</v-icon>
+                    </v-btn>
+                    <v-btn
+                      v-if="['pdf'].includes(item.mime)"
+                      color="primary"
+                      small
+                      text
+                      class="_df_custom"
+                      :source="serverBaseUrl() + item.url"
+                    >
+                      <v-icon>auto_stories</v-icon>
+                    </v-btn>
+                    <v-btn color="orange lighten-2" small text>
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                    <v-btn
+                      color="red lighten-2"
+                      @click="deleteEventFile(item.id)"
+                      small
+                      text
+                    >
+                      <v-icon>delete_forever</v-icon>
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+          </template>
+        </v-data-iterator>
       </v-container>
     </v-card>
 
@@ -372,15 +328,10 @@ export default {
       event: {
         title: '',
         description: '',
-        registrationDate: {
-          value: [],
-          dialog: false,
-        },
+        registrationDate: '',
+        endRegistrationDate: '',
         registrationUrl: '',
-        expiredDate: {
-          value: '',
-          dialog: false,
-        },
+        expiredDate: '',
         showed: {
           selected: '',
           items: [
@@ -430,32 +381,108 @@ export default {
         visible: false,
       },
       validation: {
-        requiredFile: (v) => !!v || 'File harus diunggah',
-        fileSize: (v) => {
-          return v
-            ? v.size <= 5242880
-              ? true
-              : 'Maksimal ukuran file 5 MB'
-            : true
+        requiredFile: (v) => {
+          if (!v) {
+            return 'File harus diunggah'
+          }
+
+          return true
         },
-        required: (v) => !!v || 'Harus diisi',
+        fileSize: (v) => {
+          if (v) {
+            if (v.size > 5242880) {
+              return 'Maksimal ukuran file 5 MB'
+            }
+          }
+
+          return true
+        },
+        required: (v) => {
+          if (!v) {
+            return 'Harus diisi'
+          }
+
+          return true
+        },
         maxTextDefault: (v) => {
-          return v ? (v.length <= 254 ? true : 'Maksimal 254 karakter') : true
+          if (v) {
+            if (v.length > 254) {
+              return 'Maksimal 254 karakter'
+            }
+          }
+
+          return true
         },
         url: (v) => {
           let regex =
             /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}/gm
-          return v ? (regex.test(v) ? true : 'Format URL Salah') : true
+
+          if (v) {
+            if (!regex.test(v)) {
+              return 'Format URL Salah'
+            }
+          }
+
+          return true
         },
       },
     }
   },
   computed: {
-    dateRangeText() {
-      return this.event.registrationDate.value.join(' - ')
+    eventId: {
+      get() {
+        return this.$store.state.superadmin.eventFile.pagination.event_id
+      },
+      set(newValue) {
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationEventId',
+          newValue
+        )
+      },
+    },
+    page: {
+      get() {
+        return this.$store.state.superadmin.eventFile.pagination.page
+      },
+      set(newValue) {
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationPage',
+          newValue
+        )
+      },
+    },
+    limit: {
+      get() {
+        return this.$store.state.superadmin.eventFile.pagination.limit
+      },
+      set(newValue) {
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationLimit',
+          newValue
+        )
+      },
+    },
+    order: {
+      get() {
+        return this.$store.state.superadmin.eventFile.pagination.order
+      },
+      set(newValue) {
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationOrder',
+          newValue
+        )
+      },
+    },
+    eventFileData() {
+      return this.$store.state.superadmin.eventFile.pagination.data
     },
   },
   methods: {
+    registrationDateClear() {
+      this.event.registrationDate = ''
+      this.event.endRegistrationDate = ''
+      console.log(this.event)
+    },
     serverBaseUrl() {
       return process.env.serverBaseUrl
     },
@@ -465,9 +492,6 @@ export default {
       } else {
         this.event.image.url = null
       }
-    },
-    clearRegistrationValue() {
-      this.event.registrationDate.value = []
     },
     previewEventFileImage(file) {
       let url = URL.createObjectURL(file)
@@ -490,23 +514,25 @@ export default {
       let ext = re.exec(filename)[1]
       return ext
     },
-    addEventFile(close) {
+    async addEventFile(dialog) {
       const validate = this.$refs.add_event_file_form.validate()
 
       if (validate) {
-        const url = this.convertEventFileToUrl(
-          this.eventFile.addForm.file.value
-        )
         const payload = {
+          event_id: this.$route.params.idEvent,
           title: this.eventFile.addForm.fileName,
           file: this.eventFile.addForm.file.value,
-          url: url,
         }
 
-        this.eventFile.data.push(payload)
+        const response = await this.$store.dispatch(
+          'superadmin/eventFile/create',
+          payload
+        )
+
+        console.log(response)
       }
 
-      if (close) {
+      if (dialog) {
         this.eventFile.addForm.dialog = false
         this.$refs.add_event_file_form.reset()
       }
@@ -535,49 +561,35 @@ export default {
         this.eventFile.editForm.dialog = false
       }
     },
-    deleteEventFile(value) {
-      this.eventFile.data.splice(this.eventFile.data.indexOf(value), 1)
+    async deleteEventFile(id) {
+      const notif = await Swal.fire({
+        icon: 'question',
+        titleText: 'Apakah anda yakin ?',
+        confirmButtonText: 'Hapus!',
+        confirmButtonColor: 'success',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+      })
     },
     async submitData() {
-      this.submitEvent()
-
       const validate = this.$refs.event_form.validate()
 
-      if (validate) {
-        let checkFile
-        if (this.eventFile.data.length == 0) {
-          checkFile = await Swal.fire({
-            icon: 'question',
-            titleText:
-              'Berkas kegiatan belum diunggah. Apakah anda yakin ingin menyimpan data ?',
-          })
+      console.log(validate)
 
-          if (checkFile.isConfirmed()) {
-            this.submitEvent()
-          } else {
-            return
-          }
-        } else {
-          this.submitEvent()
-        }
+      if (validate) {
+        this.submitEvent()
       }
     },
     async submitEvent() {
-      let registrationDate = ''
-      let endRegistrationDate = ''
-      if (this.event.registrationDate.value.length != 0) {
-        registrationDate = this.event.registrationDate.value[0]
-        endRegistrationDate = this.event.registrationDate.value[1]
-      }
-
       const payload = {
+        id: this.$route.params.idEvent,
         arrangement_id: this.$route.params.idTatanan,
         title: this.event.title,
         description: this.event.description,
-        registration_date: registrationDate,
-        end_registration_date: endRegistrationDate,
+        registration_date: this.event.registrationDate,
+        end_registration_date: this.event.endRegistrationDate,
         registration_url: this.event.registrationUrl,
-        expired_date: this.event.expiredDate.value,
+        expired_date: this.event.expiredDate,
         showed: this.event.showed.selected,
         image: this.event.image.value,
       }
@@ -589,63 +601,6 @@ export default {
 
       switch (response.status) {
         case 200:
-          if (this.eventFile.data.length != 0) {
-            let success = 0
-            let error = 0
-            let warning = 0
-            let message = ''
-            this.eventFile.data.forEach(async (item, index) => {
-              let payload = {
-                event_id: response.data.id,
-                title: item.title,
-                file: item.file,
-              }
-
-              const response2 = await this.$store.dispatch(
-                'superadmin/eventFile/create',
-                payload
-              )
-
-              switch (response2.status) {
-                case 200:
-                  success += 1
-                  break
-
-                case 400 || 401 || 403 || 404 || 422:
-                  warning += 1
-                  message = response2.data.message
-                  break
-
-                default:
-                  error += 1
-                  message = response2.data.message
-                  break
-              }
-
-              if (index == this.eventFile.data.length - 1) {
-                if (success > 0) {
-                  return await Swal.fire({
-                    icon: 'success',
-                    titleText: 'Kegiatan Berhasil Disimpan',
-                  })
-                }
-
-                if (error > 0) {
-                  return await Swal.fire({
-                    icon: 'error',
-                    titleText: message,
-                  })
-                }
-
-                if (warning > 0) {
-                  return await Swal.fire({
-                    icon: 'warning',
-                    titleText: message,
-                  })
-                }
-              }
-            })
-          }
           break
 
         default:
@@ -679,6 +634,44 @@ export default {
       this.breadCrumbs[1].text = data.title
       this.breadCrumbs[1].href = `/dashboard/superadmin/program/${data.program_id}`
     }
+
+    const responseGetEvent = await this.$store.dispatch(
+      'superadmin/event/get',
+      this.$route.params.idEvent
+    )
+
+    switch (responseGetEvent.status) {
+      case 200:
+        let data = responseGetEvent.data
+        this.event.image.preview = this.serverBaseUrl() + data.image_url
+        this.event.title = data.title
+        this.event.description = data.description
+        this.event.registrationUrl = data.registration_url
+        this.event.expiredDate = data.expired_date
+        this.event.showed.selected = data.showed
+
+        if (data.registration_date != null) {
+          this.event.registrationDate = data.registration_date
+          this.event.endRegistrationDate = data.end_registration_date
+        }
+
+        this.$refs.event_form.resetValidation()
+        break
+
+      default:
+        this.$nuxt.error({
+          statusCode: 500,
+          message: responseGetEvent.data.message,
+        })
+        break
+    }
+
+    await this.$store.dispatch('superadmin/eventFile/pagination', {
+      event_id: Number(this.$route.params.idEvent),
+      page: this.page,
+      limit: this.limit,
+      order: this.order,
+    })
   },
 }
 </script>

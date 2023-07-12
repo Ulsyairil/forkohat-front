@@ -45,91 +45,40 @@
             v-model="event.description"
             :rules="[validation.required]"
           ></v-textarea>
-          <v-dialog
-            ref="registration_dialog"
-            v-model="event.registrationDate.dialog"
-            :return-value.sync="event.registrationDate.value"
-            persistent
-            width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="dateRangeText"
+
+          <v-row align="center">
+            <v-col cols="12" md="5" lg="5">
+              <DashboardDateTimePicker
                 label="Tanggal Pendaftaran Kegiatan"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                clearable
-                @click:clear="clearRegistrationValue()"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="event.registrationDate.value"
-              scrollable
-              range
-            >
-              <v-spacer></v-spacer>
-              <v-btn
-                text
-                color="primary"
-                @click="event.registrationDate.dialog = false"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                text
-                color="primary"
-                @click="
-                  $refs.registration_dialog.save(event.registrationDate.value)
+                v-model="event.registrationDate"
+                @clearClicked="registrationDateClear()"
+              />
+            </v-col>
+            <v-col cols="12" md="1" lg="1">s/d</v-col>
+            <v-col cols="12" md="5" lg="5">
+              <DashboardDateTimePicker
+                label="Tanggal Akhir Pendaftaran Kegiatan"
+                v-model="event.endRegistrationDate"
+                :min="event.registrationDate"
+                :disabled="event.registrationDate == '' ? true : false"
+                :rules="
+                  event.registrationDate != '' ? [validation.required] : []
                 "
-              >
-                Terapkan
-              </v-btn>
-            </v-date-picker>
-          </v-dialog>
+              />
+            </v-col>
+          </v-row>
+
           <v-text-field
             label="URL Registrasi"
             v-model="event.registrationUrl"
             :rules="[validation.url]"
           ></v-text-field>
-          <v-dialog
-            ref="expired_dialog"
-            v-model="event.expiredDate.dialog"
-            :return-value.sync="event.expiredDate.value"
-            persistent
-            width="290px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="event.expiredDate.value"
-                label="Tanggal Kegiatan Berakhir"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-                clearable
-                :rules="[validation.required]"
-              ></v-text-field>
-            </template>
-            <v-date-picker v-model="event.expiredDate.value" scrollable>
-              <v-spacer></v-spacer>
-              <v-btn
-                text
-                color="primary"
-                @click="event.expiredDate.dialog = false"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                text
-                color="primary"
-                @click="$refs.expired_dialog.save(event.expiredDate.value)"
-              >
-                Terapkan
-              </v-btn>
-            </v-date-picker>
-          </v-dialog>
+
+          <DashboardDateTimePicker
+            label="Tanggal Kegiatan Berakhir"
+            v-model="event.expiredDate"
+          />
+
           <v-select
             label="Ditampilkan"
             :items="event.showed.items"
@@ -372,15 +321,10 @@ export default {
       event: {
         title: '',
         description: '',
-        registrationDate: {
-          value: [],
-          dialog: false,
-        },
+        registrationDate: '',
+        endRegistrationDate: '',
         registrationUrl: '',
-        expiredDate: {
-          value: '',
-          dialog: false,
-        },
+        expiredDate: '',
         showed: {
           selected: '',
           items: [
@@ -430,32 +374,60 @@ export default {
         visible: false,
       },
       validation: {
-        requiredFile: (v) => !!v || 'File harus diunggah',
-        fileSize: (v) => {
-          return v
-            ? v.size <= 5242880
-              ? true
-              : 'Maksimal ukuran file 5 MB'
-            : true
+        requiredFile: (v) => {
+          if (!v) {
+            return 'File harus diunggah'
+          }
+
+          return false
         },
-        required: (v) => !!v || 'Harus diisi',
+        fileSize: (v) => {
+          if (v) {
+            if (v.size <= 5242880) {
+              return 'Maksimal ukuran file 5 MB'
+            }
+          }
+
+          return true
+        },
+        required: (v) => {
+          if (!v) {
+            return 'Harus diisi'
+          }
+
+          return false
+        },
         maxTextDefault: (v) => {
-          return v ? (v.length <= 254 ? true : 'Maksimal 254 karakter') : true
+          if (v) {
+            if (v.length > 254) {
+              return 'Maksimal 254 karakter'
+            }
+          }
+
+          return true
         },
         url: (v) => {
           let regex =
             /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}/gm
-          return v ? (regex.test(v) ? true : 'Format URL Salah') : true
+
+          if (v) {
+            if (!regex.test(v)) {
+              return 'Format URL Salah'
+            }
+          }
+
+          return true
         },
       },
     }
   },
-  computed: {
-    dateRangeText() {
-      return this.event.registrationDate.value.join(' - ')
-    },
-  },
+  computed: {},
   methods: {
+    registrationDateClear() {
+      this.event.registrationDate = ''
+      this.event.endRegistrationDate = ''
+      console.log(this.event)
+    },
     serverBaseUrl() {
       return process.env.serverBaseUrl
     },
@@ -465,9 +437,6 @@ export default {
       } else {
         this.event.image.url = null
       }
-    },
-    clearRegistrationValue() {
-      this.event.registrationDate.value = []
     },
     previewEventFileImage(file) {
       let url = URL.createObjectURL(file)
@@ -539,9 +508,9 @@ export default {
       this.eventFile.data.splice(this.eventFile.data.indexOf(value), 1)
     },
     async submitData() {
-      this.submitEvent()
-
       const validate = this.$refs.event_form.validate()
+
+      console.log(validate)
 
       if (validate) {
         let checkFile
@@ -563,21 +532,14 @@ export default {
       }
     },
     async submitEvent() {
-      let registrationDate = ''
-      let endRegistrationDate = ''
-      if (this.event.registrationDate.value.length != 0) {
-        registrationDate = this.event.registrationDate.value[0]
-        endRegistrationDate = this.event.registrationDate.value[1]
-      }
-
       const payload = {
         arrangement_id: this.$route.params.idTatanan,
         title: this.event.title,
         description: this.event.description,
-        registration_date: registrationDate,
-        end_registration_date: endRegistrationDate,
+        registration_date: this.event.registrationDate,
+        end_registration_date: this.event.endRegistrationDate,
         registration_url: this.event.registrationUrl,
-        expired_date: this.event.expiredDate.value,
+        expired_date: this.event.expiredDate,
         showed: this.event.showed.selected,
         image: this.event.image.value,
       }

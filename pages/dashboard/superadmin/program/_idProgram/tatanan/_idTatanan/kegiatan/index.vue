@@ -114,7 +114,7 @@
                           color="orange lighten-2"
                           small
                           text
-                          :to="`/dashboard/superadmin/program/${$route.params.idProgram}/tatanan/${$route.params.idTatanan}/kegiatan/${items.id}`"
+                          :to="`/dashboard/superadmin/program/${$route.params.idProgram}/tatanan/${$route.params.idTatanan}/kegiatan/${item.id}`"
                         >
                           <v-icon>edit</v-icon>
                         </v-btn>

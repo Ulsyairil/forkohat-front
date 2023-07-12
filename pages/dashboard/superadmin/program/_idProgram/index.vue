@@ -15,13 +15,11 @@
               v-if="program_form.url != null"
               :src="program_form.url"
               style="max-width: 200px"
-              data-zoomable
             />
             <img
               v-else
               src="https://via.placeholder.com/1366x768?text=Unggah+Gambar"
               style="max-width: 200px"
-              data-zoomable
             />
             <v-file-input
               label="Thumbnail Program"
@@ -101,7 +99,6 @@
                     <img
                       :src="`${serverBaseUrl()}${item.image_url}`"
                       class="v-image v-responsive"
-                      data-zoomable
                     />
                   </v-col>
                   <v-col cols="12" sm="12" md="8" lg="8">
@@ -265,7 +262,7 @@
 
 <script>
 import Swal from 'sweetalert2'
-import mediumZoom from 'medium-zoom'
+
 export default {
   layout: 'dashboard',
   head() {
@@ -634,8 +631,6 @@ export default {
       limit: this.limit,
       order: this.order,
     })
-
-    mediumZoom('[data-zoomable]')
   },
   mounted() {
     this.fetchData()

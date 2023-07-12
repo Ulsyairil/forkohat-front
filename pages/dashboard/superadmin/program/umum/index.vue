@@ -59,7 +59,6 @@
                     <img
                       :src="`${serverBaseUrl()}${item.image_url}`"
                       class="v-image v-responsive"
-                      data-zoomable
                     />
                   </v-col>
                   <v-col cols="12" sm="12" md="8" lg="8">
@@ -223,7 +222,6 @@
 
 <script>
 import Swal from 'sweetalert2'
-import mediumZoom from 'medium-zoom'
 
 export default {
   layout: 'dashboard',
@@ -515,8 +513,6 @@ export default {
       limit: this.limit,
       order: this.order,
     })
-
-    mediumZoom('[data-zoomable]')
   },
   mounted() {
     this.fetchData()
