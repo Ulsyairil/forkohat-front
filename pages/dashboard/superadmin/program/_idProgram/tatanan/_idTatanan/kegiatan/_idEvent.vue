@@ -37,7 +37,7 @@
               label="Thumbnail Kegiatan *"
               v-model="event.image.value"
               :accept="event.image.accept"
-              :rules="[validation.requiredFile, validation.fileSize]"
+              :rules="[validation.fileSize]"
               @change="previewEventImage()"
               show-size
             ></v-file-input>
@@ -94,6 +94,8 @@
             clearable
           ></v-select>
         </v-form>
+
+        <v-btn class="primary" @click="submitData()"> Simpan </v-btn>
       </v-container>
     </v-card>
 
@@ -216,7 +218,12 @@
                     >
                       <v-icon>auto_stories</v-icon>
                     </v-btn>
-                    <v-btn color="orange lighten-2" small text>
+                    <v-btn
+                      color="orange lighten-2"
+                      @click="getEventFile(item.id)"
+                      small
+                      text
+                    >
                       <v-icon>edit</v-icon>
                     </v-btn>
                     <v-btn
@@ -245,14 +252,14 @@
         <v-container>
           <v-form
             ref="edit_event_file_form"
-            @submit.prevent="editEventFile(eventFile.editForm.index)"
+            @submit.prevent="editEventFile(eventFile.editForm.id)"
             lazy-validation
           >
             <v-file-input
               label="Unggah Berkas"
               v-model="eventFile.editForm.file.value"
               :accept="eventFile.editForm.file.accept"
-              :rules="[validation.requiredFile, validation.fileSize]"
+              :rules="[validation.fileSize]"
               show-size
             ></v-file-input>
             <v-text-field
@@ -266,19 +273,13 @@
             <v-btn class="primary" @click="eventFile.editForm.dialog = false"
               >Batal</v-btn
             >
-            <v-btn
-              class="success"
-              @click="editEventFile(eventFile.editForm.index)"
+            <v-btn class="success" @click="editEventFile(eventFile.editForm.id)"
               >Simpan</v-btn
             >
           </div>
         </v-container>
       </v-card>
     </v-dialog>
-
-    <div class="mt-3">
-      <v-btn class="primary" @click="submitData()"> Simpan </v-btn>
-    </div>
 
     <vue-easy-lightbox
       :visible="lightBox.visible"
@@ -366,7 +367,7 @@ export default {
         },
         editForm: {
           dialog: false,
-          index: null,
+          id: null,
           file: {
             value: null,
             accept:
@@ -530,6 +531,23 @@ export default {
         )
 
         console.log(response)
+
+        switch (response.status) {
+          case 200:
+            this.$fetch()
+            Swal.fire({
+              icon: 'success',
+              titleText: 'Berkas berhasil disimpan',
+            })
+            break
+
+          default:
+            Swal.fire({
+              icon: 'error',
+              titleText: response.data.message,
+            })
+            break
+        }
       }
 
       if (dialog) {
@@ -537,28 +555,64 @@ export default {
         this.$refs.add_event_file_form.reset()
       }
     },
-    getEventFile(index) {
-      let data = this.eventFile.data[index]
-      this.eventFile.editForm.fileName = data.title
-      this.eventFile.editForm.file.value = data.file
-      this.eventFile.editForm.index = index
-      this.eventFile.editForm.dialog = true
+    async getEventFile(id) {
+      const response = await this.$store.dispatch(
+        'superadmin/eventFile/get',
+        id
+      )
+
+      switch (response.status) {
+        case 200:
+          let data = response.data
+          this.eventFile.editForm.id = data.id
+          this.eventFile.editForm.fileName = data.title
+          this.eventFile.editForm.dialog = true
+          break
+
+        default:
+          Swal.fire({
+            icon: 'error',
+            titleText: response.data.message,
+          })
+          break
+      }
     },
-    editEventFile(index) {
+    async editEventFile(id) {
       const validate = this.$refs.edit_event_file_form.validate()
 
       if (validate) {
-        const url = this.convertEventFileToUrl(
-          this.eventFile.editForm.file.value
-        )
-        const payload = {
+        let payload = {
+          id: id,
+          event_id: this.$route.params.idEvent,
           title: this.eventFile.editForm.fileName,
-          file: this.eventFile.editForm.file.value,
-          url: url,
         }
 
-        this.eventFile.data[index] = payload
-        this.eventFile.editForm.dialog = false
+        if (this.eventFile.editForm.file.value) {
+          payload.file = this.eventFile.editForm.file.value
+        }
+
+        const response = await this.$store.dispatch(
+          'superadmin/eventFile/edit',
+          payload
+        )
+
+        switch (response.status) {
+          case 200:
+            this.eventFile.editForm.dialog = false
+            this.$fetch()
+            Swal.fire({
+              icon: 'success',
+              titleText: 'Berkas berhasil diubah',
+            })
+            break
+
+          default:
+            Swal.fire({
+              icon: 'error',
+              titleText: response.data.message,
+            })
+            break
+        }
       }
     },
     async deleteEventFile(id) {
@@ -570,6 +624,33 @@ export default {
         showCancelButton: true,
         cancelButtonText: 'Batal',
       })
+
+      if (notif.isConfirmed) {
+        const response = await this.$store.dispatch(
+          'superadmin/eventFile/destroy',
+          id
+        )
+
+        console.log(response)
+
+        switch (response.status) {
+          case 200:
+            this.$fetch()
+
+            Swal.fire({
+              icon: 'success',
+              titleText: 'Berkas berhasil dihapus',
+            })
+            break
+
+          default:
+            Swal.fire({
+              icon: 'error',
+              titleText: response.data.message,
+            })
+            break
+        }
+      }
     },
     async submitData() {
       const validate = this.$refs.event_form.validate()
@@ -591,22 +672,29 @@ export default {
         registration_url: this.event.registrationUrl,
         expired_date: this.event.expiredDate,
         showed: this.event.showed.selected,
-        image: this.event.image.value,
+      }
+
+      if (this.event.image.value) {
+        payload.image = this.event.image.value
       }
 
       const response = await this.$store.dispatch(
-        'superadmin/event/create',
+        'superadmin/event/edit',
         payload
       )
 
       switch (response.status) {
         case 200:
+          Swal.fire({
+            icon: 'success',
+            titleText: 'Kegiatan berhasil diubah',
+          })
           break
 
         default:
-          await Swal.fire({
-            icon: 'warning',
-            titleText: message,
+          Swal.fire({
+            icon: 'error',
+            titleText: response.data.message,
           })
           break
       }
