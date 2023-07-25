@@ -31,7 +31,7 @@
         <v-btn
           type="button"
           color="primary"
-          to="/dashboard/superadmin/user/rule/add"
+          to="/dashboard/superadmin/rule/add"
         >
           <v-icon>add</v-icon>
           Tambah
@@ -85,7 +85,7 @@
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon
             class="mr-2"
-            @click="$router.push(`/dashboard/superadmin/user/rule/${item.id}`)"
+            @click="$router.push(`/dashboard/superadmin/rule/${item.id}`)"
           >
             edit
           </v-icon>

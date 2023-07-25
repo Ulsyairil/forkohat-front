@@ -7,7 +7,6 @@
           :key="item.index"
           :v-model="item.value"
           :prepend-icon="item.icon"
-          :group="item.group"
         >
           <template v-slot:activator>
             <v-list-item-content>
@@ -20,7 +19,6 @@
             :key="subitem.index"
             :to="subitem.to"
             router
-            exact-path
           >
             <v-list-item-action>
               <v-icon>{{ subitem.icon }}</v-icon>
@@ -82,14 +80,13 @@ export default {
           items: [
             {
               value: false,
-              group: 'program',
               icon: 'south_america',
               title: 'Program',
               subitems: [
                 {
                   icon: '',
                   title: 'Umum',
-                  to: '/dashboard/superadmin/program/umum',
+                  to: '/dashboard/superadmin/umum',
                 },
                 {
                   icon: '',
@@ -100,7 +97,6 @@ export default {
             },
             {
               value: false,
-              group: 'user',
               icon: 'group',
               title: 'Pengguna',
               subitems: [
@@ -112,13 +108,12 @@ export default {
                 {
                   icon: '',
                   title: 'Aturan',
-                  to: '/dashboard/superadmin/user/rule',
+                  to: '/dashboard/superadmin/rule',
                 },
               ],
             },
             {
               value: false,
-              group: 'image',
               icon: 'image',
               title: 'Gambar',
               subitems: [

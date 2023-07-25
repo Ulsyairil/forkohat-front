@@ -5,6 +5,7 @@
         <v-btn color="primary" @click="$router.go(-1)" fab>
           <v-icon>arrow_back</v-icon>
         </v-btn>
+
         &nbsp; Ubah Program
       </v-card-title>
 
@@ -96,9 +97,22 @@
               >
                 <v-row>
                   <v-col cols="12" sm="12" md="4" lg="4">
-                    <img
+                    <v-img
+                      v-if="item.image_url"
                       :src="`${serverBaseUrl()}${item.image_url}`"
                       class="v-image v-responsive"
+                      @click="showImg(0, `${serverBaseUrl()}${item.image_url}`)"
+                    />
+                    <v-img
+                      v-else
+                      src="https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan"
+                      class="v-image v-responsive"
+                      @click="
+                        showImg(
+                          0,
+                          'https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan'
+                        )
+                      "
                     />
                   </v-col>
                   <v-col cols="12" sm="12" md="8" lg="8">
@@ -257,6 +271,14 @@
         </v-container>
       </v-card>
     </v-dialog>
+
+    <vue-easy-lightbox
+      :visible="lightBox.visible"
+      :imgs="lightBox.img"
+      :index="lightBox.index"
+      @hide="handleHideImg()"
+      :moveDisabled="true"
+    ></vue-easy-lightbox>
   </v-container>
 </template>
 
@@ -267,11 +289,12 @@ export default {
   layout: 'dashboard',
   head() {
     return {
-      title: 'Daftar Tatanan - <Nama Program>',
+      title: this.titlePage,
     }
   },
   data() {
     return {
+      titlePage: 'Ubah Program & Daftar Tatanan',
       program_form: {
         title: '',
         description: '',
@@ -298,6 +321,11 @@ export default {
       itemsPerPageArray: [10, 25, 50, 75, 100],
       addArrangementDialog: false,
       editArrangementDialog: false,
+      lightBox: {
+        index: 0,
+        img: '',
+        visible: false,
+      },
       validation: {
         requiredFile: (v) => !!v || 'File harus diunggah',
         imageSize: (v) =>
@@ -371,6 +399,14 @@ export default {
       } else {
         this.arrangement_form.url = null
       }
+    },
+    showImg(index = Number, img = String) {
+      this.lightBox.index = index
+      this.lightBox.img = img
+      this.lightBox.visible = true
+    },
+    handleHideImg() {
+      this.lightBox.visible = false
     },
     async update() {
       const validate = this.$refs.program_form.validate()

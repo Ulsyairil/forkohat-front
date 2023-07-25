@@ -20,6 +20,13 @@
               style="cursor: zoom-in"
             />
             <v-img
+              v-else-if="event.image.preview != null"
+              :src="event.image.preview"
+              @click="showImg(0, event.image.preview)"
+              max-width="200"
+              style="cursor: zoom-in"
+            />
+            <v-img
               v-else
               :src="event.image.default"
               @click="showImg(0, event.image.default)"
@@ -30,7 +37,7 @@
               label="Thumbnail Kegiatan *"
               v-model="event.image.value"
               :accept="event.image.accept"
-              :rules="[validation.requiredFile, validation.fileSize]"
+              :rules="[validation.fileSize]"
               @change="previewEventImage()"
               show-size
             ></v-file-input>
@@ -87,6 +94,8 @@
             clearable
           ></v-select>
         </v-form>
+
+        <v-btn class="primary" @click="submitData()"> Simpan </v-btn>
       </v-container>
     </v-card>
 
@@ -142,90 +151,95 @@
       </v-container>
 
       <v-container>
-        <div v-if="eventFile.data.length == 0">Berkas Belum Diunggah</div>
+        <v-data-iterator
+          :items="eventFileData.data"
+          :items-per-page.sync="limit"
+          :page.sync="page"
+          :server-items-length="eventFileData.total"
+          @update:items-per-page="$fetch()"
+          @update:page="$fetch()"
+          no-data-text="Data Kosong"
+          no-results-text="Data Tidak Ditemukan"
+        >
+          <template v-slot:default="props">
+            <div v-for="(item, index) in props.items" :key="index">
+              <v-row align="center" justify="center" class="mb-0">
+                <v-col cols="12" sm="12" md="2" lg="2" class="text-center">
+                  <v-icon v-if="item.mime === 'pdf'" size="70px">
+                    picture_as_pdf
+                  </v-icon>
+                  <v-icon
+                    v-if="
+                      [
+                        'doc',
+                        'docs',
+                        'xls',
+                        'xlsx',
+                        'ppt',
+                        'pptx',
+                        'odt',
+                        'ods',
+                        'odp',
+                      ].includes(item.mime)
+                    "
+                    size="70px"
+                  >
+                    description
+                  </v-icon>
+                  <v-icon
+                    v-if="['jpg', 'jpeg', 'png'].includes(item.mime)"
+                    size="70px"
+                  >
+                    image
+                  </v-icon>
+                </v-col>
+                <v-col cols="12" sm="12" md="10" lg="10">
+                  <v-card-title>
+                    {{ item.title }}
+                  </v-card-title>
 
-        <div v-for="(item, index) in eventFile.data" :key="index">
-          <v-row align="center" justify="center" class="mb-0">
-            <v-col cols="12" sm="12" md="2" lg="2" class="text-center">
-              <v-icon v-if="getExtension(item.file.name) === 'pdf'" size="70px">
-                picture_as_pdf
-              </v-icon>
-              <v-icon
-                v-if="
-                  [
-                    'doc',
-                    'docs',
-                    'xls',
-                    'xlsx',
-                    'ppt',
-                    'pptx',
-                    'odt',
-                    'ods',
-                    'odp',
-                  ].includes(getExtension(item.file.name))
-                "
-                size="70px"
-              >
-                description
-              </v-icon>
-              <v-icon
-                v-if="
-                  ['jpg', 'jpeg', 'png'].includes(getExtension(item.file.name))
-                "
-                size="70px"
-              >
-                image
-              </v-icon>
-            </v-col>
-            <v-col cols="12" sm="12" md="10" lg="10">
-              <v-card-title>
-                {{ item.title }}
-              </v-card-title>
-
-              <div>
-                <v-btn
-                  v-if="
-                    ['jpg', 'jpeg', 'png'].includes(
-                      getExtension(item.file.name)
-                    )
-                  "
-                  color="primary"
-                  small
-                  text
-                  @click="previewEventFileImage(item.file)"
-                >
-                  <v-icon>search</v-icon>
-                </v-btn>
-                <v-btn
-                  v-if="['pdf'].includes(getExtension(item.file.name))"
-                  color="primary"
-                  small
-                  text
-                  class="_df_custom"
-                  :source="item.url"
-                >
-                  <v-icon>auto_stories</v-icon>
-                </v-btn>
-                <v-btn
-                  color="orange lighten-2"
-                  small
-                  text
-                  @click="getEventFile(index)"
-                >
-                  <v-icon>edit</v-icon>
-                </v-btn>
-                <v-btn
-                  color="red lighten-2"
-                  small
-                  text
-                  @click="deleteEventFile(index)"
-                >
-                  <v-icon>delete_forever</v-icon>
-                </v-btn>
-              </div>
-            </v-col>
-          </v-row>
-        </div>
+                  <div>
+                    <v-btn
+                      v-if="['jpg', 'jpeg', 'png'].includes(item.mime)"
+                      color="primary"
+                      @click="showImg(0, serverBaseUrl() + item.url)"
+                      small
+                      text
+                    >
+                      <v-icon>search</v-icon>
+                    </v-btn>
+                    <v-btn
+                      v-if="['pdf'].includes(item.mime)"
+                      color="primary"
+                      small
+                      text
+                      class="_df_custom"
+                      :source="serverBaseUrl() + item.url"
+                    >
+                      <v-icon>auto_stories</v-icon>
+                    </v-btn>
+                    <v-btn
+                      color="orange lighten-2"
+                      @click="getEventFile(item.id)"
+                      small
+                      text
+                    >
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                    <v-btn
+                      color="red lighten-2"
+                      @click="deleteEventFile(item.id)"
+                      small
+                      text
+                    >
+                      <v-icon>delete_forever</v-icon>
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+          </template>
+        </v-data-iterator>
       </v-container>
     </v-card>
 
@@ -238,14 +252,14 @@
         <v-container>
           <v-form
             ref="edit_event_file_form"
-            @submit.prevent="editEventFile(eventFile.editForm.index)"
+            @submit.prevent="editEventFile(eventFile.editForm.id)"
             lazy-validation
           >
             <v-file-input
               label="Unggah Berkas"
               v-model="eventFile.editForm.file.value"
               :accept="eventFile.editForm.file.accept"
-              :rules="[validation.requiredFile, validation.fileSize]"
+              :rules="[validation.fileSize]"
               show-size
             ></v-file-input>
             <v-text-field
@@ -259,19 +273,13 @@
             <v-btn class="primary" @click="eventFile.editForm.dialog = false"
               >Batal</v-btn
             >
-            <v-btn
-              class="success"
-              @click="editEventFile(eventFile.editForm.index)"
+            <v-btn class="success" @click="editEventFile(eventFile.editForm.id)"
               >Simpan</v-btn
             >
           </div>
         </v-container>
       </v-card>
     </v-dialog>
-
-    <div class="mt-3">
-      <v-btn class="primary" @click="submitData()"> Simpan </v-btn>
-    </div>
 
     <vue-easy-lightbox
       :visible="lightBox.visible"
@@ -290,18 +298,13 @@ export default {
   layout: 'dashboard',
   head() {
     return {
-      title: this.titlePage,
+      title: 'Tambah Kegiatan',
     }
   },
   data() {
     return {
-      titlePage: 'Tambah Kegiatan',
+      titlePage: null,
       breadCrumbs: [
-        {
-          text: '',
-          disabled: false,
-          href: '',
-        },
         {
           text: '',
           disabled: false,
@@ -310,7 +313,7 @@ export default {
         {
           text: 'Daftar Kegiatan',
           disabled: false,
-          href: `/dashboard/superadmin/program/${this.$route.params.idProgram}/tatanan/${this.$route.params.idTatanan}/kegiatan`,
+          href: `/dashboard/superadmin/umum/${this.$route.params.idProgram}/tatanan/${this.$route.params.idTatanan}/kegiatan`,
         },
         {
           text: 'Tambah Kegiatan',
@@ -359,7 +362,7 @@ export default {
         },
         editForm: {
           dialog: false,
-          index: null,
+          id: null,
           file: {
             value: null,
             accept:
@@ -379,11 +382,11 @@ export default {
             return 'File harus diunggah'
           }
 
-          return false
+          return true
         },
         fileSize: (v) => {
           if (v) {
-            if (v.size <= 5242880) {
+            if (v.size > 5242880) {
               return 'Maksimal ukuran file 5 MB'
             }
           }
@@ -395,7 +398,7 @@ export default {
             return 'Harus diisi'
           }
 
-          return false
+          return true
         },
         maxTextDefault: (v) => {
           if (v) {
@@ -421,7 +424,55 @@ export default {
       },
     }
   },
-  computed: {},
+  computed: {
+    eventId: {
+      get() {
+        return this.$store.state.superadmin.eventFile.pagination.event_id
+      },
+      set(newValue) {
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationEventId',
+          newValue
+        )
+      },
+    },
+    page: {
+      get() {
+        return this.$store.state.superadmin.eventFile.pagination.page
+      },
+      set(newValue) {
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationPage',
+          newValue
+        )
+      },
+    },
+    limit: {
+      get() {
+        return this.$store.state.superadmin.eventFile.pagination.limit
+      },
+      set(newValue) {
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationLimit',
+          newValue
+        )
+      },
+    },
+    order: {
+      get() {
+        return this.$store.state.superadmin.eventFile.pagination.order
+      },
+      set(newValue) {
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationOrder',
+          newValue
+        )
+      },
+    },
+    eventFileData() {
+      return this.$store.state.superadmin.eventFile.pagination.data
+    },
+  },
   methods: {
     registrationDateClear() {
       this.event.registrationDate = ''
@@ -459,53 +510,142 @@ export default {
       let ext = re.exec(filename)[1]
       return ext
     },
-    addEventFile(close) {
+    async addEventFile(dialog) {
       const validate = this.$refs.add_event_file_form.validate()
 
       if (validate) {
-        const url = this.convertEventFileToUrl(
-          this.eventFile.addForm.file.value
-        )
         const payload = {
+          event_id: this.$route.params.idEvent,
           title: this.eventFile.addForm.fileName,
           file: this.eventFile.addForm.file.value,
-          url: url,
         }
 
-        this.eventFile.data.push(payload)
+        const response = await this.$store.dispatch(
+          'superadmin/eventFile/create',
+          payload
+        )
+
+        console.log(response)
+
+        switch (response.status) {
+          case 200:
+            this.$fetch()
+            Swal.fire({
+              icon: 'success',
+              titleText: 'Berkas berhasil disimpan',
+            })
+            break
+
+          default:
+            Swal.fire({
+              icon: 'error',
+              titleText: response.data.message,
+            })
+            break
+        }
       }
 
-      if (close) {
+      if (dialog) {
         this.eventFile.addForm.dialog = false
         this.$refs.add_event_file_form.reset()
       }
     },
-    getEventFile(index) {
-      let data = this.eventFile.data[index]
-      this.eventFile.editForm.fileName = data.title
-      this.eventFile.editForm.file.value = data.file
-      this.eventFile.editForm.index = index
-      this.eventFile.editForm.dialog = true
+    async getEventFile(id) {
+      const response = await this.$store.dispatch(
+        'superadmin/eventFile/get',
+        id
+      )
+
+      switch (response.status) {
+        case 200:
+          let data = response.data
+          this.eventFile.editForm.id = data.id
+          this.eventFile.editForm.fileName = data.title
+          this.eventFile.editForm.dialog = true
+          break
+
+        default:
+          Swal.fire({
+            icon: 'error',
+            titleText: response.data.message,
+          })
+          break
+      }
     },
-    editEventFile(index) {
+    async editEventFile(id) {
       const validate = this.$refs.edit_event_file_form.validate()
 
       if (validate) {
-        const url = this.convertEventFileToUrl(
-          this.eventFile.editForm.file.value
-        )
-        const payload = {
+        let payload = {
+          id: id,
+          event_id: this.$route.params.idEvent,
           title: this.eventFile.editForm.fileName,
-          file: this.eventFile.editForm.file.value,
-          url: url,
         }
 
-        this.eventFile.data[index] = payload
-        this.eventFile.editForm.dialog = false
+        if (this.eventFile.editForm.file.value) {
+          payload.file = this.eventFile.editForm.file.value
+        }
+
+        const response = await this.$store.dispatch(
+          'superadmin/eventFile/edit',
+          payload
+        )
+
+        switch (response.status) {
+          case 200:
+            this.eventFile.editForm.dialog = false
+            this.$fetch()
+            Swal.fire({
+              icon: 'success',
+              titleText: 'Berkas berhasil diubah',
+            })
+            break
+
+          default:
+            Swal.fire({
+              icon: 'error',
+              titleText: response.data.message,
+            })
+            break
+        }
       }
     },
-    deleteEventFile(value) {
-      this.eventFile.data.splice(this.eventFile.data.indexOf(value), 1)
+    async deleteEventFile(id) {
+      const notif = await Swal.fire({
+        icon: 'question',
+        titleText: 'Apakah anda yakin ?',
+        confirmButtonText: 'Hapus!',
+        confirmButtonColor: 'success',
+        showCancelButton: true,
+        cancelButtonText: 'Batal',
+      })
+
+      if (notif.isConfirmed) {
+        const response = await this.$store.dispatch(
+          'superadmin/eventFile/destroy',
+          id
+        )
+
+        console.log(response)
+
+        switch (response.status) {
+          case 200:
+            this.$fetch()
+
+            Swal.fire({
+              icon: 'success',
+              titleText: 'Berkas berhasil dihapus',
+            })
+            break
+
+          default:
+            Swal.fire({
+              icon: 'error',
+              titleText: response.data.message,
+            })
+            break
+        }
+      }
     },
     async submitData() {
       const validate = this.$refs.event_form.validate()
@@ -513,26 +653,12 @@ export default {
       console.log(validate)
 
       if (validate) {
-        let checkFile
-        if (this.eventFile.data.length == 0) {
-          checkFile = await Swal.fire({
-            icon: 'question',
-            titleText:
-              'Berkas kegiatan belum diunggah. Apakah anda yakin ingin menyimpan data ?',
-          })
-
-          if (checkFile.isConfirmed()) {
-            this.submitEvent()
-          } else {
-            return
-          }
-        } else {
-          this.submitEvent()
-        }
+        this.submitEvent()
       }
     },
     async submitEvent() {
       const payload = {
+        id: this.$route.params.idEvent,
         arrangement_id: this.$route.params.idTatanan,
         title: this.event.title,
         description: this.event.description,
@@ -541,96 +667,35 @@ export default {
         registration_url: this.event.registrationUrl,
         expired_date: this.event.expiredDate,
         showed: this.event.showed.selected,
-        image: this.event.image.value,
+      }
+
+      if (this.event.image.value) {
+        payload.image = this.event.image.value
       }
 
       const response = await this.$store.dispatch(
-        'superadmin/event/create',
+        'superadmin/event/edit',
         payload
       )
 
       switch (response.status) {
         case 200:
-          if (this.eventFile.data.length != 0) {
-            let success = 0
-            let error = 0
-            let warning = 0
-            let message = ''
-            this.eventFile.data.forEach(async (item, index) => {
-              let payload = {
-                event_id: response.data.id,
-                title: item.title,
-                file: item.file,
-              }
-
-              const response2 = await this.$store.dispatch(
-                'superadmin/eventFile/create',
-                payload
-              )
-
-              switch (response2.status) {
-                case 200:
-                  success += 1
-                  break
-
-                case 400 || 401 || 403 || 404 || 422:
-                  warning += 1
-                  message = response2.data.message
-                  break
-
-                default:
-                  error += 1
-                  message = response2.data.message
-                  break
-              }
-
-              if (index == this.eventFile.data.length - 1) {
-                if (success > 0) {
-                  return await Swal.fire({
-                    icon: 'success',
-                    titleText: 'Kegiatan Berhasil Disimpan',
-                  })
-                }
-
-                if (error > 0) {
-                  return await Swal.fire({
-                    icon: 'error',
-                    titleText: message,
-                  })
-                }
-
-                if (warning > 0) {
-                  return await Swal.fire({
-                    icon: 'warning',
-                    titleText: message,
-                  })
-                }
-              }
-            })
-          }
+          Swal.fire({
+            icon: 'success',
+            titleText: 'Kegiatan berhasil diubah',
+          })
           break
 
         default:
-          await Swal.fire({
-            icon: 'warning',
-            titleText: message,
+          Swal.fire({
+            icon: 'error',
+            titleText: response.data.message,
           })
           break
       }
     },
   },
   async fetch() {
-    const responseGetProgram = await this.$store.dispatch(
-      'superadmin/program/get',
-      this.$route.params.idProgram
-    )
-
-    if (responseGetProgram.status == 200) {
-      let data = responseGetProgram.data
-      this.breadCrumbs[0].text = data.title
-      this.breadCrumbs[0].href = `/dashboard/superadmin/program/${data.id}`
-    }
-
     const responseGetArrangement = await this.$store.dispatch(
       'superadmin/arrangement/get',
       this.$route.params.idTatanan
@@ -638,9 +703,47 @@ export default {
 
     if (responseGetArrangement.status == 200) {
       let data = responseGetArrangement.data
-      this.breadCrumbs[1].text = data.title
-      this.breadCrumbs[1].href = `/dashboard/superadmin/program/${data.program_id}`
+      this.breadCrumbs[0].text = data.title
+      this.breadCrumbs[0].href = `/dashboard/superadmin/umum`
     }
+
+    const responseGetEvent = await this.$store.dispatch(
+      'superadmin/event/get',
+      this.$route.params.idEvent
+    )
+
+    switch (responseGetEvent.status) {
+      case 200:
+        let data = responseGetEvent.data
+        this.event.image.preview = this.serverBaseUrl() + data.image_url
+        this.event.title = data.title
+        this.event.description = data.description
+        this.event.registrationUrl = data.registration_url
+        this.event.expiredDate = data.expired_date
+        this.event.showed.selected = data.showed
+
+        if (data.registration_date != null) {
+          this.event.registrationDate = data.registration_date
+          this.event.endRegistrationDate = data.end_registration_date
+        }
+
+        this.$refs.event_form.resetValidation()
+        break
+
+      default:
+        this.$nuxt.error({
+          statusCode: 500,
+          message: responseGetEvent.data.message,
+        })
+        break
+    }
+
+    await this.$store.dispatch('superadmin/eventFile/pagination', {
+      event_id: Number(this.$route.params.idEvent),
+      page: this.page,
+      limit: this.limit,
+      order: this.order,
+    })
   },
 }
 </script>

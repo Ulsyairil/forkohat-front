@@ -295,11 +295,6 @@ export default {
           href: '',
         },
         {
-          text: '',
-          disabled: false,
-          href: '',
-        },
-        {
           text: 'Daftar Isi Tatanan',
           disabled: true,
           href: '',
@@ -785,12 +780,9 @@ export default {
     switch (responseArrangement.status) {
       case 200:
         let data = responseArrangement.data
-        this.breadCrumbs[0].disabled = false
-        this.breadCrumbs[0].href = `/dashboard/superadmin/program/${this.$route.params.idProgram}`
-        this.breadCrumbs[0].text = data.Program.title
 
-        this.breadCrumbs[1].disabled = true
-        this.breadCrumbs[1].text = data.title
+        this.breadCrumbs[0].disabled = true
+        this.breadCrumbs[0].text = data.title
         break
 
       case 404:

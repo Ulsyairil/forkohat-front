@@ -5,7 +5,7 @@
         <v-btn color="primary" @click="$router.go(-1)" fab>
           <v-icon>arrow_back</v-icon>
         </v-btn>
-        &nbsp; Daftar Tatanan
+        &nbsp; Daftar Tatanan Umum
       </v-card-title>
 
       <v-container>
@@ -56,9 +56,22 @@
               >
                 <v-row>
                   <v-col cols="12" sm="12" md="4" lg="4">
-                    <img
+                    <v-img
+                      v-if="item.image_url"
                       :src="`${serverBaseUrl()}${item.image_url}`"
                       class="v-image v-responsive"
+                      @click="showImg(0, `${serverBaseUrl()}${item.image_url}`)"
+                    />
+                    <v-img
+                      v-else
+                      src="https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan"
+                      class="v-image v-responsive"
+                      @click="
+                        showImg(
+                          0,
+                          'https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan'
+                        )
+                      "
                     />
                   </v-col>
                   <v-col cols="12" sm="12" md="8" lg="8">
@@ -79,7 +92,7 @@
                       <v-card-actions style="position: absolute; bottom: 0">
                         <v-btn
                           color="primary lighten-2"
-                          :to="`${item.id}`"
+                          :to="`/dashboard/superadmin/umum/tatanan/${item.id}/kegiatan`"
                           small
                           text
                         >
@@ -87,7 +100,7 @@
                         </v-btn>
                         <v-btn
                           color="primary lighten-2"
-                          :to="`/dashboard/superadmin/program/tatanan/isi/${item.id}`"
+                          :to="`/dashboard/superadmin/umum/tatanan/${item.id}/isi`"
                           small
                           text
                         >
@@ -217,6 +230,14 @@
         </v-container>
       </v-card>
     </v-dialog>
+
+    <vue-easy-lightbox
+      :visible="lightBox.visible"
+      :imgs="lightBox.img"
+      :index="lightBox.index"
+      @hide="handleHideImg()"
+      :moveDisabled="true"
+    ></vue-easy-lightbox>
   </v-container>
 </template>
 
@@ -227,11 +248,12 @@ export default {
   layout: 'dashboard',
   head() {
     return {
-      title: 'Daftar Tatanan - <Nama Program>',
+      title: this.titlePage,
     }
   },
   data() {
     return {
+      titlePage: 'Daftar Tatanan Umum',
       arrangement_form: {
         id: null,
         title: '',
@@ -252,6 +274,11 @@ export default {
       itemsPerPageArray: [10, 25, 50, 75, 100],
       addArrangementDialog: false,
       editArrangementDialog: false,
+      lightBox: {
+        index: 0,
+        img: '',
+        visible: false,
+      },
       validation: {
         requiredFile: (v) => !!v || 'File harus diunggah',
         imageSize: (v) =>
@@ -319,6 +346,14 @@ export default {
         this.arrangement_form.url = null
       }
     },
+    showImg(index = Number, img = String) {
+      this.lightBox.index = index
+      this.lightBox.img = img
+      this.lightBox.visible = true
+    },
+    handleHideImg() {
+      this.lightBox.visible = false
+    },
     async destroy(id) {
       const notif = await Swal.fire({
         icon: 'warning',
@@ -383,7 +418,7 @@ export default {
         const response = await this.$store.dispatch(
           'superadmin/arrangement/create',
           {
-            program_id: this.$route.params.id,
+            program_id: 1,
             title: this.arrangement_form.title,
             description: this.arrangement_form.description,
             image: this.arrangement_form.file,
@@ -466,7 +501,7 @@ export default {
           'superadmin/arrangement/edit',
           {
             id: this.arrangement_form.id,
-            program_id: this.$route.params.id,
+            program_id: 1,
             title: this.arrangement_form.title,
             description: this.arrangement_form.description,
             image: this.arrangement_form.file,

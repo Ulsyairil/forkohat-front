@@ -303,14 +303,9 @@ export default {
           href: '',
         },
         {
-          text: '',
-          disabled: false,
-          href: '',
-        },
-        {
           text: 'Daftar Kegiatan',
           disabled: false,
-          href: `/dashboard/superadmin/program/${this.$route.params.idProgram}/tatanan/${this.$route.params.idTatanan}/kegiatan`,
+          href: `/dashboard/superadmin/umum/tatanan/${this.$route.params.idTatanan}/kegiatan`,
         },
         {
           text: 'Tambah Kegiatan',
@@ -620,17 +615,6 @@ export default {
     },
   },
   async fetch() {
-    const responseGetProgram = await this.$store.dispatch(
-      'superadmin/program/get',
-      this.$route.params.idProgram
-    )
-
-    if (responseGetProgram.status == 200) {
-      let data = responseGetProgram.data
-      this.breadCrumbs[0].text = data.title
-      this.breadCrumbs[0].href = `/dashboard/superadmin/program/${data.id}`
-    }
-
     const responseGetArrangement = await this.$store.dispatch(
       'superadmin/arrangement/get',
       this.$route.params.idTatanan
@@ -638,8 +622,8 @@ export default {
 
     if (responseGetArrangement.status == 200) {
       let data = responseGetArrangement.data
-      this.breadCrumbs[1].text = data.title
-      this.breadCrumbs[1].href = `/dashboard/superadmin/program/${data.program_id}`
+      this.breadCrumbs[0].text = data.title
+      this.breadCrumbs[0].href = `/dashboard/superadmin/umum`
     }
   },
 }
