@@ -124,7 +124,7 @@ export default {
                 },
                 {
                   icon: '',
-                  title: 'Gallery',
+                  title: 'Galeri',
                   to: '/dashboard/superadmin/image/gallery',
                 },
               ],
