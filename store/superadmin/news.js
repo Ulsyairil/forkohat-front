@@ -1,11 +1,9 @@
 export const state = () => ({
   pagination: {
-    arrangement_id: null,
     page: 1,
     limit: 10,
     order: 'desc',
     trash: false,
-    showed: 'public', // public or member
     search: '',
     data: [],
   },
@@ -13,9 +11,6 @@ export const state = () => ({
 })
 
 export const mutations = {
-  exportPaginationArrangementId(state, value) {
-    state.pagination.arrangement_id = value
-  },
   exportPaginationPage(state, value) {
     state.pagination.page = value
   },
@@ -28,9 +23,6 @@ export const mutations = {
   exportPaginationTrash(state, value) {
     state.pagination.trash = value
   },
-  exportPaginationShowed(state, value) {
-    state.pagination.showed = value
-  },
   exportPaginationSearch(state, value) {
     state.pagination.search = value
   },
@@ -40,28 +32,17 @@ export const mutations = {
 }
 
 export const actions = {
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async pagination(context, value) {
     try {
-      const response = await this.$axios.post('/superadmin/events', {
-        arrangement_id: value.arrangement_id,
+      const response = await this.$axios.post('/superadmin/news', {
         page: value.page,
         limit: value.limit,
         order: value.order,
         trash: value.trash,
-        showed: value.showed,
         search: value.search,
       })
 
       if (response.status == 200) {
-        if (value.arrangement_id) {
-          context.commit('exportPaginationArrangementId', value.arrangement_id)
-        }
         if (value.page) {
           context.commit('exportPaginationPage', value.page)
         }
@@ -73,9 +54,6 @@ export const actions = {
         }
         if (value.trash) {
           context.commit('exportPaginationTrash', value.trash)
-        }
-        if (value.showed) {
-          context.commit('exportPaginationShowed', value.showed)
         }
         if (value.search) {
           context.commit('exportPaginationSearch', value.search)
@@ -94,15 +72,9 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async get(context, value) {
     try {
-      const response = await this.$axios.get('/superadmin/event', {
+      const response = await this.$axios.get('/superadmin/news', {
         params: { id: value },
       })
 
@@ -115,26 +87,14 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async create(context, value) {
     try {
       const payload = new FormData()
-      payload.append('arrangement_id', value.arrangement_id)
       payload.append('title', value.title)
-      payload.append('description', value.description)
-      payload.append('registration_date', value.registration_date)
-      payload.append('end_registration_date', value.end_registration_date)
-      payload.append('registration_url', value.registration_url)
-      payload.append('expired_date', value.expired_date)
-      payload.append('showed', value.showed)
+      payload.append('content', value.content)
       payload.append('image', value.image)
 
-      const response = await this.$axios.post('/superadmin/event', payload)
+      const response = await this.$axios.post('/superadmin/news/add', payload)
       return response
     } catch (error) {
       console.log(error)
@@ -143,26 +103,14 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async edit(context, value) {
     try {
       const payload = new FormData()
       payload.append('id', value.id)
-      payload.append('arrangement_id', value.arrangement_id)
       payload.append('title', value.title)
-      payload.append('description', value.description)
-      payload.append('registration_date', value.registration_date)
-      payload.append('end_registration_date', value.end_registration_date)
-      payload.append('registration_url', value.registration_url)
-      payload.append('expired_date', value.expired_date)
-      payload.append('showed', value.showed)
+      payload.append('content', value.content)
       payload.append('image', value.image)
-      const response = await this.$axios.put('/superadmin/event', payload)
+      const response = await this.$axios.put('/superadmin/news', payload)
       console.log(response)
       return response
     } catch (error) {
@@ -172,14 +120,9 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   */
   async delete(context, value) {
     try {
-      const response = await this.$axios.put('/superadmin/event/dump', {
+      const response = await this.$axios.put('/superadmin/news/dump', {
         id: value,
       })
       console.log(response)
@@ -191,15 +134,9 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async restore(context, value) {
     try {
-      const response = await this.$axios.put('/superadmin/event/restore', {
+      const response = await this.$axios.put('/superadmin/news/restore', {
         id: value,
       })
       console.log(response)
@@ -211,15 +148,9 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async destroy(context, value) {
     try {
-      const response = await this.$axios.delete('/superadmin/event', {
+      const response = await this.$axios.delete('/superadmin/news', {
         data: { id: value },
       })
       console.log(response)

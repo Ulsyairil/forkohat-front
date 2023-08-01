@@ -66,7 +66,7 @@ export default {
             {
               icon: 'newspaper',
               title: 'Berita',
-              to: '/dashboard/superadmin/news',
+              to: '/dashboard/superadmin/berita',
             },
             {
               icon: 'live_help',
@@ -108,7 +108,7 @@ export default {
                 {
                   icon: '',
                   title: 'Aturan',
-                  to: '/dashboard/superadmin/rule',
+                  to: '/dashboard/superadmin/aturan',
                 },
               ],
             },
@@ -125,7 +125,7 @@ export default {
                 {
                   icon: '',
                   title: 'Galeri',
-                  to: '/dashboard/superadmin/image/gallery',
+                  to: '/dashboard/superadmin/image/galeri',
                 },
               ],
             },

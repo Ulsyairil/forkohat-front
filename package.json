@@ -20,6 +20,7 @@
     "@types/voca": "^1.4.2",
     "@types/vuelidate": "^0.7.16",
     "bcrypt": "^5.1.0",
+    "ckeditor4-vue": "^2.4.0",
     "core-js": "^3.19.3",
     "form-data": "^4.0.0",
     "hover.css": "^2.3.2",

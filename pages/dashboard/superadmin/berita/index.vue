@@ -35,10 +35,10 @@
                   type="button"
                   class="mt-3 mr-4"
                   color="primary"
-                  :to="`/dashboard/superadmin/program/${$route.params.idProgram}/tatanan/${$route.params.idTatanan}/kegiatan/add`"
+                  @click="addNewsDialog = true"
                 >
                   <v-icon>add</v-icon>
-                  Buat
+                  Tambah
                 </v-btn>
                 <v-select
                   label="Urutkan"
@@ -53,17 +53,8 @@
                   label="Sampah"
                   hide-details
                   append-icon="trash"
-                  class="mr-4"
                   :items="trashItems"
                   v-model="trash"
-                  @change="fetchData()"
-                ></v-select>
-                <v-select
-                  label="Perlihatkan"
-                  hide-details
-                  append-icon="visibility"
-                  :items="showItems"
-                  v-model="showed"
                   @change="fetchData()"
                 ></v-select>
               </div>
@@ -74,7 +65,7 @@
                 hide-details
                 clearable
                 v-model="search"
-                @input.prevent="fetchData()"
+                @input="fetchData()"
               ></v-text-field>
             </div>
           </template>
@@ -107,6 +98,11 @@
                       <v-card-title v-if="item.title != null">
                         {{ item.title }}
                       </v-card-title>
+
+                      <v-card-text>
+                        <div>{{ item.Author.fullname }}</div>
+                        <div>{{ item.created_at }}</div>
+                      </v-card-text>
 
                       <div>
                         <v-btn
@@ -153,6 +149,68 @@
           </template>
         </v-data-iterator>
 
+        <v-dialog v-model="addNewsDialog" max-width="1000px" persistent>
+          <v-card>
+            <v-card-title>Tambah Berita</v-card-title>
+            <v-container>
+              <v-form
+                ref="news_form"
+                @submit.prevent="addNews(false)"
+                lazy-validation
+              >
+                <div class="d-flex align-center">
+                  <img
+                    v-if="newsForm.url != null"
+                    :src="newsForm.url"
+                    style="max-width: 200px"
+                  />
+                  <img
+                    v-else
+                    src="https://via.placeholder.com/1366x768?text=Unggah+Gambar"
+                    style="max-width: 200px"
+                  />
+                  <v-file-input
+                    label="Thumbnail Berita"
+                    v-model="newsForm.file"
+                    accept="image/png, image/jpeg, image/jpg"
+                    :rules="[validation.requiredFile, validation.imageSize]"
+                    @change="previewImage()"
+                    show-size
+                  ></v-file-input>
+                </div>
+
+                <v-text-field
+                  label="Judul Berita"
+                  v-model="newsForm.title"
+                  :rules="[validation.required, validation.maxTextDefault]"
+                ></v-text-field>
+
+                <ckeditor
+                  class="mb-4"
+                  v-model="newsForm.editor.content"
+                  :config="newsForm.editor.config"
+                ></ckeditor>
+
+                <div>
+                  <v-btn
+                    type="submit"
+                    color="primary"
+                    @click.prevent="addNews(false)"
+                    >Simpan</v-btn
+                  >
+                  <v-btn
+                    type="submit"
+                    color="primary"
+                    @click.prevent="addNews(true)"
+                    >Simpan & Tambah Lagi</v-btn
+                  >
+                  <v-btn type="button" @click="closeDialog()">Kembali</v-btn>
+                </div>
+              </v-form>
+            </v-container>
+          </v-card>
+        </v-dialog>
+
         <vue-easy-lightbox
           :visible="lightBox.visible"
           :imgs="lightBox.img"
@@ -179,18 +237,8 @@ export default {
     return {
       breadCrumbs: [
         {
-          text: 'Nama Program',
+          text: 'Daftar Berita',
           disabled: false,
-          href: '',
-        },
-        {
-          text: 'Nama Tatanan',
-          disabled: false,
-          href: '',
-        },
-        {
-          text: 'Daftar Kegiatan',
-          disabled: true,
           href: '',
         },
       ],
@@ -214,25 +262,54 @@ export default {
           value: false,
         },
       ],
-      showItems: [
-        {
-          text: 'Publik',
-          value: 'public',
-        },
-        {
-          text: 'Anggota/Member',
-          value: 'member',
-        },
-      ],
       lightBox: {
         img: '',
         visible: false,
         index: 0,
       },
       itemsPerPageArray: [10, 25, 50, 75, 100],
-      addItemDialog: false,
-      editItemDialog: false,
-      pdfPreviewDialog: false,
+      addNewsDialog: false,
+      newsForm: {
+        title: '',
+        editor: {
+          content: '',
+          config: {
+            toolbarGroups: [
+              { name: 'document', groups: ['mode', 'document', 'doctools'] },
+              { name: 'clipboard', groups: ['clipboard', 'undo'] },
+              {
+                name: 'editing',
+                groups: ['find', 'selection', 'spellchecker', 'editing'],
+              },
+              { name: 'forms', groups: ['forms'] },
+              { name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+              { name: 'links', groups: ['links'] },
+              { name: 'insert', groups: ['insert'] },
+              '/',
+              {
+                name: 'paragraph',
+                groups: [
+                  'list',
+                  'indent',
+                  'blocks',
+                  'align',
+                  'bidi',
+                  'paragraph',
+                ],
+              },
+              { name: 'styles', groups: ['styles'] },
+              { name: 'colors', groups: ['colors'] },
+              { name: 'tools', groups: ['tools'] },
+              { name: 'others', groups: ['others'] },
+              { name: 'about', groups: ['about'] },
+            ],
+            removeButtons:
+              'Templates,Save,Source,NewPage,Preview,Print,ImageButton,HiddenField,Button,Select,Form,Checkbox,Radio,TextField,Textarea,Image,Flash,Iframe,About,ShowBlocks',
+          },
+        },
+        file: null,
+        url: null,
+      },
       validation: {
         requiredFile: (v) => !!v || 'File harus diunggah',
         documentSize: (v) =>
@@ -249,54 +326,46 @@ export default {
   computed: {
     page: {
       get() {
-        return this.$store.state.superadmin.event.pagination.page
+        return this.$store.state.superadmin.news.pagination.page
       },
       set(newValue) {
-        this.$store.commit('superadmin/event/exportPaginationPage', newValue)
+        this.$store.commit('superadmin/news/exportPaginationPage', newValue)
       },
     },
     limit: {
       get() {
-        return this.$store.state.superadmin.event.pagination.limit
+        return this.$store.state.superadmin.news.pagination.limit
       },
       set(newValue) {
-        this.$store.commit('superadmin/event/exportPaginationLimit', newValue)
+        this.$store.commit('superadmin/news/exportPaginationLimit', newValue)
       },
     },
     order: {
       get() {
-        return this.$store.state.superadmin.event.pagination.order
+        return this.$store.state.superadmin.news.pagination.order
       },
       set(newValue) {
-        this.$store.commit('superadmin/event/exportPaginationOrder', newValue)
+        this.$store.commit('superadmin/news/exportPaginationOrder', newValue)
       },
     },
     trash: {
       get() {
-        return this.$store.state.superadmin.event.pagination.trash
+        return this.$store.state.superadmin.news.pagination.trash
       },
       set(newValue) {
-        this.$store.commit('superadmin/event/exportPaginationTrash', newValue)
-      },
-    },
-    showed: {
-      get() {
-        return this.$store.state.superadmin.event.pagination.showed
-      },
-      set(newValue) {
-        this.$store.commit('superadmin/event/exportPaginationShowed', newValue)
+        this.$store.commit('superadmin/news/exportPaginationTrash', newValue)
       },
     },
     search: {
       get() {
-        return this.$store.state.superadmin.event.pagination.search
+        return this.$store.state.superadmin.news.pagination.search
       },
       set(newValue) {
-        this.$store.commit('superadmin/event/exportPaginationSearch', newValue)
+        this.$store.commit('superadmin/news/exportPaginationSearch', newValue)
       },
     },
     items() {
-      return this.$store.state.superadmin.event.pagination.data
+      return this.$store.state.superadmin.news.pagination.data
     },
   },
   methods: {
@@ -313,6 +382,89 @@ export default {
     },
     handleHideImg() {
       this.lightBox.visible = false
+    },
+    previewImage() {
+      if (this.newsForm.file != null) {
+        this.newsForm.url = URL.createObjectURL(this.newsForm.file)
+      } else {
+        this.newsForm.url = null
+      }
+    },
+    closeDialog() {
+      this.addNewsDialog = false
+      this.newsForm.title = ''
+      this.newsForm.editor.content = ''
+      this.newsForm.file = null
+      this.newsForm.url = null
+    },
+    async addNews(more) {
+      const validate = this.$refs.news_form.validate()
+
+      console.log(validate)
+
+      if (!validate) {
+        return
+      }
+
+      if (!this.newsForm.editor.content) {
+        return Swal.fire({
+          icon: 'warning',
+          titleText: 'Tajuk berita kosong',
+          confirmButtonText: 'Kembali',
+          confirmButtonColor: '#42a5f5',
+        })
+      }
+
+      let payload = {
+        title: this.newsForm.title,
+        content: this.newsForm.editor.content,
+        image: this.newsForm.file,
+      }
+
+      const response = await this.$store.dispatch(
+        'superadmin/news/create',
+        payload
+      )
+
+      switch (response.status) {
+        case 200:
+          Swal.fire({
+            icon: 'success',
+            titleText: 'Data berhasil disimpan',
+            confirmButtonText: 'Kembali',
+            confirmButtonColor: '#42a5f5',
+          })
+          break
+
+        case 400 || 422:
+          Swal.fire({
+            icon: 'warning',
+            titleText: response.data.message,
+            confirmButtonText: 'Kembali',
+            confirmButtonColor: '#42a5f5',
+          })
+          break
+
+        default:
+          Swal.fire({
+            icon: 'error',
+            titleText: response.data.message,
+            confirmButtonText: 'Kembali',
+            confirmButtonColor: '#42a5f5',
+          })
+          break
+      }
+
+      this.fetchData()
+
+      if (more) {
+        this.newsForm.title = ''
+        this.newsForm.editor.content = ''
+        this.newsForm.file = null
+        this.newsForm.url = null
+      } else {
+        this.closeDialog()
+      }
     },
     async dump(id) {
       const response = await this.$store.dispatch('superadmin/event/delete', id)
@@ -346,7 +498,7 @@ export default {
           break
       }
 
-      this.$fetch()
+      this.fetchData()
     },
     async restore(id) {
       const response = await this.$store.dispatch(
@@ -383,7 +535,7 @@ export default {
           break
       }
 
-      this.$fetch()
+      this.fetchData()
     },
     async destroy(id) {
       const notif = await Swal.fire({
@@ -431,41 +583,17 @@ export default {
         }
       }
 
-      this.$fetch()
+      this.fetchData()
     },
   },
   async fetch() {
-    await this.$store.dispatch('superadmin/event/pagination', {
-      arrangement_id: Number(this.$route.params.idTatanan),
+    await this.$store.dispatch('superadmin/news/pagination', {
       page: this.page,
       limit: this.limit,
       order: this.order,
       trash: this.trash,
-      showed: this.showed,
       search: this.search,
     })
-
-    const responseGetProgram = await this.$store.dispatch(
-      'superadmin/program/get',
-      this.$route.params.idProgram
-    )
-
-    if (responseGetProgram.status == 200) {
-      let data = responseGetProgram.data
-      this.breadCrumbs[0].text = data.title
-      this.breadCrumbs[0].href = `/dashboard/superadmin/program/${data.id}`
-    }
-
-    const responseGetArrangement = await this.$store.dispatch(
-      'superadmin/arrangement/get',
-      this.$route.params.idTatanan
-    )
-
-    if (responseGetArrangement.status == 200) {
-      let data = responseGetArrangement.data
-      this.breadCrumbs[1].text = data.title
-      this.breadCrumbs[1].href = `/dashboard/superadmin/program/${data.program_id}`
-    }
   },
   mounted() {
     this.fetchData()
