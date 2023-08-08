@@ -1,12 +1,7 @@
 <template>
   <v-container fluid>
     <v-card>
-      <v-card-title>
-        <v-btn color="primary" @click="$router.go(-1)" fab>
-          <v-icon>arrow_back</v-icon>
-        </v-btn>
-        &nbsp; Daftar Tatanan Umum
-      </v-card-title>
+      <v-card-title> Daftar Tatanan Umum </v-card-title>
 
       <v-container>
         <v-data-iterator

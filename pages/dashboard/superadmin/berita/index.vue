@@ -7,14 +7,8 @@
 
 <template>
   <v-container fluid>
-    <v-card class="mt-5">
-      <v-card-title>
-        <v-btn color="primary" @click="$router.go(-1)" fab>
-          <v-icon>arrow_back</v-icon>
-        </v-btn>
-
-        <v-breadcrumbs :items="breadCrumbs"></v-breadcrumbs>
-      </v-card-title>
+    <v-card>
+      <v-card-title> Daftar Berita </v-card-title>
 
       <v-container>
         <v-data-iterator
@@ -109,7 +103,7 @@
                           color="orange lighten-2"
                           small
                           text
-                          :to="`/dashboard/superadmin/program/${$route.params.idProgram}/tatanan/${$route.params.idTatanan}/kegiatan/${item.id}`"
+                          :to="`/dashboard/superadmin/berita/${item.id}`"
                         >
                           <v-icon>edit</v-icon>
                         </v-btn>
@@ -160,20 +154,21 @@
               >
                 <div class="d-flex align-center">
                   <img
-                    v-if="newsForm.url != null"
-                    :src="newsForm.url"
-                    style="max-width: 200px"
+                    v-if="newsForm.file.preview != null"
+                    :src="newsForm.file.preview"
+                    style="max-width: 200px; cursor: zoom-in"
+                    @click="showImg(0, newsForm.file.preview)"
                   />
                   <img
                     v-else
-                    src="https://via.placeholder.com/1366x768?text=Unggah+Gambar"
+                    :src="newsForm.file.previewBefore"
                     style="max-width: 200px"
                   />
                   <v-file-input
                     label="Thumbnail Berita"
-                    v-model="newsForm.file"
-                    accept="image/png, image/jpeg, image/jpg"
-                    :rules="[validation.requiredFile, validation.imageSize]"
+                    v-model="newsForm.file.value"
+                    :accept="newsForm.file.accept"
+                    :rules="[validation.requiredFile, validation.fileSize]"
                     @change="previewImage()"
                     show-size
                   ></v-file-input>
@@ -307,17 +302,25 @@ export default {
               'Templates,Save,Source,NewPage,Preview,Print,ImageButton,HiddenField,Button,Select,Form,Checkbox,Radio,TextField,Textarea,Image,Flash,Iframe,About,ShowBlocks',
           },
         },
-        file: null,
-        url: null,
+        file: {
+          value: null,
+          preview: null,
+          previewBefore:
+            'https://via.placeholder.com/1366x768?text=Unggah+Gambar',
+          accept: 'image/png, image/jpeg, image/jpg',
+        },
       },
       validation: {
         requiredFile: (v) => !!v || 'File harus diunggah',
-        documentSize: (v) =>
-          v != null
-            ? v.size <= 5242880
-              ? true
-              : 'Maksimal ukuran file 5 MB'
-            : true,
+        fileSize: (v) => {
+          if (v) {
+            if (v.size > 1048576) {
+              return 'Maksimal ukuran file 1 MB'
+            }
+          }
+
+          return true
+        },
         required: (v) => !!v || 'Harus diisi',
         maxTextDefault: (v) => v.length <= 254 || 'Maksimal 254 karakter',
       },
@@ -384,18 +387,21 @@ export default {
       this.lightBox.visible = false
     },
     previewImage() {
-      if (this.newsForm.file != null) {
-        this.newsForm.url = URL.createObjectURL(this.newsForm.file)
+      if (this.newsForm.file.value != null) {
+        this.newsForm.file.preview = URL.createObjectURL(
+          this.newsForm.file.value
+        )
       } else {
-        this.newsForm.url = null
+        this.newsForm.file.preview = null
       }
     },
     closeDialog() {
       this.addNewsDialog = false
       this.newsForm.title = ''
       this.newsForm.editor.content = ''
-      this.newsForm.file = null
-      this.newsForm.url = null
+      this.newsForm.file.value = null
+      this.newsForm.file.preview = null
+      this.$refs.news_form.resetValidation()
     },
     async addNews(more) {
       const validate = this.$refs.news_form.validate()
@@ -418,7 +424,7 @@ export default {
       let payload = {
         title: this.newsForm.title,
         content: this.newsForm.editor.content,
-        image: this.newsForm.file,
+        image: this.newsForm.file.value,
       }
 
       const response = await this.$store.dispatch(
@@ -467,7 +473,7 @@ export default {
       }
     },
     async dump(id) {
-      const response = await this.$store.dispatch('superadmin/event/delete', id)
+      const response = await this.$store.dispatch('superadmin/news/delete', id)
 
       switch (response.status) {
         case 200:
@@ -501,10 +507,7 @@ export default {
       this.fetchData()
     },
     async restore(id) {
-      const response = await this.$store.dispatch(
-        'superadmin/event/restore',
-        id
-      )
+      const response = await this.$store.dispatch('superadmin/news/restore', id)
 
       switch (response.status) {
         case 200:
@@ -549,7 +552,7 @@ export default {
 
       if (notif.isConfirmed) {
         const response = await this.$store.dispatch(
-          'superadmin/event/destroy',
+          'superadmin/news/destroy',
           id
         )
 

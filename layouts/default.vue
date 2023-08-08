@@ -110,6 +110,7 @@
 import MainLogo from './../assets/media/logo/forkohat_logo.png'
 
 export default {
+  middleware: ['isAuthenticated'],
   data() {
     return {
       title: 'FORKOHAT BALIKPAPAN',
