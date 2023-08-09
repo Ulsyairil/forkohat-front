@@ -156,7 +156,7 @@
                         <v-spacer></v-spacer>
                         <v-icon
                           class="mx-4"
-                          color="yellow"
+                          color="orange"
                           @click="getComment(item.id)"
                           >edit</v-icon
                         >

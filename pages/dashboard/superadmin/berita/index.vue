@@ -1,10 +1,3 @@
-<style lang="scss">
-._df_button {
-  background: none;
-  border: none;
-}
-</style>
-
 <template>
   <v-container fluid>
     <v-card>
