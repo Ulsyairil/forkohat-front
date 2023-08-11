@@ -1,14 +1,18 @@
 export const state = () => ({
   pagination: {
+    event_id: null,
     page: 1,
     limit: 10,
     order: 'desc',
-    search: '',
-    data: {},
+    data: [],
   },
+  get: null,
 })
 
 export const mutations = {
+  exportPaginationEventId(state, value) {
+    state.pagination.event_id = value
+  },
   exportPaginationPage(state, value) {
     state.pagination.page = value
   },
@@ -18,35 +22,46 @@ export const mutations = {
   exportPaginationOrder(state, value) {
     state.pagination.order = value
   },
-  exportPaginationSearch(state, value) {
-    state.pagination.search = value
-  },
   exportPaginationData(state, value) {
     state.pagination.data = value
+  },
+  exportGetData(state, value) {
+    state.get = value
   },
 }
 
 export const actions = {
   async pagination(context, value) {
     try {
-      const response = await this.$axios.post('/superadmin/carousels', {
+      const response = await this.$axios.post('/admin/event/file', {
+        event_id: value.event_id,
         page: value.page,
         limit: value.limit,
         order: value.order,
-        search: value.search,
       })
 
-      console.log(response)
-
       if (response.status == 200) {
-        context.commit('exportPaginationPage', value.page)
-        context.commit('exportPaginationLimit', value.limit)
-        context.commit('exportPaginationOrder', value.order)
-        context.commit('exportPaginationSearch', value.search)
+        if (value.event_id) {
+          context.commit('exportPaginationEventId', value.event_id)
+        }
+        if (value.page) {
+          context.commit('exportPaginationPage', value.page)
+        }
+        if (value.limit) {
+          context.commit('exportPaginationLimit', value.limit)
+        }
+        if (value.order) {
+          context.commit('exportPaginationOrder', value.order)
+        }
+
         context.commit('exportPaginationData', response.data)
       }
+
+      console.log(response.data)
+
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -54,13 +69,14 @@ export const actions = {
 
   async get(context, value) {
     try {
-      const response = await this.$axios.get('/superadmin/carousel', {
+      const response = await this.$axios.get('/admin/event/file', {
         params: { id: value },
       })
 
       console.log(response)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -68,15 +84,15 @@ export const actions = {
 
   async create(context, value) {
     try {
-      const data = new FormData()
-      data.append('title', value.title)
-      data.append('description', value.description)
-      data.append('showed', value.showed)
-      data.append('image', value.image)
-      const response = await this.$axios.post('/superadmin/carousel', data)
-      console.log(response)
+      const payload = new FormData()
+      payload.append('event_id', value.event_id)
+      payload.append('title', value.title)
+      payload.append('file', value.file)
+
+      const response = await this.$axios.post('/admin/event/file/add', payload)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -84,16 +100,16 @@ export const actions = {
 
   async edit(context, value) {
     try {
-      const data = new FormData()
-      data.append('id', value.id)
-      data.append('title', value.title)
-      data.append('description', value.description)
-      data.append('showed', value.showed)
-      data.append('image', value.image)
-      const response = await this.$axios.put('/superadmin/carousel', data)
+      const payload = new FormData()
+      payload.append('id', value.id)
+      payload.append('event_id', value.event_id)
+      payload.append('title', value.title)
+      payload.append('file', value.file)
+      const response = await this.$axios.put('/admin/event/file', payload)
       console.log(response)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -101,14 +117,13 @@ export const actions = {
 
   async destroy(context, value) {
     try {
-      const response = await this.$axios.delete('/superadmin/carousel', {
-        data: {
-          id: value,
-        },
+      const response = await this.$axios.delete('/admin/event/file', {
+        data: { id: value },
       })
       console.log(response)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }

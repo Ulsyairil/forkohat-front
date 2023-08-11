@@ -5,11 +5,11 @@ export const state = () => ({
     limit: 10,
     order: 'desc',
     trash: false,
-    showed: 'public',
+    showed: 'public', // public or member
     search: '',
     data: [],
   },
-  all: [],
+  get: null,
 })
 
 export const mutations = {
@@ -37,15 +37,12 @@ export const mutations = {
   exportPaginationData(state, value) {
     state.pagination.data = value
   },
-  exportAll(state, value) {
-    state.all = value
-  },
 }
 
 export const actions = {
   async pagination(context, value) {
     try {
-      const response = await this.$axios.post('/superadmin/arrangement/items', {
+      const response = await this.$axios.post('/admin/events', {
         arrangement_id: value.arrangement_id,
         page: value.page,
         limit: value.limit,
@@ -55,20 +52,37 @@ export const actions = {
         search: value.search,
       })
 
-      console.log(response)
-
       if (response.status == 200) {
-        context.commit('exportPaginationArrangementId', value.arrangement_id)
-        context.commit('exportPaginationPage', value.page)
-        context.commit('exportPaginationLimit', value.limit)
-        context.commit('exportPaginationOrder', value.order)
-        context.commit('exportPaginationTrash', value.trash)
-        context.commit('exportPaginationShowed', value.showed)
-        context.commit('exportPaginationSearch', value.search)
+        if (value.arrangement_id) {
+          context.commit('exportPaginationArrangementId', value.arrangement_id)
+        }
+        if (value.page) {
+          context.commit('exportPaginationPage', value.page)
+        }
+        if (value.limit) {
+          context.commit('exportPaginationLimit', value.limit)
+        }
+        if (value.order) {
+          context.commit('exportPaginationOrder', value.order)
+        }
+        if (value.trash) {
+          context.commit('exportPaginationTrash', value.trash)
+        }
+        if (value.showed) {
+          context.commit('exportPaginationShowed', value.showed)
+        }
+        if (value.search) {
+          context.commit('exportPaginationSearch', value.search)
+        }
+
         context.commit('exportPaginationData', response.data)
       }
+
+      console.log(response.data)
+
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -76,13 +90,14 @@ export const actions = {
 
   async get(context, value) {
     try {
-      const response = await this.$axios.get('/superadmin/arrangement/item', {
+      const response = await this.$axios.get('/admin/event', {
         params: { id: value },
       })
 
       console.log(response)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -94,15 +109,17 @@ export const actions = {
       payload.append('arrangement_id', value.arrangement_id)
       payload.append('title', value.title)
       payload.append('description', value.description)
-      payload.append('file', value.file)
+      payload.append('registration_date', value.registration_date)
+      payload.append('end_registration_date', value.end_registration_date)
+      payload.append('registration_url', value.registration_url)
+      payload.append('expired_date', value.expired_date)
       payload.append('showed', value.showed)
-      const response = await this.$axios.post(
-        '/superadmin/arrangement/item',
-        payload
-      )
-      console.log(response)
+      payload.append('image', value.image)
+
+      const response = await this.$axios.post('/admin/event', payload)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -115,15 +132,17 @@ export const actions = {
       payload.append('arrangement_id', value.arrangement_id)
       payload.append('title', value.title)
       payload.append('description', value.description)
-      payload.append('file', value.file)
+      payload.append('registration_date', value.registration_date)
+      payload.append('end_registration_date', value.end_registration_date)
+      payload.append('registration_url', value.registration_url)
+      payload.append('expired_date', value.expired_date)
       payload.append('showed', value.showed)
-      const response = await this.$axios.put(
-        '/superadmin/arrangement/item',
-        payload
-      )
+      payload.append('image', value.image)
+      const response = await this.$axios.put('/admin/event', payload)
       console.log(response)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -131,15 +150,13 @@ export const actions = {
 
   async delete(context, value) {
     try {
-      const response = await this.$axios.put(
-        '/superadmin/arrangement/item/dump',
-        {
-          id: value,
-        }
-      )
+      const response = await this.$axios.put('/admin/event/dump', {
+        id: value,
+      })
       console.log(response)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -147,15 +164,13 @@ export const actions = {
 
   async restore(context, value) {
     try {
-      const response = await this.$axios.put(
-        '/superadmin/arrangement/item/restore',
-        {
-          id: value,
-        }
-      )
+      const response = await this.$axios.put('/admin/event/restore', {
+        id: value,
+      })
       console.log(response)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }
@@ -163,15 +178,13 @@ export const actions = {
 
   async destroy(context, value) {
     try {
-      const response = await this.$axios.delete(
-        '/superadmin/arrangement/item',
-        {
-          data: { id: value },
-        }
-      )
+      const response = await this.$axios.delete('/admin/event', {
+        data: { id: value },
+      })
       console.log(response)
       return response
     } catch (error) {
+      console.log(error)
       console.log(error.response)
       return error.response
     }

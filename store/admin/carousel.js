@@ -29,7 +29,7 @@ export const mutations = {
 export const actions = {
   async pagination(context, value) {
     try {
-      const response = await this.$axios.post('/superadmin/carousels', {
+      const response = await this.$axios.post('/admin/carousels', {
         page: value.page,
         limit: value.limit,
         order: value.order,
@@ -54,7 +54,7 @@ export const actions = {
 
   async get(context, value) {
     try {
-      const response = await this.$axios.get('/superadmin/carousel', {
+      const response = await this.$axios.get('/admin/carousel', {
         params: { id: value },
       })
 
@@ -73,7 +73,7 @@ export const actions = {
       data.append('description', value.description)
       data.append('showed', value.showed)
       data.append('image', value.image)
-      const response = await this.$axios.post('/superadmin/carousel', data)
+      const response = await this.$axios.post('/admin/carousel', data)
       console.log(response)
       return response
     } catch (error) {
@@ -90,7 +90,7 @@ export const actions = {
       data.append('description', value.description)
       data.append('showed', value.showed)
       data.append('image', value.image)
-      const response = await this.$axios.put('/superadmin/carousel', data)
+      const response = await this.$axios.put('/admin/carousel', data)
       console.log(response)
       return response
     } catch (error) {
@@ -101,7 +101,7 @@ export const actions = {
 
   async destroy(context, value) {
     try {
-      const response = await this.$axios.delete('/superadmin/carousel', {
+      const response = await this.$axios.delete('/admin/carousel', {
         data: {
           id: value,
         },

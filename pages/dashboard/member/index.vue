@@ -7,5 +7,6 @@
 <script>
 export default {
   layout: 'dashboard',
+  middleware: ['member'],
 }
 </script>

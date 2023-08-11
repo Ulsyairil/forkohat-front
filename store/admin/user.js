@@ -3,8 +3,9 @@ export const state = () => ({
     page: 1,
     limit: 10,
     order: 'desc',
+    trash: false,
     search: '',
-    data: [],
+    data: '',
   },
   all: [],
 })
@@ -18,6 +19,9 @@ export const mutations = {
   },
   exportPaginationOrder(state, value) {
     state.pagination.order = value
+  },
+  exportPaginationTrash(state, value) {
+    state.pagination.trash = value
   },
   exportPaginationSearch(state, value) {
     state.pagination.search = value
@@ -33,10 +37,11 @@ export const mutations = {
 export const actions = {
   async pagination(context, value) {
     try {
-      const response = await this.$axios.post('/superadmin/rules', {
+      const response = await this.$axios.post('/admin/users', {
         page: value.page,
         limit: value.limit,
         order: value.order,
+        trash: value.trash,
         search: value.search,
       })
 
@@ -46,6 +51,7 @@ export const actions = {
         context.commit('exportPaginationPage', value.page)
         context.commit('exportPaginationLimit', value.limit)
         context.commit('exportPaginationOrder', value.order)
+        context.commit('exportPaginationTrash', value.trash)
         context.commit('exportPaginationSearch', value.search)
         context.commit('exportPaginationData', response.data)
       }
@@ -56,9 +62,15 @@ export const actions = {
     }
   },
 
+  /**
+   *
+   * @param {Vuex} context
+   * @param {any} value
+   * @returns
+   */
   async all(context, value) {
     try {
-      const response = await this.$axios.get('/superadmin/rules')
+      const response = await this.$axios.get('/admin/users')
 
       console.log(response)
 
@@ -75,7 +87,7 @@ export const actions = {
 
   async get(context, value) {
     try {
-      const response = await this.$axios.get('/superadmin/rule', {
+      const response = await this.$axios.get('/admin/user', {
         params: { id: value },
       })
 
@@ -90,13 +102,13 @@ export const actions = {
   async create(context, value) {
     try {
       const payload = {
-        rule: value.rule,
-        is_superadmin: value.is_superadmin,
-        is_admin: value.is_admin,
-        is_member: value.is_member,
-        is_guest: value.is_guest,
+        rule_id: value.rule_id,
+        fullname: value.fullname,
+        username: value.username,
+        email: value.email,
+        password: value.password,
       }
-      const response = await this.$axios.post('/superadmin/rule', payload)
+      const response = await this.$axios.post('/admin/user', payload)
       console.log(response)
       return response
     } catch (error) {
@@ -108,14 +120,55 @@ export const actions = {
   async edit(context, value) {
     try {
       const payload = {
-        id: value.id,
-        rule: value.rule,
-        is_superadmin: value.is_superadmin,
-        is_admin: value.is_admin,
-        is_member: value.is_member,
-        is_guest: value.is_guest,
+        user_id: value.user_id,
+        rule_id: value.rule_id,
+        fullname: value.fullname,
+        username: value.username,
+        email: value.email,
       }
-      const response = await this.$axios.put('/superadmin/rule', payload)
+      const response = await this.$axios.put('/admin/user', payload)
+      console.log(response)
+      return response
+    } catch (error) {
+      console.log(error.response)
+      return error.response
+    }
+  },
+
+  async editPassword(context, value) {
+    try {
+      const payload = {
+        user_id: value.user_id,
+        password: value.password,
+        confirm_password: value.confirm_password,
+      }
+      const response = await this.$axios.put('/admin/user/password', payload)
+      console.log(response)
+      return response
+    } catch (error) {
+      console.log(error.response)
+      return error.response
+    }
+  },
+
+  async delete(context, value) {
+    try {
+      const response = await this.$axios.put('/admin/user/dump', {
+        id: value,
+      })
+      console.log(response)
+      return response
+    } catch (error) {
+      console.log(error.response)
+      return error.response
+    }
+  },
+
+  async restore(context, value) {
+    try {
+      const response = await this.$axios.put('/admin/user/restore', {
+        id: value,
+      })
       console.log(response)
       return response
     } catch (error) {
@@ -126,10 +179,8 @@ export const actions = {
 
   async destroy(context, value) {
     try {
-      const response = await this.$axios.delete('/superadmin/rule', {
-        data: {
-          id: value,
-        },
+      const response = await this.$axios.delete('/admin/user', {
+        data: { id: value },
       })
       console.log(response)
       return response

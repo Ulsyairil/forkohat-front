@@ -4,8 +4,9 @@ export const state = () => ({
     limit: 10,
     order: 'desc',
     search: '',
-    data: {},
+    data: [],
   },
+  all: [],
 })
 
 export const mutations = {
@@ -24,12 +25,15 @@ export const mutations = {
   exportPaginationData(state, value) {
     state.pagination.data = value
   },
+  exportAll(state, value) {
+    state.all = value
+  },
 }
 
 export const actions = {
   async pagination(context, value) {
     try {
-      const response = await this.$axios.post('/superadmin/carousels', {
+      const response = await this.$axios.post('/admin/rules', {
         page: value.page,
         limit: value.limit,
         order: value.order,
@@ -52,9 +56,26 @@ export const actions = {
     }
   },
 
+  async all(context, value) {
+    try {
+      const response = await this.$axios.get('/admin/rules')
+
+      console.log(response)
+
+      if (response.status == 200) {
+        context.commit('exportAll', response.data)
+      }
+
+      return response
+    } catch (error) {
+      console.log(error.response)
+      return error.response
+    }
+  },
+
   async get(context, value) {
     try {
-      const response = await this.$axios.get('/superadmin/carousel', {
+      const response = await this.$axios.get('/admin/rule', {
         params: { id: value },
       })
 
@@ -68,12 +89,14 @@ export const actions = {
 
   async create(context, value) {
     try {
-      const data = new FormData()
-      data.append('title', value.title)
-      data.append('description', value.description)
-      data.append('showed', value.showed)
-      data.append('image', value.image)
-      const response = await this.$axios.post('/superadmin/carousel', data)
+      const payload = {
+        rule: value.rule,
+        is_admin: value.is_admin,
+        is_admin: value.is_admin,
+        is_member: value.is_member,
+        is_guest: value.is_guest,
+      }
+      const response = await this.$axios.post('/admin/rule', payload)
       console.log(response)
       return response
     } catch (error) {
@@ -84,13 +107,15 @@ export const actions = {
 
   async edit(context, value) {
     try {
-      const data = new FormData()
-      data.append('id', value.id)
-      data.append('title', value.title)
-      data.append('description', value.description)
-      data.append('showed', value.showed)
-      data.append('image', value.image)
-      const response = await this.$axios.put('/superadmin/carousel', data)
+      const payload = {
+        id: value.id,
+        rule: value.rule,
+        is_admin: value.is_admin,
+        is_admin: value.is_admin,
+        is_member: value.is_member,
+        is_guest: value.is_guest,
+      }
+      const response = await this.$axios.put('/admin/rule', payload)
       console.log(response)
       return response
     } catch (error) {
@@ -101,7 +126,7 @@ export const actions = {
 
   async destroy(context, value) {
     try {
-      const response = await this.$axios.delete('/superadmin/carousel', {
+      const response = await this.$axios.delete('/admin/rule', {
         data: {
           id: value,
         },

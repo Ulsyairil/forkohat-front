@@ -45,7 +45,7 @@ export const mutations = {
 export const actions = {
   async pagination(context, value) {
     try {
-      const response = await this.$axios.post('/superadmin/arrangement/items', {
+      const response = await this.$axios.post('/admin/arrangement/items', {
         arrangement_id: value.arrangement_id,
         page: value.page,
         limit: value.limit,
@@ -76,7 +76,7 @@ export const actions = {
 
   async get(context, value) {
     try {
-      const response = await this.$axios.get('/superadmin/arrangement/item', {
+      const response = await this.$axios.get('/admin/arrangement/item', {
         params: { id: value },
       })
 
@@ -97,7 +97,7 @@ export const actions = {
       payload.append('file', value.file)
       payload.append('showed', value.showed)
       const response = await this.$axios.post(
-        '/superadmin/arrangement/item',
+        '/admin/arrangement/item',
         payload
       )
       console.log(response)
@@ -117,10 +117,7 @@ export const actions = {
       payload.append('description', value.description)
       payload.append('file', value.file)
       payload.append('showed', value.showed)
-      const response = await this.$axios.put(
-        '/superadmin/arrangement/item',
-        payload
-      )
+      const response = await this.$axios.put('/admin/arrangement/item', payload)
       console.log(response)
       return response
     } catch (error) {
@@ -131,12 +128,9 @@ export const actions = {
 
   async delete(context, value) {
     try {
-      const response = await this.$axios.put(
-        '/superadmin/arrangement/item/dump',
-        {
-          id: value,
-        }
-      )
+      const response = await this.$axios.put('/admin/arrangement/item/dump', {
+        id: value,
+      })
       console.log(response)
       return response
     } catch (error) {
@@ -148,7 +142,7 @@ export const actions = {
   async restore(context, value) {
     try {
       const response = await this.$axios.put(
-        '/superadmin/arrangement/item/restore',
+        '/admin/arrangement/item/restore',
         {
           id: value,
         }
@@ -163,12 +157,9 @@ export const actions = {
 
   async destroy(context, value) {
     try {
-      const response = await this.$axios.delete(
-        '/superadmin/arrangement/item',
-        {
-          data: { id: value },
-        }
-      )
+      const response = await this.$axios.delete('/admin/arrangement/item', {
+        data: { id: value },
+      })
       console.log(response)
       return response
     } catch (error) {

@@ -31,12 +31,6 @@ export const mutations = {
 }
 
 export const actions = {
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async pagination(context, value) {
     try {
       const response = await this.$axios.post('/superadmin/event/file', {
@@ -73,12 +67,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async get(context, value) {
     try {
       const response = await this.$axios.get('/superadmin/event/file', {
@@ -94,12 +82,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async create(context, value) {
     try {
       const payload = new FormData()
@@ -119,12 +101,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async edit(context, value) {
     try {
       const payload = new FormData()
@@ -142,12 +118,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async destroy(context, value) {
     try {
       const response = await this.$axios.delete('/superadmin/event/file', {
