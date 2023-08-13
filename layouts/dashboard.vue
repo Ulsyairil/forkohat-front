@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  middleware: ['isAuthenticated'],
   computed: {
     darkMode() {
       return this.$store.state.localStorage.darkMode

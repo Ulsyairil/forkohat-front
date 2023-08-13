@@ -16,5 +16,7 @@ export default async function (ctx) {
     } else {
       return
     }
+  } else {
+    return ctx.redirect('/login')
   }
 }
