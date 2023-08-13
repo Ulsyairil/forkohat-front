@@ -145,7 +145,7 @@ export default {
         .logout('local')
         .then((response) => {
           console.log(response)
-          location.reload()
+          this.$router.push('/login')
         })
         .catch((error) => {
           console.log(error.response)

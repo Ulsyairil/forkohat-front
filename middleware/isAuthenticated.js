@@ -3,8 +3,6 @@ export default async function (ctx) {
   if (userLoggedIn) {
     const userDetail = await ctx.$auth.user
 
-    console.log(userDetail)
-
     if (userDetail.Rule.is_superadmin) {
       return ctx.redirect('/dashboard/superadmin')
     } else if (userDetail.Rule.is_admin) {
@@ -16,7 +14,5 @@ export default async function (ctx) {
     } else {
       return
     }
-  } else {
-    return ctx.redirect('/login')
   }
 }
