@@ -73,6 +73,11 @@ export default {
               title: 'FAQ',
               to: '/dashboard/superadmin/faq',
             },
+            {
+              icon: 'account_tree',
+              title: 'Struktur Organisasi',
+              to: '/dashboard/superadmin/struktur_organisasi',
+            },
           ],
         },
         {

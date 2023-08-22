@@ -62,12 +62,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async all(context, value) {
     try {
       const response = await this.$axios.get('/admin/users')
