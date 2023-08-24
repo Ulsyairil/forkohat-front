@@ -4,45 +4,44 @@
       <v-card-title> Struktur Organisasi </v-card-title>
 
       <v-container>
-        <DashboardRenderOrgChart :data="chartData" />
+        <DashboardRenderOrgChart v-if="chartData" :data="chartData" />
+        <div v-else>Data Kosong</div>
       </v-container>
     </v-card>
 
     <v-card class="mt-5" elevation="3">
       <v-container>
-        <v-row>
-          <v-col cols="12" sm="12" md="8" lg="8">
-            <v-text-field
-              append-icon="mdi-magnify"
-              label="Cari"
-              v-model="search"
-              @input="fetchData()"
-              single-line
-              hide-details
-              clearable
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" sm="12" md="4" lg="4">
-            <v-select
-              label="Urutkan"
-              :items="table.orderItems"
-              v-model="order"
-              @input="fetchData()"
-              hide-details
-              append-icon="sort"
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-btn
-          type="button"
-          class="mt-3"
-          color="primary"
-          @click="addForm.dialog = true"
-        >
-          <v-icon>add</v-icon>
-          Tambah
-        </v-btn>
+        <div class="d-flex flex-row flex-wrap mb-3">
+          <v-btn
+            type="button"
+            class="mt-3 mr-3"
+            color="primary"
+            @click="addForm.dialog = true"
+          >
+            <v-icon>add</v-icon>
+            Tambah
+          </v-btn>
+          <v-select
+            label="Urutkan"
+            class="mr-sm-3 mr-md-3"
+            style="width: 100px"
+            :items="table.orderItems"
+            v-model="order"
+            @input="$fetch()"
+            hide-details
+            append-icon="sort"
+          ></v-select>
+          <v-text-field
+            append-icon="mdi-magnify"
+            label="Cari"
+            class="mt-sm-1 mt-md-1"
+            v-model="search"
+            @input="$fetch()"
+            single-line
+            hide-details
+            clearable
+          ></v-text-field>
+        </div>
 
         <v-data-table
           class="mt-5"
@@ -56,13 +55,19 @@
           @update:page="$fetch()"
           no-data-text="Data Kosong"
           no-results-text="Data Tidak Ditemukan"
-          :footer-props="{ 'items-per-page-options': table.itemsPerPageArray }"
+          :footer-props="{
+            'items-per-page-options': table.itemsPerPageArray,
+            'items-per-page-text': 'Baris per halaman',
+          }"
+          mobile-breakpoint="0"
         >
           <template v-slot:[`item.actions`]="{ item }">
-            <v-icon class="mr-2" @click="openEditDialog(item.id)">
-              edit
-            </v-icon>
-            <v-icon @click="destroy(item.id)"> delete_forever </v-icon>
+            <div>
+              <v-icon class="mr-2" @click="openEditDialog(item.id)">
+                edit
+              </v-icon>
+              <v-icon @click="destroy(item.id)"> delete_forever </v-icon>
+            </div>
           </template>
         </v-data-table>
       </v-container>
@@ -338,6 +343,7 @@ export default {
             text: 'Nama Lengkap',
             sortable: false,
             value: 'User.fullname',
+            width: '200px',
           },
           {
             text: 'Area',
@@ -348,16 +354,19 @@ export default {
             text: 'Kantor',
             sortable: false,
             value: 'office',
+            width: '200px',
           },
           {
             text: 'Jabatan',
             sortable: false,
             value: 'positionName',
+            width: '200px',
           },
           {
             text: 'Aksi',
             sortable: false,
             value: 'actions',
+            width: '100px',
           },
         ],
         orderItems: [

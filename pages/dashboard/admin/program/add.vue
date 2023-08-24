@@ -344,11 +344,14 @@ export default {
       const validate = this.$refs.program_form.validate()
 
       if (validate) {
-        const response = await this.$store.dispatch('admin/program/create', {
-          title: this.program.title,
-          description: this.program.description,
-          image: this.program.file,
-        })
+        const response = await this.$store.dispatch(
+          'superadmin/program/create',
+          {
+            title: this.program.title,
+            description: this.program.description,
+            image: this.program.file,
+          }
+        )
 
         switch (response.status) {
           case 200:
@@ -356,7 +359,7 @@ export default {
 
             this.arrangement.items.forEach((value) => {
               const arrangementResponse = this.$store.dispatch(
-                'admin/arrangement/create',
+                'superadmin/arrangement/create',
                 {
                   program_id: response.data.id,
                   title: value.title,

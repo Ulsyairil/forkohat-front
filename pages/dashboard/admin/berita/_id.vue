@@ -307,7 +307,7 @@ export default {
       },
       set(newValue) {
         this.$store.commit(
-          'admin/newsComment/exportPaginationEventId',
+          'superadmin/newsComment/exportPaginationEventId',
           newValue
         )
       },
@@ -317,7 +317,10 @@ export default {
         return this.$store.state.admin.newsComment.pagination.page
       },
       set(newValue) {
-        this.$store.commit('admin/newsComment/exportPaginationPage', newValue)
+        this.$store.commit(
+          'superadmin/newsComment/exportPaginationPage',
+          newValue
+        )
       },
     },
     limit: {
@@ -325,7 +328,10 @@ export default {
         return this.$store.state.admin.newsComment.pagination.limit
       },
       set(newValue) {
-        this.$store.commit('admin/newsComment/exportPaginationLimit', newValue)
+        this.$store.commit(
+          'superadmin/newsComment/exportPaginationLimit',
+          newValue
+        )
       },
     },
     order: {
@@ -333,7 +339,10 @@ export default {
         return this.$store.state.admin.newsComment.pagination.order
       },
       set(newValue) {
-        this.$store.commit('admin/newsComment/exportPaginationOrder', newValue)
+        this.$store.commit(
+          'superadmin/newsComment/exportPaginationOrder',
+          newValue
+        )
       },
     },
     newsCommentData() {
@@ -378,7 +387,10 @@ export default {
           payload.image = this.news.file.value
         }
 
-        const response = await this.$store.dispatch('admin/news/edit', payload)
+        const response = await this.$store.dispatch(
+          'superadmin/news/edit',
+          payload
+        )
 
         switch (response.status) {
           case 200:
@@ -414,7 +426,7 @@ export default {
         }
 
         const response = await this.$store.dispatch(
-          'admin/newsComment/create',
+          'superadmin/newsComment/create',
           payload
         )
 
@@ -442,7 +454,7 @@ export default {
         }
 
         const response = await this.$store.dispatch(
-          'admin/newsComment/edit',
+          'superadmin/newsComment/edit',
           payload
         )
 
@@ -463,7 +475,10 @@ export default {
       }
     },
     async getComment(id) {
-      const response = await this.$store.dispatch('admin/newsComment/get', id)
+      const response = await this.$store.dispatch(
+        'superadmin/newsComment/get',
+        id
+      )
 
       switch (response.status) {
         case 200:
@@ -497,7 +512,7 @@ export default {
 
       if (notif.isConfirmed) {
         const response = await this.$store.dispatch(
-          'admin/newsComment/destroy',
+          'superadmin/newsComment/destroy',
           id
         )
 
@@ -525,7 +540,7 @@ export default {
   },
   async fetch() {
     const responseGetNews = await this.$store.dispatch(
-      'admin/news/get',
+      'superadmin/news/get',
       this.$route.params.id
     )
 
@@ -549,7 +564,7 @@ export default {
         break
     }
 
-    await this.$store.dispatch('admin/newsComment/pagination', {
+    await this.$store.dispatch('superadmin/newsComment/pagination', {
       news_id: this.$route.params.id,
       page: this.page,
       limit: this.limit,

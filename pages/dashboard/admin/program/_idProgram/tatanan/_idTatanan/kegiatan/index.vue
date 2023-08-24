@@ -13,7 +13,12 @@
           <v-icon>arrow_back</v-icon>
         </v-btn>
 
-        <v-breadcrumbs :items="breadCrumbs"></v-breadcrumbs>
+        <v-breadcrumbs
+          v-if="$vuetify.breakpoint.mobile"
+          class="pl-0"
+          :items="breadCrumbs"
+        ></v-breadcrumbs>
+        <v-breadcrumbs v-else :items="breadCrumbs"></v-breadcrumbs>
       </v-card-title>
 
       <v-container>
@@ -29,46 +34,51 @@
           :footer-props="{ 'items-per-page-options': itemsPerPageArray }"
         >
           <template v-slot:header>
-            <div class="mb-5">
-              <div class="d-flex flex-row flex-wrap mb-3">
-                <v-btn
-                  type="button"
-                  class="mt-3 mr-4"
-                  color="primary"
-                  :to="`/dashboard/admin/program/${$route.params.idProgram}/tatanan/${$route.params.idTatanan}/kegiatan/add`"
-                >
-                  <v-icon>add</v-icon>
-                  Buat
-                </v-btn>
-                <v-select
-                  label="Urutkan"
-                  :items="orderItems"
-                  v-model="order"
-                  @change="fetchData()"
-                  hide-details
-                  append-icon="sort"
-                  class="mr-4"
-                ></v-select>
-                <v-select
-                  label="Sampah"
-                  hide-details
-                  append-icon="trash"
-                  class="mr-4"
-                  :items="trashItems"
-                  v-model="trash"
-                  @change="fetchData()"
-                ></v-select>
-                <v-select
-                  label="Perlihatkan"
-                  hide-details
-                  append-icon="visibility"
-                  :items="showItems"
-                  v-model="showed"
-                  @change="fetchData()"
-                ></v-select>
-              </div>
+            <div class="d-flex flex-row flex-wrap mb-3">
+              <v-btn
+                type="button"
+                class="mt-3 mr-4"
+                color="primary"
+                :to="`/dashboard/admin/program/${$route.params.idProgram}/tatanan/${$route.params.idTatanan}/kegiatan/add`"
+              >
+                <v-icon>add</v-icon>
+                Buat
+              </v-btn>
+
+              <v-select
+                label="Urutkan"
+                style="width: 100px"
+                :items="orderItems"
+                v-model="order"
+                @change="fetchData()"
+                hide-details
+                append-icon="sort"
+                class="mr-sm-3 mr-md-3"
+              ></v-select>
+
+              <v-select
+                label="Sampah"
+                hide-details
+                append-icon="trash"
+                class="mt-2 mt-sm-1 mr-md-3"
+                :items="trashItems"
+                v-model="trash"
+                @change="fetchData()"
+              ></v-select>
+
+              <v-select
+                label="Perlihatkan"
+                class="mt-2 mt-sm-1 mr-md-3"
+                hide-details
+                append-icon="visibility"
+                :items="showItems"
+                v-model="showed"
+                @change="fetchData()"
+              ></v-select>
+
               <v-text-field
                 append-icon="mdi-magnify"
+                class="mt-2 mt-sm-1 mr-md-3"
                 label="Cari"
                 single-line
                 hide-details
@@ -252,7 +262,7 @@ export default {
         return this.$store.state.admin.event.pagination.page
       },
       set(newValue) {
-        this.$store.commit('admin/event/exportPaginationPage', newValue)
+        this.$store.commit('superadmin/event/exportPaginationPage', newValue)
       },
     },
     limit: {
@@ -260,7 +270,7 @@ export default {
         return this.$store.state.admin.event.pagination.limit
       },
       set(newValue) {
-        this.$store.commit('admin/event/exportPaginationLimit', newValue)
+        this.$store.commit('superadmin/event/exportPaginationLimit', newValue)
       },
     },
     order: {
@@ -268,7 +278,7 @@ export default {
         return this.$store.state.admin.event.pagination.order
       },
       set(newValue) {
-        this.$store.commit('admin/event/exportPaginationOrder', newValue)
+        this.$store.commit('superadmin/event/exportPaginationOrder', newValue)
       },
     },
     trash: {
@@ -276,7 +286,7 @@ export default {
         return this.$store.state.admin.event.pagination.trash
       },
       set(newValue) {
-        this.$store.commit('admin/event/exportPaginationTrash', newValue)
+        this.$store.commit('superadmin/event/exportPaginationTrash', newValue)
       },
     },
     showed: {
@@ -284,7 +294,7 @@ export default {
         return this.$store.state.admin.event.pagination.showed
       },
       set(newValue) {
-        this.$store.commit('admin/event/exportPaginationShowed', newValue)
+        this.$store.commit('superadmin/event/exportPaginationShowed', newValue)
       },
     },
     search: {
@@ -292,7 +302,7 @@ export default {
         return this.$store.state.admin.event.pagination.search
       },
       set(newValue) {
-        this.$store.commit('admin/event/exportPaginationSearch', newValue)
+        this.$store.commit('superadmin/event/exportPaginationSearch', newValue)
       },
     },
     items() {
@@ -315,7 +325,7 @@ export default {
       this.lightBox.visible = false
     },
     async dump(id) {
-      const response = await this.$store.dispatch('admin/event/delete', id)
+      const response = await this.$store.dispatch('superadmin/event/delete', id)
 
       switch (response.status) {
         case 200:
@@ -349,7 +359,10 @@ export default {
       this.$fetch()
     },
     async restore(id) {
-      const response = await this.$store.dispatch('admin/event/restore', id)
+      const response = await this.$store.dispatch(
+        'superadmin/event/restore',
+        id
+      )
 
       switch (response.status) {
         case 200:
@@ -393,7 +406,10 @@ export default {
       })
 
       if (notif.isConfirmed) {
-        const response = await this.$store.dispatch('admin/event/destroy', id)
+        const response = await this.$store.dispatch(
+          'superadmin/event/destroy',
+          id
+        )
 
         switch (response.status) {
           case 200:
@@ -429,7 +445,7 @@ export default {
     },
   },
   async fetch() {
-    await this.$store.dispatch('admin/event/pagination', {
+    await this.$store.dispatch('superadmin/event/pagination', {
       arrangement_id: Number(this.$route.params.idTatanan),
       page: this.page,
       limit: this.limit,
@@ -440,7 +456,7 @@ export default {
     })
 
     const responseGetProgram = await this.$store.dispatch(
-      'admin/program/get',
+      'superadmin/program/get',
       this.$route.params.idProgram
     )
 
@@ -451,7 +467,7 @@ export default {
     }
 
     const responseGetArrangement = await this.$store.dispatch(
-      'admin/arrangement/get',
+      'superadmin/arrangement/get',
       this.$route.params.idTatanan
     )
 

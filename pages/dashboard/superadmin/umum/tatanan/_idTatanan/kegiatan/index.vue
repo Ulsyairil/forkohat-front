@@ -40,42 +40,49 @@
                   <v-icon>add</v-icon>
                   Buat
                 </v-btn>
+
                 <v-select
                   label="Urutkan"
+                  style="width: 100px"
                   :items="orderItems"
                   v-model="order"
                   @change="fetchData()"
                   hide-details
                   append-icon="sort"
-                  class="mr-4"
+                  class="mr-sm-3 mr-md-3"
                 ></v-select>
+
                 <v-select
                   label="Sampah"
                   hide-details
                   append-icon="trash"
-                  class="mr-4"
+                  class="mt-2 mt-sm-1 mr-md-3"
                   :items="trashItems"
                   v-model="trash"
                   @change="fetchData()"
                 ></v-select>
+
                 <v-select
                   label="Perlihatkan"
+                  class="mt-2 mt-sm-1 mr-md-3"
                   hide-details
                   append-icon="visibility"
                   :items="showItems"
                   v-model="showed"
                   @change="fetchData()"
                 ></v-select>
+
+                <v-text-field
+                  append-icon="mdi-magnify"
+                  class="mt-2 mt-sm-1 mr-md-3"
+                  label="Cari"
+                  single-line
+                  hide-details
+                  clearable
+                  v-model="search"
+                  @input.prevent="fetchData()"
+                ></v-text-field>
               </div>
-              <v-text-field
-                append-icon="mdi-magnify"
-                label="Cari"
-                single-line
-                hide-details
-                clearable
-                v-model="search"
-                @input="fetchData()"
-              ></v-text-field>
             </div>
           </template>
 

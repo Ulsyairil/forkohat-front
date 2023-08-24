@@ -47,7 +47,7 @@ import Swal from 'sweetalert2'
 
 export default {
   layout: 'dashboard',
-  middleware: ['admin'],
+  middleware: ['admi'],
   title: 'Tambah Carousel',
   data() {
     return {
@@ -76,7 +76,7 @@ export default {
 
       if (validate) {
         const response = await this.$store.dispatch(
-          'admin/carousel/create',
+          'superadmin/carousel/create',
           payload
         )
 

@@ -13,7 +13,12 @@
           <v-icon>arrow_back</v-icon>
         </v-btn>
 
-        <v-breadcrumbs :items="breadCrumbs"></v-breadcrumbs>
+        <v-breadcrumbs
+          v-if="$vuetify.breakpoint.mobile"
+          class="pl-0"
+          :items="breadCrumbs"
+        ></v-breadcrumbs>
+        <v-breadcrumbs v-else :items="breadCrumbs"></v-breadcrumbs>
       </v-card-title>
 
       <v-container>
@@ -29,46 +34,51 @@
           :footer-props="{ 'items-per-page-options': itemsPerPageArray }"
         >
           <template v-slot:header>
-            <div class="mb-5">
-              <div class="d-flex flex-row flex-wrap mb-3">
-                <v-btn
-                  type="button"
-                  class="mt-3 mr-4"
-                  color="primary"
-                  :to="`/dashboard/superadmin/program/${$route.params.idProgram}/tatanan/${$route.params.idTatanan}/kegiatan/add`"
-                >
-                  <v-icon>add</v-icon>
-                  Buat
-                </v-btn>
-                <v-select
-                  label="Urutkan"
-                  :items="orderItems"
-                  v-model="order"
-                  @change="fetchData()"
-                  hide-details
-                  append-icon="sort"
-                  class="mr-4"
-                ></v-select>
-                <v-select
-                  label="Sampah"
-                  hide-details
-                  append-icon="trash"
-                  class="mr-4"
-                  :items="trashItems"
-                  v-model="trash"
-                  @change="fetchData()"
-                ></v-select>
-                <v-select
-                  label="Perlihatkan"
-                  hide-details
-                  append-icon="visibility"
-                  :items="showItems"
-                  v-model="showed"
-                  @change="fetchData()"
-                ></v-select>
-              </div>
+            <div class="d-flex flex-row flex-wrap mb-3">
+              <v-btn
+                type="button"
+                class="mt-3 mr-4"
+                color="primary"
+                :to="`/dashboard/superadmin/program/${$route.params.idProgram}/tatanan/${$route.params.idTatanan}/kegiatan/add`"
+              >
+                <v-icon>add</v-icon>
+                Buat
+              </v-btn>
+
+              <v-select
+                label="Urutkan"
+                style="width: 100px"
+                :items="orderItems"
+                v-model="order"
+                @change="fetchData()"
+                hide-details
+                append-icon="sort"
+                class="mr-sm-3 mr-md-3"
+              ></v-select>
+
+              <v-select
+                label="Sampah"
+                hide-details
+                append-icon="trash"
+                class="mt-2 mt-sm-1 mr-md-3"
+                :items="trashItems"
+                v-model="trash"
+                @change="fetchData()"
+              ></v-select>
+
+              <v-select
+                label="Perlihatkan"
+                class="mt-2 mt-sm-1 mr-md-3"
+                hide-details
+                append-icon="visibility"
+                :items="showItems"
+                v-model="showed"
+                @change="fetchData()"
+              ></v-select>
+
               <v-text-field
                 append-icon="mdi-magnify"
+                class="mt-2 mt-sm-1 mr-md-3"
                 label="Cari"
                 single-line
                 hide-details

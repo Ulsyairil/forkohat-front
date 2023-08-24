@@ -6,7 +6,12 @@
           <v-icon>arrow_back</v-icon>
         </v-btn>
 
-        <v-breadcrumbs :items="breadCrumbs"></v-breadcrumbs>
+        <v-breadcrumbs
+          v-if="$vuetify.breakpoint.mobile"
+          class="pl-0"
+          :items="breadCrumbs"
+        ></v-breadcrumbs>
+        <v-breadcrumbs v-else :items="breadCrumbs"></v-breadcrumbs>
       </v-card-title>
 
       <v-container>
@@ -435,7 +440,10 @@ export default {
         return this.$store.state.admin.eventFile.pagination.event_id
       },
       set(newValue) {
-        this.$store.commit('admin/eventFile/exportPaginationEventId', newValue)
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationEventId',
+          newValue
+        )
       },
     },
     page: {
@@ -443,7 +451,10 @@ export default {
         return this.$store.state.admin.eventFile.pagination.page
       },
       set(newValue) {
-        this.$store.commit('admin/eventFile/exportPaginationPage', newValue)
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationPage',
+          newValue
+        )
       },
     },
     limit: {
@@ -451,7 +462,10 @@ export default {
         return this.$store.state.admin.eventFile.pagination.limit
       },
       set(newValue) {
-        this.$store.commit('admin/eventFile/exportPaginationLimit', newValue)
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationLimit',
+          newValue
+        )
       },
     },
     order: {
@@ -459,7 +473,10 @@ export default {
         return this.$store.state.admin.eventFile.pagination.order
       },
       set(newValue) {
-        this.$store.commit('admin/eventFile/exportPaginationOrder', newValue)
+        this.$store.commit(
+          'superadmin/eventFile/exportPaginationOrder',
+          newValue
+        )
       },
     },
     eventFileData() {
@@ -514,7 +531,7 @@ export default {
         }
 
         const response = await this.$store.dispatch(
-          'admin/eventFile/create',
+          'superadmin/eventFile/create',
           payload
         )
 
@@ -544,7 +561,10 @@ export default {
       }
     },
     async getEventFile(id) {
-      const response = await this.$store.dispatch('admin/eventFile/get', id)
+      const response = await this.$store.dispatch(
+        'superadmin/eventFile/get',
+        id
+      )
 
       switch (response.status) {
         case 200:
@@ -577,7 +597,7 @@ export default {
         }
 
         const response = await this.$store.dispatch(
-          'admin/eventFile/edit',
+          'superadmin/eventFile/edit',
           payload
         )
 
@@ -612,7 +632,7 @@ export default {
 
       if (notif.isConfirmed) {
         const response = await this.$store.dispatch(
-          'admin/eventFile/destroy',
+          'superadmin/eventFile/destroy',
           id
         )
 
@@ -663,7 +683,10 @@ export default {
         payload.image = this.event.image.value
       }
 
-      const response = await this.$store.dispatch('admin/event/edit', payload)
+      const response = await this.$store.dispatch(
+        'superadmin/event/edit',
+        payload
+      )
 
       switch (response.status) {
         case 200:
@@ -684,7 +707,7 @@ export default {
   },
   async fetch() {
     const responseGetProgram = await this.$store.dispatch(
-      'admin/program/get',
+      'superadmin/program/get',
       this.$route.params.idProgram
     )
 
@@ -695,7 +718,7 @@ export default {
     }
 
     const responseGetArrangement = await this.$store.dispatch(
-      'admin/arrangement/get',
+      'superadmin/arrangement/get',
       this.$route.params.idTatanan
     )
 
@@ -706,7 +729,7 @@ export default {
     }
 
     const responseGetEvent = await this.$store.dispatch(
-      'admin/event/get',
+      'superadmin/event/get',
       this.$route.params.idEvent
     )
 
@@ -736,7 +759,7 @@ export default {
         break
     }
 
-    await this.$store.dispatch('admin/eventFile/pagination', {
+    await this.$store.dispatch('superadmin/eventFile/pagination', {
       event_id: Number(this.$route.params.idEvent),
       page: this.page,
       limit: this.limit,

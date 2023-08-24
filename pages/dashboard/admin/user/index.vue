@@ -484,7 +484,7 @@ export default {
         return this.$store.state.admin.user.pagination.page
       },
       set(newValue) {
-        this.$store.commit('admin/user/exportPaginationPage', newValue)
+        this.$store.commit('superadmin/user/exportPaginationPage', newValue)
       },
     },
     limit: {
@@ -492,7 +492,7 @@ export default {
         return this.$store.state.admin.user.pagination.limit
       },
       set(newValue) {
-        this.$store.commit('admin/user/exportPaginationLimit', newValue)
+        this.$store.commit('superadmin/user/exportPaginationLimit', newValue)
       },
     },
     order: {
@@ -500,7 +500,7 @@ export default {
         return this.$store.state.admin.user.pagination.order
       },
       set(newValue) {
-        this.$store.commit('admin/user/exportPaginationOrder', newValue)
+        this.$store.commit('superadmin/user/exportPaginationOrder', newValue)
       },
     },
     trash: {
@@ -508,7 +508,7 @@ export default {
         return this.$store.state.admin.user.pagination.trash
       },
       set(newValue) {
-        this.$store.commit('admin/user/exportPaginationTrash', newValue)
+        this.$store.commit('superadmin/user/exportPaginationTrash', newValue)
       },
     },
     search: {
@@ -516,7 +516,7 @@ export default {
         return this.$store.state.admin.user.pagination.search
       },
       set(newValue) {
-        this.$store.commit('admin/user/exportPaginationSearch', newValue)
+        this.$store.commit('superadmin/user/exportPaginationSearch', newValue)
       },
     },
     data() {
@@ -535,9 +535,9 @@ export default {
     },
     addFormRuleChanged(event) {
       if (event != null) {
-        this.$store.dispatch('admin/permission/all', event)
+        this.$store.dispatch('superadmin/permission/all', event)
       } else {
-        this.$store.commit('admin/permission/exportAll', [])
+        this.$store.commit('superadmin/permission/exportAll', [])
       }
     },
     addFormDialogClosed(form, resetForm, resetValidation) {
@@ -548,7 +548,7 @@ export default {
       if (resetValidation) {
         this.$refs[form].resetValidation()
       }
-      this.$store.commit('admin/permission/exportAll', [])
+      this.$store.commit('superadmin/permission/exportAll', [])
     },
     async addFormSubmit(closeDialog) {
       if (this.addForm.username == '' && this.addForm.email == '') {
@@ -571,7 +571,7 @@ export default {
           password: this.addForm.confirmPassword.value,
         }
         const response = await this.$store.dispatch(
-          'admin/user/create',
+          'superadmin/user/create',
           payload
         )
 
@@ -612,7 +612,7 @@ export default {
       }
     },
     async getEditData(id) {
-      const response = await this.$store.dispatch('admin/user/get', id)
+      const response = await this.$store.dispatch('superadmin/user/get', id)
 
       switch (response.status) {
         case 200:
@@ -637,9 +637,9 @@ export default {
     },
     editFormRuleChanged(event) {
       if (event != null) {
-        this.$store.dispatch('admin/permission/all', event)
+        this.$store.dispatch('superadmin/permission/all', event)
       } else {
-        this.$store.commit('admin/permission/exportAll', [])
+        this.$store.commit('superadmin/permission/exportAll', [])
       }
     },
     editFormDialogClosed(form1, form2, resetForm, resetValidation) {
@@ -652,7 +652,7 @@ export default {
         this.$refs[form1].resetValidation()
         this.$refs[form2].resetValidation()
       }
-      this.$store.commit('admin/permission/exportAll', [])
+      this.$store.commit('superadmin/permission/exportAll', [])
     },
     async editFormSubmit(closeDialog) {
       if (this.editForm.username == '' && this.editForm.email == '') {
@@ -674,7 +674,10 @@ export default {
           username: this.editForm.username,
           email: this.editForm.email,
         }
-        const response = await this.$store.dispatch('admin/user/edit', payload)
+        const response = await this.$store.dispatch(
+          'superadmin/user/edit',
+          payload
+        )
 
         switch (response.status) {
           case 200:
@@ -722,7 +725,7 @@ export default {
           confirm_password: this.editForm.confirmPassword.value,
         }
         const response = await this.$store.dispatch(
-          'admin/user/editPassword',
+          'superadmin/user/editPassword',
           payload
         )
 
@@ -752,7 +755,7 @@ export default {
       }
     },
     async deleteData(id) {
-      const response = await this.$store.dispatch('admin/user/delete', id)
+      const response = await this.$store.dispatch('superadmin/user/delete', id)
 
       switch (response.status) {
         case 200:
@@ -776,7 +779,7 @@ export default {
       this.$fetch()
     },
     async restoreData(id) {
-      const response = await this.$store.dispatch('admin/user/restore', id)
+      const response = await this.$store.dispatch('superadmin/user/restore', id)
 
       switch (response.status) {
         case 200:
@@ -810,7 +813,10 @@ export default {
       })
 
       if (notif.isConfirmed) {
-        const response = await this.$store.dispatch('admin/user/destroy', id)
+        const response = await this.$store.dispatch(
+          'superadmin/user/destroy',
+          id
+        )
 
         switch (response.status) {
           case 200:
@@ -845,8 +851,8 @@ export default {
       search: this.search,
     }
 
-    this.$store.dispatch('admin/user/pagination', payload)
-    this.$store.dispatch('admin/rule/all')
+    this.$store.dispatch('superadmin/user/pagination', payload)
+    this.$store.dispatch('superadmin/rule/all')
   },
   mounted() {
     this.fetchData()

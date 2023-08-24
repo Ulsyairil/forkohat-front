@@ -2,11 +2,22 @@
   <v-container fluid>
     <v-card elevation="3">
       <v-card-title>
-        <v-btn color="primary" @click="$router.go(-1)" fab small>
+        <v-btn
+          color="primary"
+          @click="$router.go(-1)"
+          class="mr-md-3"
+          fab
+          small
+        >
           <v-icon>arrow_back</v-icon>
         </v-btn>
 
-        <v-breadcrumbs :items="breadCrumbs"></v-breadcrumbs>
+        <v-breadcrumbs
+          v-if="$vuetify.breakpoint.mobile"
+          class="pl-0"
+          :items="breadCrumbs"
+        ></v-breadcrumbs>
+        <v-breadcrumbs v-else :items="breadCrumbs"></v-breadcrumbs>
       </v-card-title>
 
       <v-container>
@@ -539,7 +550,10 @@ export default {
         image: this.event.image.value,
       }
 
-      const response = await this.$store.dispatch('admin/event/create', payload)
+      const response = await this.$store.dispatch(
+        'superadmin/event/create',
+        payload
+      )
 
       switch (response.status) {
         case 200:
@@ -556,7 +570,7 @@ export default {
               }
 
               const response2 = await this.$store.dispatch(
-                'admin/eventFile/create',
+                'superadmin/eventFile/create',
                 payload
               )
 
@@ -613,7 +627,7 @@ export default {
   },
   async fetch() {
     const responseGetArrangement = await this.$store.dispatch(
-      'admin/arrangement/get',
+      'superadmin/arrangement/get',
       this.$route.params.idTatanan
     )
 

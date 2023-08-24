@@ -1,21 +1,21 @@
 <template>
   <v-container fluid>
-    <v-card>
-      <v-card-title> Daftar Tatanan Umum </v-card-title>
+    <v-data-iterator
+      :items="arrangementData.data"
+      :items-per-page.sync="limit"
+      :page.sync="page"
+      :server-items-length="arrangementData.total"
+      @update:items-per-page="fetchData"
+      @update:page="fetchData"
+      no-data-text="Data Kosong"
+      no-results-text="Data Tidak Ditemukan"
+      :footer-props="{ 'items-per-page-options': itemsPerPageArray }"
+    >
+      <template v-slot:header>
+        <v-card class="mb-3">
+          <v-card-title> Daftar Tatanan Umum </v-card-title>
 
-      <v-container>
-        <v-data-iterator
-          :items="arrangementData.data"
-          :items-per-page.sync="limit"
-          :page.sync="page"
-          :server-items-length="arrangementData.total"
-          @update:items-per-page="fetchData"
-          @update:page="fetchData"
-          no-data-text="Data Kosong"
-          no-results-text="Data Tidak Ditemukan"
-          :footer-props="{ 'items-per-page-options': itemsPerPageArray }"
-        >
-          <template v-slot:header>
+          <v-container>
             <div class="d-flex flex-row mb-5">
               <v-btn
                 type="button"
@@ -35,98 +35,98 @@
                 append-icon="sort"
               ></v-select>
             </div>
-          </template>
+          </v-container>
+        </v-card>
+      </template>
 
-          <template v-slot:default="props">
-            <v-row align="stretch" class="mx-2 mt-3">
-              <v-col
-                v-for="(item, index) in props.items"
-                :key="index"
-                cols="12"
-                sm="12"
-                md="6"
-                lg="6"
-                xl="4"
-                class="d-flex flex-column"
-              >
-                <v-row>
-                  <v-col cols="12" sm="12" md="4" lg="4">
-                    <v-img
-                      v-if="item.image_url"
-                      :src="`${serverBaseUrl()}${item.image_url}`"
-                      class="v-image v-responsive"
-                      @click="showImg(0, `${serverBaseUrl()}${item.image_url}`)"
-                    />
-                    <v-img
-                      v-else
-                      src="https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan"
-                      class="v-image v-responsive"
-                      @click="
-                        showImg(
-                          0,
-                          'https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan'
-                        )
-                      "
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="12" md="8" lg="8">
-                    <v-card class="fill-height" elevation="5">
-                      <v-card-title v-if="item.title != null">
-                        {{ item.title }}
-                      </v-card-title>
+      <template v-slot:default="props">
+        <v-row align="stretch" class="mx-2 mt-3">
+          <v-col
+            v-for="(item, index) in props.items"
+            :key="index"
+            cols="12"
+            sm="12"
+            md="6"
+            lg="6"
+            xl="4"
+            class="d-flex flex-column"
+          >
+            <v-row>
+              <v-col cols="12" sm="12" md="4" lg="4">
+                <v-img
+                  v-if="item.image_url"
+                  :src="`${serverBaseUrl()}${item.image_url}`"
+                  class="v-image v-responsive"
+                  @click="showImg(0, `${serverBaseUrl()}${item.image_url}`)"
+                />
+                <v-img
+                  v-else
+                  src="https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan"
+                  class="v-image v-responsive"
+                  @click="
+                    showImg(
+                      0,
+                      'https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan'
+                    )
+                  "
+                />
+              </v-col>
+              <v-col cols="12" sm="12" md="8" lg="8">
+                <v-card class="fill-height" elevation="5">
+                  <v-card-title v-if="item.title != null">
+                    {{ item.title }}
+                  </v-card-title>
 
-                      <v-card-title v-else> - </v-card-title>
+                  <v-card-title v-else> - </v-card-title>
 
-                      <v-card-subtitle
-                        v-if="item.description != null"
-                        class="flex mb-8"
-                      >
-                        {{ item.description }}
-                      </v-card-subtitle>
+                  <v-card-subtitle
+                    v-if="item.description != null"
+                    class="flex mb-8"
+                  >
+                    {{ item.description }}
+                  </v-card-subtitle>
 
-                      <v-card-actions style="position: absolute; bottom: 0">
-                        <v-btn
-                          color="primary lighten-2"
-                          :to="`/dashboard/superadmin/umum/tatanan/${item.id}/kegiatan`"
-                          small
-                          text
-                        >
-                          Kegiatan
-                        </v-btn>
-                        <v-btn
-                          color="primary lighten-2"
-                          :to="`/dashboard/superadmin/umum/tatanan/${item.id}/isi`"
-                          small
-                          text
-                        >
-                          Isi Tatanan
-                        </v-btn>
-                        <v-btn
-                          color="orange lighten-2"
-                          @click="openEditArrangementDialog(item.id)"
-                          small
-                          text
-                        >
-                          <v-icon>edit</v-icon>
-                        </v-btn>
-                        <v-btn
-                          color="red lighten-2"
-                          @click="destroy(item.id)"
-                          small
-                          text
-                        >
-                          <v-icon>delete_forever</v-icon>
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-col>
-                </v-row>
+                  <v-card-actions style="position: absolute; bottom: 0">
+                    <v-btn
+                      color="primary lighten-2"
+                      :to="`/dashboard/superadmin/umum/tatanan/${item.id}/kegiatan`"
+                      small
+                      text
+                    >
+                      Kegiatan
+                    </v-btn>
+                    <v-btn
+                      color="primary lighten-2"
+                      :to="`/dashboard/superadmin/umum/tatanan/${item.id}/isi`"
+                      small
+                      text
+                    >
+                      Isi Tatanan
+                    </v-btn>
+                    <v-btn
+                      color="orange lighten-2"
+                      @click="openEditArrangementDialog(item.id)"
+                      small
+                      text
+                    >
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                    <v-btn
+                      color="red lighten-2"
+                      @click="destroy(item.id)"
+                      small
+                      text
+                    >
+                      <v-icon>delete_forever</v-icon>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
               </v-col>
             </v-row>
-          </template>
-        </v-data-iterator>
-      </v-container>
-    </v-card>
+          </v-col>
+        </v-row>
+      </template>
+    </v-data-iterator>
 
     <v-dialog v-model="addArrangementDialog" max-width="700px" persistent>
       <v-card>

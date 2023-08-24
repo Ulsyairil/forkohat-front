@@ -50,9 +50,9 @@
         @update:items-per-page="updateItemPerPage"
         class="elevation-1"
       >
-        <template v-slot:[`item.is_admin`]="{ item }">
+        <template v-slot:[`item.is_superadmin`]="{ item }">
           <div>
-            <v-icon v-if="item.is_admin == 1">check_box</v-icon>
+            <v-icon v-if="item.is_superadmin == 1">check_box</v-icon>
             <v-icon v-else>check_box_outline_blank</v-icon>
           </div>
         </template>
@@ -131,9 +131,9 @@ export default {
           value: 'name',
         },
         {
-          text: 'admin',
+          text: 'Superadmin',
           sortable: false,
-          value: 'is_admin',
+          value: 'is_superadmin',
         },
         {
           text: 'Admin',
@@ -168,28 +168,28 @@ export default {
   },
   methods: {
     updatePage(event) {
-      this.$store.commit('admin/rule/exportPaginationPage', event)
+      this.$store.commit('superadmin/rule/exportPaginationPage', event)
       this.$fetch()
     },
     updateItemPerPage(event) {
-      this.$store.commit('admin/rule/exportPaginationLimit', event)
+      this.$store.commit('superadmin/rule/exportPaginationLimit', event)
       this.$fetch()
     },
     updateSearch(event) {
-      this.$store.commit('admin/rule/exportPaginationSearch', event)
+      this.$store.commit('superadmin/rule/exportPaginationSearch', event)
 
       setTimeout(() => {
         this.$fetch()
       }, 500)
     },
     clearSearch() {
-      this.$store.commit('admin/rule/exportPaginationSearch', '')
+      this.$store.commit('superadmin/rule/exportPaginationSearch', '')
       this.search = ''
       this.$fetch()
     },
     updateOrder(event) {
       console.log(event)
-      this.$store.commit('admin/rule/exportPaginationOrder', event)
+      this.$store.commit('superadmin/rule/exportPaginationOrder', event)
       this.$fetch()
     },
     async destroyRule(item) {
@@ -204,7 +204,7 @@ export default {
       })
 
       if (notif.isConfirmed) {
-        this.$store.dispatch('admin/rule/destroy', item.id)
+        this.$store.dispatch('superadmin/rule/destroy', item.id)
       }
 
       await this.$fetch()
@@ -218,7 +218,7 @@ export default {
       search: this.payload.search,
     }
     const response = await this.$store.dispatch(
-      'admin/rule/pagination',
+      'superadmin/rule/pagination',
       payload
     )
     console.log(response)

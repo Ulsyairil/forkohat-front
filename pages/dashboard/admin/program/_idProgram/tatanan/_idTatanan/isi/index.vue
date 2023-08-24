@@ -13,7 +13,12 @@
           <v-icon>arrow_back</v-icon>
         </v-btn>
 
-        <v-breadcrumbs :items="breadCrumbs"></v-breadcrumbs>
+        <v-breadcrumbs
+          v-if="$vuetify.breakpoint.mobile"
+          class="pl-0"
+          :items="breadCrumbs"
+        ></v-breadcrumbs>
+        <v-breadcrumbs v-else :items="breadCrumbs"></v-breadcrumbs>
       </v-card-title>
 
       <v-container>
@@ -47,35 +52,38 @@
                   @change="fetchData()"
                   hide-details
                   append-icon="sort"
-                  class="mr-4"
+                  class="mr-sm-3 mr-md-3"
+                  style="width: 100px"
                 ></v-select>
                 <v-select
                   label="Sampah"
                   hide-details
                   append-icon="trash"
-                  class="mr-4"
+                  class="mt-2 mt-sm-1 mr-md-3"
                   :items="trashItems"
                   v-model="trash"
                   @change="fetchData()"
                 ></v-select>
                 <v-select
                   label="Perlihatkan"
+                  class="mt-2 mt-sm-1 mr-md-3"
                   hide-details
                   append-icon="visibility"
                   :items="showItems"
                   v-model="showed"
                   @change="fetchData()"
                 ></v-select>
+                <v-text-field
+                  append-icon="mdi-magnify"
+                  label="Cari"
+                  class="mt-2 mt-sm-1 mr-md-3"
+                  single-line
+                  hide-details
+                  clearable
+                  v-model="search"
+                  @input="fetchData()"
+                ></v-text-field>
               </div>
-              <v-text-field
-                append-icon="mdi-magnify"
-                label="Cari"
-                single-line
-                hide-details
-                clearable
-                v-model="search"
-                @input="fetchData()"
-              ></v-text-field>
             </div>
           </template>
 
@@ -387,7 +395,7 @@ export default {
       },
       set(newValue) {
         this.$store.commit(
-          'admin/arrangementItem/exportPaginationPage',
+          'superadmin/arrangementItem/exportPaginationPage',
           newValue
         )
       },
@@ -398,7 +406,7 @@ export default {
       },
       set(newValue) {
         this.$store.commit(
-          'admin/arrangementItem/exportPaginationLimit',
+          'superadmin/arrangementItem/exportPaginationLimit',
           newValue
         )
       },
@@ -409,7 +417,7 @@ export default {
       },
       set(newValue) {
         this.$store.commit(
-          'admin/arrangementItem/exportPaginationOrder',
+          'superadmin/arrangementItem/exportPaginationOrder',
           newValue
         )
       },
@@ -420,7 +428,7 @@ export default {
       },
       set(newValue) {
         this.$store.commit(
-          'admin/arrangementItem/exportPaginationTrash',
+          'superadmin/arrangementItem/exportPaginationTrash',
           newValue
         )
       },
@@ -431,7 +439,7 @@ export default {
       },
       set(newValue) {
         this.$store.commit(
-          'admin/arrangementItem/exportPaginationShowed',
+          'superadmin/arrangementItem/exportPaginationShowed',
           newValue
         )
       },
@@ -442,7 +450,7 @@ export default {
       },
       set(newValue) {
         this.$store.commit(
-          'admin/arrangementItem/exportPaginationSearch',
+          'superadmin/arrangementItem/exportPaginationSearch',
           newValue
         )
       },
@@ -467,7 +475,7 @@ export default {
     },
     async resetPDF() {
       const response = await this.$store.dispatch(
-        'admin/arrangementItem/get',
+        'superadmin/arrangementItem/get',
         this.item_form.id
       )
 
@@ -502,7 +510,7 @@ export default {
     },
     async dump(id) {
       const response = await this.$store.dispatch(
-        'admin/arrangementItem/delete',
+        'superadmin/arrangementItem/delete',
         id
       )
 
@@ -539,7 +547,7 @@ export default {
     },
     async restore(id) {
       const response = await this.$store.dispatch(
-        'admin/arrangementItem/restore',
+        'superadmin/arrangementItem/restore',
         id
       )
 
@@ -586,7 +594,7 @@ export default {
 
       if (notif.isConfirmed) {
         const response = await this.$store.dispatch(
-          'admin/arrangementItem/destroy',
+          'superadmin/arrangementItem/destroy',
           id
         )
 
@@ -636,7 +644,7 @@ export default {
 
       if (validate) {
         const response = await this.$store.dispatch(
-          'admin/arrangementItem/create',
+          'superadmin/arrangementItem/create',
           {
             arrangement_id: this.$route.params.idTatanan,
             title: this.item_form.title,
@@ -680,7 +688,7 @@ export default {
     },
     async openEditItemDialog(id) {
       const response = await this.$store.dispatch(
-        'admin/arrangementItem/get',
+        'superadmin/arrangementItem/get',
         id
       )
 
@@ -720,7 +728,7 @@ export default {
 
       if (validate) {
         const response = await this.$store.dispatch(
-          'admin/arrangementItem/edit',
+          'superadmin/arrangementItem/edit',
           {
             id: this.item_form.id,
             arrangement_id: this.$route.params.idTatanan,
@@ -765,7 +773,7 @@ export default {
     },
   },
   async fetch() {
-    await this.$store.dispatch('admin/arrangementItem/pagination', {
+    await this.$store.dispatch('superadmin/arrangementItem/pagination', {
       arrangement_id: this.$route.params.idTatanan,
       page: this.page,
       limit: this.limit,
@@ -776,7 +784,7 @@ export default {
     })
 
     const responseArrangement = await this.$store.dispatch(
-      'admin/arrangement/get',
+      'superadmin/arrangement/get',
       this.$route.params.idTatanan
     )
 

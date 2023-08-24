@@ -46,22 +46,22 @@
       </v-container>
     </v-card>
 
-    <v-card class="mt-5">
-      <v-card-title> Daftar Tatanan </v-card-title>
+    <v-data-iterator
+      :items="arrangementData.data"
+      :items-per-page.sync="limit"
+      :page.sync="page"
+      :server-items-length="arrangementData.total"
+      @update:items-per-page="fetchData"
+      @update:page="fetchData"
+      no-data-text="Data Kosong"
+      no-results-text="Data Tidak Ditemukan"
+      :footer-props="{ 'items-per-page-options': itemsPerPageArray }"
+    >
+      <template v-slot:header>
+        <v-card class="mt-5">
+          <v-card-title> Daftar Tatanan </v-card-title>
 
-      <v-container>
-        <v-data-iterator
-          :items="arrangementData.data"
-          :items-per-page.sync="limit"
-          :page.sync="page"
-          :server-items-length="arrangementData.total"
-          @update:items-per-page="fetchData"
-          @update:page="fetchData"
-          no-data-text="Data Kosong"
-          no-results-text="Data Tidak Ditemukan"
-          :footer-props="{ 'items-per-page-options': itemsPerPageArray }"
-        >
-          <template v-slot:header>
+          <v-container>
             <div class="d-flex flex-row mb-5">
               <v-btn
                 type="button"
@@ -81,98 +81,98 @@
                 append-icon="sort"
               ></v-select>
             </div>
-          </template>
+          </v-container>
+        </v-card>
+      </template>
 
-          <template v-slot:default="props">
-            <v-row align="stretch" class="mx-2 mt-3">
-              <v-col
-                v-for="(item, index) in props.items"
-                :key="index"
-                cols="12"
-                sm="12"
-                md="6"
-                lg="6"
-                xl="4"
-                class="d-flex flex-column"
-              >
-                <v-row>
-                  <v-col cols="12" sm="12" md="4" lg="4">
-                    <v-img
-                      v-if="item.image_url"
-                      :src="`${serverBaseUrl()}${item.image_url}`"
-                      class="v-image v-responsive"
-                      @click="showImg(0, `${serverBaseUrl()}${item.image_url}`)"
-                    />
-                    <v-img
-                      v-else
-                      src="https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan"
-                      class="v-image v-responsive"
-                      @click="
-                        showImg(
-                          0,
-                          'https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan'
-                        )
-                      "
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="12" md="8" lg="8">
-                    <v-card class="fill-height" elevation="5">
-                      <v-card-title v-if="item.title != null">
-                        {{ item.title }}
-                      </v-card-title>
+      <template v-slot:default="props">
+        <v-row align="stretch" class="mx-2 mt-3">
+          <v-col
+            v-for="(item, index) in props.items"
+            :key="index"
+            cols="12"
+            sm="12"
+            md="6"
+            lg="6"
+            xl="4"
+            class="d-flex flex-column"
+          >
+            <v-row>
+              <v-col cols="12" sm="12" md="4" lg="4">
+                <v-img
+                  v-if="item.image_url"
+                  :src="`${serverBaseUrl()}${item.image_url}`"
+                  class="v-image v-responsive"
+                  @click="showImg(0, `${serverBaseUrl()}${item.image_url}`)"
+                />
+                <v-img
+                  v-else
+                  src="https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan"
+                  class="v-image v-responsive"
+                  @click="
+                    showImg(
+                      0,
+                      'https://placehold.co/600x400?text=Gambar+Tidak+Ditemukan'
+                    )
+                  "
+                />
+              </v-col>
+              <v-col cols="12" sm="12" md="8" lg="8">
+                <v-card class="fill-height" elevation="5">
+                  <v-card-title v-if="item.title != null">
+                    {{ item.title }}
+                  </v-card-title>
 
-                      <v-card-title v-else> - </v-card-title>
+                  <v-card-title v-else> - </v-card-title>
 
-                      <v-card-subtitle
-                        v-if="item.description != null"
-                        class="flex mb-8"
-                      >
-                        {{ item.description }}
-                      </v-card-subtitle>
+                  <v-card-subtitle
+                    v-if="item.description != null"
+                    class="flex mb-8"
+                  >
+                    {{ item.description }}
+                  </v-card-subtitle>
 
-                      <v-card-actions style="position: absolute; bottom: 0">
-                        <v-btn
-                          color="primary lighten-2"
-                          :to="`/dashboard/admin/program/${$route.params.idProgram}/tatanan/${item.id}/kegiatan`"
-                          small
-                          text
-                        >
-                          Kegiatan
-                        </v-btn>
-                        <v-btn
-                          color="primary lighten-2"
-                          :to="`/dashboard/admin/program/${$route.params.idProgram}/tatanan/${item.id}/isi`"
-                          small
-                          text
-                        >
-                          Isi Tatanan
-                        </v-btn>
-                        <v-btn
-                          color="orange lighten-2"
-                          @click="openEditArrangementDialog(item.id)"
-                          small
-                          text
-                        >
-                          <v-icon>edit</v-icon>
-                        </v-btn>
-                        <v-btn
-                          color="red lighten-2"
-                          @click="destroy(item.id)"
-                          small
-                          text
-                        >
-                          <v-icon>delete_forever</v-icon>
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-col>
-                </v-row>
+                  <v-card-actions style="position: absolute; bottom: 0">
+                    <v-btn
+                      color="primary lighten-2"
+                      :to="`/dashboard/admin/program/${$route.params.idProgram}/tatanan/${item.id}/kegiatan`"
+                      small
+                      text
+                    >
+                      Kegiatan
+                    </v-btn>
+                    <v-btn
+                      color="primary lighten-2"
+                      :to="`/dashboard/admin/program/${$route.params.idProgram}/tatanan/${item.id}/isi`"
+                      small
+                      text
+                    >
+                      Isi Tatanan
+                    </v-btn>
+                    <v-btn
+                      color="orange lighten-2"
+                      @click="openEditArrangementDialog(item.id)"
+                      small
+                      text
+                    >
+                      <v-icon>edit</v-icon>
+                    </v-btn>
+                    <v-btn
+                      color="red lighten-2"
+                      @click="destroy(item.id)"
+                      small
+                      text
+                    >
+                      <v-icon>delete_forever</v-icon>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
               </v-col>
             </v-row>
-          </template>
-        </v-data-iterator>
-      </v-container>
-    </v-card>
+          </v-col>
+        </v-row>
+      </template>
+    </v-data-iterator>
 
     <v-dialog v-model="addArrangementDialog" max-width="700px" persistent>
       <v-card>
@@ -345,7 +345,10 @@ export default {
         return this.$store.state.admin.arrangement.pagination.page
       },
       set(newValue) {
-        this.$store.commit('admin/arrangement/exportPaginationPage', newValue)
+        this.$store.commit(
+          'superadmin/arrangement/exportPaginationPage',
+          newValue
+        )
       },
     },
     limit: {
@@ -353,7 +356,10 @@ export default {
         return this.$store.state.admin.arrangement.pagination.limit
       },
       set(newValue) {
-        this.$store.commit('admin/arrangement/exportPaginationLimit', newValue)
+        this.$store.commit(
+          'superadmin/arrangement/exportPaginationLimit',
+          newValue
+        )
       },
     },
     order: {
@@ -361,7 +367,10 @@ export default {
         return this.$store.state.admin.arrangement.pagination.order
       },
       set(newValue) {
-        this.$store.commit('admin/arrangement/exportPaginationOrder', newValue)
+        this.$store.commit(
+          'superadmin/arrangement/exportPaginationOrder',
+          newValue
+        )
       },
     },
     arrangementData() {
@@ -403,7 +412,7 @@ export default {
       const validate = this.$refs.program_form.validate()
 
       if (validate) {
-        const response = await this.$store.dispatch('admin/program/edit', {
+        const response = await this.$store.dispatch('superadmin/program/edit', {
           id: this.$route.params.idProgram,
           title: this.program_form.title,
           description: this.program_form.description,
@@ -452,7 +461,7 @@ export default {
 
       if (notif.isConfirmed) {
         const response = await this.$store.dispatch(
-          'admin/arrangement/destroy',
+          'superadmin/arrangement/destroy',
           id
         )
 
@@ -502,7 +511,7 @@ export default {
 
       if (validate) {
         const response = await this.$store.dispatch(
-          'admin/arrangement/create',
+          'superadmin/arrangement/create',
           {
             program_id: this.$route.params.idProgram,
             title: this.arrangement_form.title,
@@ -544,7 +553,10 @@ export default {
       this.$fetch()
     },
     async openEditArrangementDialog(id) {
-      const response = await this.$store.dispatch('admin/arrangement/get', id)
+      const response = await this.$store.dispatch(
+        'superadmin/arrangement/get',
+        id
+      )
 
       switch (response.status) {
         case 200:
@@ -580,13 +592,16 @@ export default {
       const validate = this.$refs.arrangement_form.validate()
 
       if (validate) {
-        const response = await this.$store.dispatch('admin/arrangement/edit', {
-          id: this.arrangement_form.id,
-          program_id: this.$route.params.idProgram,
-          title: this.arrangement_form.title,
-          description: this.arrangement_form.description,
-          image: this.arrangement_form.file,
-        })
+        const response = await this.$store.dispatch(
+          'superadmin/arrangement/edit',
+          {
+            id: this.arrangement_form.id,
+            program_id: this.$route.params.idProgram,
+            title: this.arrangement_form.title,
+            description: this.arrangement_form.description,
+            image: this.arrangement_form.file,
+          }
+        )
 
         switch (response.status) {
           case 200:
@@ -623,7 +638,7 @@ export default {
   },
   async fetch() {
     const responseProgram = await this.$store.dispatch(
-      'admin/program/get',
+      'superadmin/program/get',
       this.$route.params.idProgram
     )
 
@@ -646,7 +661,7 @@ export default {
         return this.$nuxt.error({ statusCode: 404 })
     }
 
-    await this.$store.dispatch('admin/arrangement/pagination', {
+    await this.$store.dispatch('superadmin/arrangement/pagination', {
       program_id: this.$route.params.idProgram,
       page: this.page,
       limit: this.limit,

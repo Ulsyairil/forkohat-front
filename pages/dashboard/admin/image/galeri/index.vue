@@ -298,7 +298,7 @@ export default {
         return this.$store.state.admin.gallery.pagination.page
       },
       set(newValue) {
-        this.$store.commit('admin/gallery/exportPaginationPage', newValue)
+        this.$store.commit('superadmin/gallery/exportPaginationPage', newValue)
       },
     },
     limit: {
@@ -306,7 +306,7 @@ export default {
         return this.$store.state.admin.gallery.pagination.limit
       },
       set(newValue) {
-        this.$store.commit('admin/gallery/exportPaginationLimit', newValue)
+        this.$store.commit('superadmin/gallery/exportPaginationLimit', newValue)
       },
     },
     order: {
@@ -314,7 +314,7 @@ export default {
         return this.$store.state.admin.gallery.pagination.order
       },
       set(newValue) {
-        this.$store.commit('admin/gallery/exportPaginationOrder', newValue)
+        this.$store.commit('superadmin/gallery/exportPaginationOrder', newValue)
       },
     },
     showed: {
@@ -322,7 +322,10 @@ export default {
         return this.$store.state.admin.gallery.pagination.showed
       },
       set(newValue) {
-        this.$store.commit('admin/gallery/exportPaginationShowed', newValue)
+        this.$store.commit(
+          'superadmin/gallery/exportPaginationShowed',
+          newValue
+        )
       },
     },
     galleryData() {
@@ -362,7 +365,10 @@ export default {
       })
 
       if (notif.isConfirmed) {
-        const response = await this.$store.dispatch('admin/gallery/destroy', id)
+        const response = await this.$store.dispatch(
+          'superadmin/gallery/destroy',
+          id
+        )
 
         switch (response.status) {
           case 200:
@@ -409,11 +415,14 @@ export default {
       const validate = this.$refs.gallery_form.validate()
 
       if (validate) {
-        const response = await this.$store.dispatch('admin/gallery/create', {
-          title: this.gallery_form.title,
-          image: this.gallery_form.file,
-          showed: this.gallery_form.showed.selected,
-        })
+        const response = await this.$store.dispatch(
+          'superadmin/gallery/create',
+          {
+            title: this.gallery_form.title,
+            image: this.gallery_form.file,
+            showed: this.gallery_form.showed.selected,
+          }
+        )
 
         switch (response.status) {
           case 200:
@@ -462,7 +471,7 @@ export default {
       const validate = this.$refs.gallery_form.validate()
 
       if (validate) {
-        const response = await this.$store.dispatch('admin/gallery/edit', {
+        const response = await this.$store.dispatch('superadmin/gallery/edit', {
           id: this.gallery_form.id,
           title: this.gallery_form.title,
           image: this.gallery_form.file,
@@ -503,7 +512,7 @@ export default {
     },
   },
   async fetch() {
-    await this.$store.dispatch('admin/gallery/pagination', {
+    await this.$store.dispatch('superadmin/gallery/pagination', {
       page: this.page,
       limit: this.limit,
       order: this.order,

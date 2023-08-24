@@ -13,7 +13,12 @@
           <v-icon>arrow_back</v-icon>
         </v-btn>
 
-        <v-breadcrumbs :items="breadCrumbs"></v-breadcrumbs>
+        <v-breadcrumbs
+          v-if="$vuetify.breakpoint.mobile"
+          class="pl-0"
+          :items="breadCrumbs"
+        ></v-breadcrumbs>
+        <v-breadcrumbs v-else :items="breadCrumbs"></v-breadcrumbs>
       </v-card-title>
 
       <v-container>
@@ -47,35 +52,38 @@
                   @change="fetchData()"
                   hide-details
                   append-icon="sort"
-                  class="mr-4"
+                  class="mr-sm-3 mr-md-3"
+                  style="width: 100px"
                 ></v-select>
                 <v-select
                   label="Sampah"
                   hide-details
                   append-icon="trash"
-                  class="mr-4"
+                  class="mt-2 mt-sm-1 mr-md-3"
                   :items="trashItems"
                   v-model="trash"
                   @change="fetchData()"
                 ></v-select>
                 <v-select
                   label="Perlihatkan"
+                  class="mt-2 mt-sm-1 mr-md-3"
                   hide-details
                   append-icon="visibility"
                   :items="showItems"
                   v-model="showed"
                   @change="fetchData()"
                 ></v-select>
+                <v-text-field
+                  append-icon="mdi-magnify"
+                  label="Cari"
+                  class="mt-2 mt-sm-1 mr-md-3"
+                  single-line
+                  hide-details
+                  clearable
+                  v-model="search"
+                  @input="fetchData()"
+                ></v-text-field>
               </div>
-              <v-text-field
-                append-icon="mdi-magnify"
-                label="Cari"
-                single-line
-                hide-details
-                clearable
-                v-model="search"
-                @input="fetchData()"
-              ></v-text-field>
             </div>
           </template>
 

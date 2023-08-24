@@ -26,8 +26,8 @@
             :rules="[validation.required]"
           >
             <v-radio
-              label="admin"
-              value="admin"
+              label="Superadmin"
+              value="superadmin"
               @click="updateRadio()"
             ></v-radio>
             <v-radio
@@ -242,7 +242,7 @@ export default {
       rule: {
         name: '',
         selected: '',
-        admin: false,
+        superadmin: false,
         admin: false,
         member: false,
         guest: false,
@@ -287,29 +287,29 @@ export default {
   methods: {
     updateRadio() {
       switch (this.rule.selected) {
-        case 'admin':
-          this.rule.admin = true
+        case 'superadmin':
+          this.rule.superadmin = true
           this.rule.admin = false
           this.rule.member = false
           this.rule.guest = false
           break
 
         case 'admin':
-          this.rule.admin = false
+          this.rule.superadmin = false
           this.rule.admin = true
           this.rule.member = false
           this.rule.guest = false
           break
 
         case 'member':
-          this.rule.admin = false
+          this.rule.superadmin = false
           this.rule.admin = false
           this.rule.member = true
           this.rule.guest = false
           break
 
         case 'guest':
-          this.rule.admin = false
+          this.rule.superadmin = false
           this.rule.admin = false
           this.rule.member = false
           this.rule.guest = true
@@ -317,10 +317,10 @@ export default {
       }
     },
     callProgramApi() {
-      return this.$store.dispatch('admin/program/all')
+      return this.$store.dispatch('superadmin/program/all')
     },
     callArrangementApi(value) {
-      return this.$store.dispatch('admin/arrangement/all', value)
+      return this.$store.dispatch('superadmin/arrangement/all', value)
     },
     updateAddProgram() {
       if (this.permission.add.program) {
@@ -401,7 +401,7 @@ export default {
       })
 
       if (notif.isConfirmed) {
-        this.$store.dispatch('admin/permission/destroy', item.id)
+        this.$store.dispatch('superadmin/permission/destroy', item.id)
         setTimeout(() => {
           this.$fetch()
         }, 500)
@@ -421,21 +421,24 @@ export default {
       }
 
       if (validate) {
-        const ruleResponse = await this.$store.dispatch('admin/rule/edit', {
-          id: this.$route.params.id,
-          rule: this.rule.name,
-          is_admin: this.rule.admin,
-          is_admin: this.rule.admin,
-          is_member: this.rule.member,
-          is_guest: this.rule.guest,
-        })
+        const ruleResponse = await this.$store.dispatch(
+          'superadmin/rule/edit',
+          {
+            id: this.$route.params.id,
+            rule: this.rule.name,
+            is_superadmin: this.rule.superadmin,
+            is_admin: this.rule.admin,
+            is_member: this.rule.member,
+            is_guest: this.rule.guest,
+          }
+        )
 
         switch (ruleResponse.status) {
           case 200:
             this.permission.items.forEach(async (value) => {
               if (value.id != null) {
                 const response = await this.$store.dispatch(
-                  'admin/permission/edit',
+                  'superadmin/permission/edit',
                   {
                     id: value.id,
                     rule_id: this.$route.params.id,
@@ -454,7 +457,7 @@ export default {
                 }
               } else {
                 const response = await this.$store.dispatch(
-                  'admin/permission/create',
+                  'superadmin/permission/create',
                   {
                     rule_id: this.$route.params.id,
                     program_id: value.Program.id,
@@ -497,20 +500,20 @@ export default {
   },
   async fetch() {
     const response = await this.$store.dispatch(
-      'admin/rule/get',
+      'superadmin/rule/get',
       this.$route.params.id
     )
 
     switch (response.status) {
       case 200:
         this.rule.name = response.data.name
-        this.rule.admin = response.data.is_admin
+        this.rule.superadmin = response.data.is_superadmin
         this.rule.admin = response.data.is_admin
         this.rule.member = response.data.is_member
         this.rule.guest = response.data.is_guest
 
-        if (response.data.is_admin) {
-          this.rule.selected = 'admin'
+        if (response.data.is_superadmin) {
+          this.rule.selected = 'superadmin'
         } else if (response.data.is_admin) {
           this.rule.selected = 'admin'
         } else if (response.data.is_member) {

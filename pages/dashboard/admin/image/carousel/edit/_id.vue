@@ -62,7 +62,7 @@ import Swal from 'sweetalert2'
 
 export default {
   layout: 'dashboard',
-  middleware: ['admin'],
+  middleware: ['admi'],
   title: `Ubah Carousel - ${this.$route.params.id}`,
   data() {
     return {
@@ -96,7 +96,7 @@ export default {
 
       if (validate) {
         const response = await this.$store.dispatch(
-          'admin/carousel/edit',
+          'superadmin/carousel/edit',
           payload
         )
 
@@ -125,7 +125,7 @@ export default {
   },
   async fetch() {
     const response = await this.$store.dispatch(
-      'admin/carousel/get',
+      'superadmin/carousel/get',
       this.$route.params.id
     )
 

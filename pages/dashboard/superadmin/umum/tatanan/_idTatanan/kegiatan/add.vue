@@ -2,11 +2,22 @@
   <v-container fluid>
     <v-card elevation="3">
       <v-card-title>
-        <v-btn color="primary" @click="$router.go(-1)" fab small>
+        <v-btn
+          color="primary"
+          @click="$router.go(-1)"
+          class="mr-md-3"
+          fab
+          small
+        >
           <v-icon>arrow_back</v-icon>
         </v-btn>
 
-        <v-breadcrumbs :items="breadCrumbs"></v-breadcrumbs>
+        <v-breadcrumbs
+          v-if="$vuetify.breakpoint.mobile"
+          class="pl-0"
+          :items="breadCrumbs"
+        ></v-breadcrumbs>
+        <v-breadcrumbs v-else :items="breadCrumbs"></v-breadcrumbs>
       </v-card-title>
 
       <v-container>

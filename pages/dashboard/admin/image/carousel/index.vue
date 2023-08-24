@@ -109,7 +109,7 @@ import Swal from 'sweetalert2'
 
 export default {
   layout: 'dashboard',
-  middleware: ['admin'],
+  middleware: ['admi'],
   title: 'Carousel',
   data() {
     return {
@@ -133,7 +133,7 @@ export default {
         return this.$store.state.admin.carousel.pagination.page
       },
       set(newValue) {
-        this.$store.commit('admin/carousel/exportPaginationPage', newValue)
+        this.$store.commit('superadmin/carousel/exportPaginationPage', newValue)
       },
     },
     limit: {
@@ -141,7 +141,10 @@ export default {
         return this.$store.state.admin.carousel.pagination.limit
       },
       set(newValue) {
-        this.$store.commit('admin/carousel/exportPaginationLimit', newValue)
+        this.$store.commit(
+          'superadmin/carousel/exportPaginationLimit',
+          newValue
+        )
       },
     },
     order: {
@@ -149,7 +152,10 @@ export default {
         return this.$store.state.admin.carousel.pagination.order
       },
       set(newValue) {
-        this.$store.commit('admin/carousel/exportPaginationOrder', newValue)
+        this.$store.commit(
+          'superadmin/carousel/exportPaginationOrder',
+          newValue
+        )
       },
     },
     search: {
@@ -157,7 +163,10 @@ export default {
         return this.$store.state.admin.carousel.pagination.search
       },
       set(newValue) {
-        this.$store.commit('admin/carousel/exportPaginationSearch', newValue)
+        this.$store.commit(
+          'superadmin/carousel/exportPaginationSearch',
+          newValue
+        )
       },
     },
     data() {
@@ -184,7 +193,7 @@ export default {
 
       if (notif.isConfirmed) {
         const response = await this.$store.dispatch(
-          'admin/carousel/destroy',
+          'superadmin/carousel/destroy',
           value
         )
 
@@ -214,7 +223,7 @@ export default {
     },
   },
   async fetch() {
-    await this.$store.dispatch('admin/carousel/pagination', {
+    await this.$store.dispatch('superadmin/carousel/pagination', {
       page: this.page,
       limit: this.limit,
       order: this.order,
