@@ -31,12 +31,6 @@ export const mutations = {
 }
 
 export const actions = {
-  /**
-   *
-   * @param {Vuex} context
-   * @param {page, limit, order, search} value
-   * @returns
-   */
   async pagination(context, value) {
     try {
       const response = await this.$axios.post('/superadmin/rules', {
@@ -62,12 +56,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async all(context, value) {
     try {
       const response = await this.$axios.get('/superadmin/rules')
@@ -85,12 +73,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {id} value
-   * @returns
-   */
   async get(context, value) {
     try {
       const response = await this.$axios.get('/superadmin/rule', {
@@ -105,12 +87,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {rule} value
-   * @returns
-   */
   async create(context, value) {
     try {
       const payload = {
@@ -129,12 +105,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {id, rule} value
-   * @returns
-   */
   async edit(context, value) {
     try {
       const payload = {
@@ -154,12 +124,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {*} context
-   * @param {id: Number} value
-   * @returns
-   */
   async destroy(context, value) {
     try {
       const response = await this.$axios.delete('/superadmin/rule', {

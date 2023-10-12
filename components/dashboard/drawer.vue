@@ -9,6 +9,7 @@
   >
     <div>
       <DashboardMenuSuperadmin v-if="userData().Rule.is_superadmin" />
+      <DashboardMenuAdmin v-else-if="userData().Rule.is_admin" />
     </div>
   </v-navigation-drawer>
 </template>

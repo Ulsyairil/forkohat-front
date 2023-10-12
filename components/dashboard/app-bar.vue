@@ -37,7 +37,10 @@
         <v-btn elevation="3" small fab v-bind="attrs" v-on="on">
           <v-avatar size="40">
             <v-img
-              src="https://ui-avatars.com/api/?name=John+Leider"
+              :src="`https://ui-avatars.com/api/?name=${splitWord(
+                userDetail.fullname,
+                '+'
+              )}`"
               alt="My Avatar"
             />
           </v-avatar>
@@ -49,14 +52,19 @@
           <v-list-item>
             <v-list-item-avatar>
               <img
-                src="https://ui-avatars.com/api/?name=John+Leider"
+                :src="`https://ui-avatars.com/api/?name=${splitWord(
+                  userDetail.fullname,
+                  '+'
+                )}`"
                 alt="My Avatar"
               />
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>John Leider</v-list-item-title>
-              <v-list-item-subtitle>Founder of Vuetify</v-list-item-subtitle>
+              <v-list-item-title>{{ userDetail.fullname }}</v-list-item-title>
+              <v-list-item-subtitle>{{
+                userDetail.Rule.name
+              }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
@@ -71,7 +79,7 @@
             <v-list-item-title> Profile </v-list-item-title>
           </v-list-item>
 
-          <v-list-item href="javascript:void(0)">
+          <v-list-item @click="logOut()">
             <v-list-item-action>
               <v-icon color="error"> logout </v-icon>
             </v-list-item-action>
@@ -109,6 +117,9 @@ export default {
     miniVariant() {
       return this.$store.state.localStorage.miniVariant
     },
+    userDetail() {
+      return this.$auth.user
+    },
   },
   methods: {
     changeTheme() {
@@ -126,6 +137,29 @@ export default {
         ? this.$store.dispatch('localStorage/changeMiniVariant', false)
         : this.$store.dispatch('localStorage/changeMiniVariant', true)
     },
+    splitWord(string = String, join = String) {
+      return string.split(' ').join(join)
+    },
+    async logOut() {
+      await this.$auth
+        .logout('local')
+        .then((response) => {
+          console.log(response)
+          this.$router.push('/login')
+        })
+        .catch((error) => {
+          console.log(error.response)
+
+          Swal.fire({
+            icon: 'warning',
+            confirmButtonColor: '#42a5f5',
+            titleText: error.response.data.message,
+          })
+        })
+    },
+  },
+  mounted() {
+    console.log(this.userDetail)
   },
 }
 </script>

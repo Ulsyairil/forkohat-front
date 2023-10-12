@@ -66,12 +66,17 @@ export default {
             {
               icon: 'newspaper',
               title: 'Berita',
-              to: '/dashboard/superadmin/news',
+              to: '/dashboard/superadmin/berita',
             },
             {
               icon: 'live_help',
               title: 'FAQ',
               to: '/dashboard/superadmin/faq',
+            },
+            {
+              icon: 'account_tree',
+              title: 'Struktur Organisasi',
+              to: '/dashboard/superadmin/struktur_organisasi',
             },
           ],
         },
@@ -108,7 +113,7 @@ export default {
                 {
                   icon: '',
                   title: 'Aturan',
-                  to: '/dashboard/superadmin/rule',
+                  to: '/dashboard/superadmin/aturan',
                 },
               ],
             },
@@ -125,7 +130,7 @@ export default {
                 {
                   icon: '',
                   title: 'Galeri',
-                  to: '/dashboard/superadmin/image/gallery',
+                  to: '/dashboard/superadmin/image/galeri',
                 },
               ],
             },

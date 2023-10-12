@@ -1,21 +1,21 @@
 <template>
   <v-container fluid>
-    <v-card>
-      <v-card-title>Daftar Program</v-card-title>
+    <v-data-iterator
+      :items="programData.data"
+      :items-per-page.sync="limit"
+      :page.sync="page"
+      :server-items-length="programData.total"
+      @update:items-per-page="fetchData"
+      @update:page="fetchData"
+      no-data-text="Data Kosong"
+      no-results-text="Data Tidak Ditemukan"
+      :footer-props="{ 'items-per-page-options': itemsPerPageArray }"
+    >
+      <template v-slot:header>
+        <v-card>
+          <v-card-title>Daftar Program</v-card-title>
 
-      <v-container>
-        <v-data-iterator
-          :items="programData.data"
-          :items-per-page.sync="limit"
-          :page.sync="page"
-          :server-items-length="programData.total"
-          @update:items-per-page="fetchData"
-          @update:page="fetchData"
-          no-data-text="Data Kosong"
-          no-results-text="Data Tidak Ditemukan"
-          :footer-props="{ 'items-per-page-options': itemsPerPageArray }"
-        >
-          <template v-slot:header>
+          <v-container>
             <div class="d-flex flex-row mb-5">
               <v-btn
                 type="button"
@@ -35,57 +35,57 @@
                 append-icon="sort"
               ></v-select>
             </div>
-          </template>
+          </v-container>
+        </v-card>
+      </template>
 
-          <template v-slot:default="props">
-            <v-row align="stretch" class="mx-2 mt-3">
-              <v-col
-                v-for="(item, index) in props.items"
-                :key="index"
-                cols="12"
-                sm="12"
-                md="6"
-                lg="6"
-                xl="4"
-                class="d-flex flex-column"
-              >
-                <v-card class="fill-height" elevation="5">
-                  <v-img
-                    :src="`${serverBaseUrl()}${item.image_url}`"
-                    contain
-                  ></v-img>
+      <template v-slot:default="props">
+        <v-row align="stretch" class="mx-2 mt-3">
+          <v-col
+            v-for="(item, index) in props.items"
+            :key="index"
+            cols="12"
+            sm="12"
+            md="6"
+            lg="6"
+            xl="4"
+            class="d-flex flex-column"
+          >
+            <v-card class="fill-height" elevation="5">
+              <v-img
+                :src="`${serverBaseUrl()}${item.image_url}`"
+                contain
+              ></v-img>
 
-                  <v-card-title v-if="item.title != null">
-                    {{ item.title }}
-                  </v-card-title>
+              <v-card-title v-if="item.title != null">
+                {{ item.title }}
+              </v-card-title>
 
-                  <v-card-title v-else> - </v-card-title>
+              <v-card-title v-else> - </v-card-title>
 
-                  <v-card-subtitle v-if="item.description != null" class="flex">
-                    {{ item.description }}
-                  </v-card-subtitle>
+              <v-card-subtitle v-if="item.description != null" class="flex">
+                {{ item.description }}
+              </v-card-subtitle>
 
-                  <v-card-subtitle class="flex" v-else> - </v-card-subtitle>
+              <v-card-subtitle class="flex" v-else> - </v-card-subtitle>
 
-                  <v-card-actions>
-                    <v-btn
-                      color="orange lighten-2"
-                      :to="`/dashboard/superadmin/program/${item.id}`"
-                      text
-                    >
-                      <v-icon>edit</v-icon>
-                    </v-btn>
-                    <v-btn color="red lighten-2" @click="destroy(item.id)" text>
-                      <v-icon>delete_forever</v-icon>
-                    </v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-col>
-            </v-row>
-          </template>
-        </v-data-iterator>
-      </v-container>
-    </v-card>
+              <v-card-actions>
+                <v-btn
+                  color="orange lighten-2"
+                  :to="`/dashboard/superadmin/program/${item.id}`"
+                  text
+                >
+                  <v-icon>edit</v-icon>
+                </v-btn>
+                <v-btn color="red lighten-2" @click="destroy(item.id)" text>
+                  <v-icon>delete_forever</v-icon>
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </template>
+    </v-data-iterator>
   </v-container>
 </template>
 

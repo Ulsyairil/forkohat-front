@@ -35,12 +35,6 @@ export const mutations = {
 }
 
 export const actions = {
-  /**
-   *
-   * @param {Vuex} context
-   * @param {page, limit, order, trash, search} value
-   * @returns
-   */
   async pagination(context, value) {
     try {
       const response = await this.$axios.post('/superadmin/users', {
@@ -68,12 +62,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async all(context, value) {
     try {
       const response = await this.$axios.get('/superadmin/users')
@@ -91,12 +79,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async get(context, value) {
     try {
       const response = await this.$axios.get('/superadmin/user', {
@@ -111,12 +93,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {rule_id, fullname, username, email, password} value
-   * @returns
-   */
   async create(context, value) {
     try {
       const payload = {
@@ -135,12 +111,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {user_id, rule_id, fullname, username, email} value
-   * @returns
-   */
   async edit(context, value) {
     try {
       const payload = {
@@ -159,12 +129,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {user_id, password, confirm_password} value
-   * @returns
-   */
   async editPassword(context, value) {
     try {
       const payload = {
@@ -184,11 +148,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   */
   async delete(context, value) {
     try {
       const response = await this.$axios.put('/superadmin/user/dump', {
@@ -202,12 +161,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async restore(context, value) {
     try {
       const response = await this.$axios.put('/superadmin/user/restore', {
@@ -221,12 +174,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async destroy(context, value) {
     try {
       const response = await this.$axios.delete('/superadmin/user', {

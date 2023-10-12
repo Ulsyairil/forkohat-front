@@ -27,12 +27,6 @@ export const mutations = {
 }
 
 export const actions = {
-  /**
-   *
-   * @param {Vuex} context
-   * @param {page, limit, order, search} value
-   * @returns
-   */
   async pagination(context, value) {
     try {
       const response = await this.$axios.post('/superadmin/carousels', {
@@ -58,12 +52,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {id} value
-   * @returns
-   */
   async get(context, value) {
     try {
       const response = await this.$axios.get('/superadmin/carousel', {
@@ -78,12 +66,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {title, description, showed, image: File} value
-   * @returns
-   */
   async create(context, value) {
     try {
       const data = new FormData()
@@ -100,12 +82,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {id, title, description, showed, image: File} value
-   * @returns
-   */
   async edit(context, value) {
     try {
       const data = new FormData()
@@ -123,12 +99,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {*} context
-   * @param {id: Number} value
-   * @returns
-   */
   async destroy(context, value) {
     try {
       const response = await this.$axios.delete('/superadmin/carousel', {

@@ -27,12 +27,6 @@ export const mutations = {
 }
 
 export const actions = {
-  /**
-   *
-   * @param {Vuex} context
-   * @param {page, limit, order} value
-   * @returns
-   */
   async pagination(context, value) {
     try {
       const response = await this.$axios.post('/superadmin/programs', {
@@ -56,12 +50,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {any} value
-   * @returns
-   */
   async all(context, value) {
     try {
       const response = await this.$axios.get('/superadmin/programs')
@@ -79,12 +67,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {id} value
-   * @returns
-   */
   async get(context, value) {
     try {
       const response = await this.$axios.get('/superadmin/program', {
@@ -99,12 +81,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {rule} value
-   * @returns
-   */
   async create(context, value) {
     try {
       const payload = new FormData()
@@ -120,12 +96,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {Vuex} context
-   * @param {id, rule} value
-   * @returns
-   */
   async edit(context, value) {
     try {
       const payload = new FormData()
@@ -143,12 +113,6 @@ export const actions = {
     }
   },
 
-  /**
-   *
-   * @param {*} context
-   * @param {id: Number} value
-   * @returns
-   */
   async destroy(context, value) {
     try {
       const response = await this.$axios.delete('/superadmin/program', {
