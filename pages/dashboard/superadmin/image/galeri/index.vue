@@ -1,13 +1,7 @@
 <template>
   <v-container fluid>
     <v-card>
-      <v-card-title>
-        <v-btn color="primary" @click="$router.go(-1)" fab>
-          <v-icon>arrow_back</v-icon>
-        </v-btn>
-
-        <h2 class="ml-3">Daftar Galeri</h2>
-      </v-card-title>
+      <v-card-title>Galeri</v-card-title>
 
       <v-container>
         <v-data-iterator
