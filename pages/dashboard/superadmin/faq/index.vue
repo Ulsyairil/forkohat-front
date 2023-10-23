@@ -17,7 +17,7 @@
     >
       <template v-slot:header>
         <v-card class="mb-2">
-          <v-card-title> Daftar FAQ </v-card-title>
+          <v-card-title> FAQ </v-card-title>
 
           <v-container>
             <div class="d-flex flex-row flex-wrap">

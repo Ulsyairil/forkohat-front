@@ -16,7 +16,7 @@
     >
       <template v-slot:header>
         <v-card>
-          <v-card-title> Daftar Berita </v-card-title>
+          <v-card-title> Berita </v-card-title>
 
           <v-container>
             <div class="d-flex flex-row flex-wrap mb-3">
