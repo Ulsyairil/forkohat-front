@@ -85,6 +85,9 @@ export default {
         },
       },
     },
+    watch: [
+      'api',
+    ],
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -167,4 +170,10 @@ export default {
   env: {
     serverBaseUrl: 'http://127.0.0.1:3333',
   },
+
+  // Server Middleware: https://nuxtjs.org/docs/configuration-glossary/configuration-server-middleware/
+  serverMiddleware: [
+    // 'redirect-ssl',
+    { path: '/api', handler: '~/api/index.js' },
+  ],
 }

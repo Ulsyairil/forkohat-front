@@ -128,9 +128,7 @@
                   <v-list-item v-for="(item, index) in faqs" :key="item.name">
                     <template v-slot:default="{ active }">
                       <v-list-item-content @click="changeFaqsTopic(index)">
-                        <v-list-item-title
-                          v-text="item.name"
-                        ></v-list-item-title>
+                        <v-list-item-title>{{ item.name }}</v-list-item-title>
                       </v-list-item-content>
 
                       <v-list-item-action>
