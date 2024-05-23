@@ -1,5 +1,16 @@
 import colors from 'vuetify/es5/util/colors'
 
+let dropConsole = {}
+let isProduction = process.env.NODE_ENV === 'production'
+
+if (isProduction) {
+  dropConsole = {
+    compress: {
+      drop_console: true,
+    },
+  }
+}
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -79,15 +90,10 @@ export default {
     terser: {
       // See : https://github.com/terser/terser#compress-options
       terserOptions: {
-        compress: {
-          // Set true to build production
-          drop_console: false,
-        },
+        dropConsole,
       },
     },
-    watch: [
-      'api',
-    ],
+    watch: ['api'],
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode

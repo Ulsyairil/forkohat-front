@@ -1,14 +1,21 @@
-const { axios } = require('../config')
+import axios from 'axios'
+import errorHandler from '../middleware/errorHandler'
 
 const authController = {
-    login: async (req, res) => {
-        const request = req.body
-        let response = await axios.post('/api/auth/login', {
-            username: request.username,
-            email: request.email,
-            password: request.password
-        })
+  login: async (req, res, next) => {
+    try {
+      const response = await axios.post('/login', {
+        select: req.body.select,
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+      })
+
+      res.status(200).json(response.data)
+    } catch (error) {
+      errorHandler(error, req, res, next)
     }
+  },
 }
 
-module.exports = authController
+export default authController

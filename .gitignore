@@ -91,6 +91,7 @@ sw.*
 
 # Lock files
 *.lock
+package-lock.json
 
 # Fleet Configuration
 .fleet
