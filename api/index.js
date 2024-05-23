@@ -2,8 +2,13 @@ import express, { json, urlencoded } from 'express'
 import cookieParser from 'cookie-parser'
 import expressFormData from 'express-form-data'
 import cors from 'cors'
-import authRoute from './routes/auth'
 import axios from 'axios'
+import winston from 'winston'
+import expressWinston from 'express-winston'
+
+// Import all routes
+import authRoute from './routes/auth'
+import superadminNewsRoute from './routes/superadmin/news'
 
 // Disable console log for production
 if (process.env.NODE_ENV !== 'development') {
@@ -21,10 +26,29 @@ app.use(urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(expressFormData.parse())
 
-// List all route
-app.use([
-  authRoute
-])
+// express-winston logger makes sense BEFORE the router
+app.use(expressWinston.logger({
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: './logs/api/error.log', level: 'error' }),
+    new winston.transports.File({ filename: './logs/api/combined.log' }),
+  ],
+  format: winston.format.combine(
+    winston.format.colorize(),
+    winston.format.json(),
+    winston.format.prettyPrint(),
+  ),
+  meta: true, // optional: control whether you want to log the meta data about the request (default to true)
+  expressFormat: true, // Use the default Express/morgan request formatting. Enabling this will override any msg if true. Will only output colors with colorize set to true
+  colorize: false, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
+  ignoreRoute: function (req, res) { return false; } // optional: allows to skip some log messages based on request and/or response
+}));
 
-export const path = '/api'
-export const handler = app
+// List all route
+app.use(authRoute)
+app.use(superadminNewsRoute)
+
+export default {
+  path: '/api',
+  handler: app
+}
