@@ -9,6 +9,7 @@ import expressWinston from 'express-winston'
 // Import all routes
 import authRoute from './routes/auth'
 import superadminNewsRoute from './routes/superadmin/news'
+import fileRoute from './routes/file'
 
 // Disable console log for production
 if (process.env.NODE_ENV !== 'development') {
@@ -25,6 +26,7 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 app.use(cookieParser())
 app.use(expressFormData.parse())
+app.disable('x-powered-by')
 
 // express-winston logger makes sense BEFORE the router
 app.use(expressWinston.logger({
@@ -46,9 +48,11 @@ app.use(expressWinston.logger({
 
 // List all route
 app.use(authRoute)
+app.use(fileRoute)
 app.use(superadminNewsRoute)
 
 export default {
   path: '/api',
-  handler: app
+  handler: app,
+  url: url
 }
