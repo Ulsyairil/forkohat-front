@@ -1,6 +1,6 @@
 import { request, response } from 'express'
 import axios from 'axios'
-import errorHandler from '../middleware/errorHandler'
+import errorHandler from '../middleware/errorHandler.js'
 
 export const login = async (req = request, res = response, next) => {
   try {

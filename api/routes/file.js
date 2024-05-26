@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getFile } from '../controllers/fileController'
+import { getFile } from '../controllers/fileController.js'
 
 const router = Router()
 

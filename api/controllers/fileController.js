@@ -1,20 +1,24 @@
 import { request, response } from 'express'
-import errorFileHandler from '../middleware/errorFileHandler'
+import errorFileHandler from '../middleware/errorFileHandler.js'
 import axios from 'axios'
-import errorHandler from '../middleware/errorHandler'
+import errorHandler from '../middleware/errorHandler.js'
 
 export const getFile = async (req = request, res = response, next) => {
   try {
     let mime = req.body.mime
     let filename = req.body.filename
 
-    if (!mime || !filename) {
-      return res.status(422).json({ message: 'Missing mime or filename' })
+    if (!mime) {
+      return res.status(422).json({ message: 'Missing mime' })
+    }
+
+    if (!filename) {
+      return res.status(422).json({ message: 'Missing filename' })
     }
 
     // Get first response to detect error
-    axios.get(`/file/${mime}/${filename}`)
-    
+    await axios.get(`/file/${mime}/${filename}`)
+
     // Get second response with type arraybuffer
     const response = await axios.get(`/file/${mime}/${filename}`, {
       responseType: 'arraybuffer',

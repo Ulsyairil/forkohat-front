@@ -93,6 +93,7 @@ export default {
         dropConsole,
       },
     },
+    watch: ['api']
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -184,7 +185,4 @@ export default {
 
   // Middleware
   middleware: ['ssr-cookie'],
-
-  // Watch server
-  watch: ['api']
 }
