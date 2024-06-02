@@ -66,11 +66,7 @@ export const refreshToken = async (req = request, res = response, next) => {
 export const logout = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization')
-    const response = await axios.post(
-      '/logout',
-      {},
-      { headers: { Authorization: bearer } }
-    )
+    const response = await axios.post('/logout', {}, { headers: { Authorization: bearer } })
 
     res.status(200).json(response.data)
   } catch (error) {

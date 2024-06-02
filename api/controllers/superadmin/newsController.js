@@ -20,7 +20,7 @@ export const newsList = async (req = request, res = response, next) => {
         headers: {
           Authorization: bearer,
         },
-      }
+      },
     )
     res.status(200).json(response.data)
   } catch (error) {
@@ -75,8 +75,7 @@ export const updateNews = async (req = request, res = response, next) => {
     form.append('title', req.body.title)
     form.append('content', req.body.content)
     if (req.files.image !== undefined) {
-      req.files.image.size !== 0 ??
-        form.append('image', fs.createReadStream(req.files.image.path))
+      req.files.image.size !== 0 ?? form.append('image', fs.createReadStream(req.files.image.path))
     }
 
     const response = await axios.put('/superadmin/news', form, {

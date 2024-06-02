@@ -1,5 +1,12 @@
 import { Router } from 'express'
-import { listAllOrgStructure, listAllPermissions, listAllPrograms, listAllRules, listAllStructure, listAllUsers } from '../../controllers/superadmin/x-resourceController.js'
+import {
+  listAllOrgStructure,
+  listAllPermissions,
+  listAllPrograms,
+  listAllRules,
+  listAllStructure,
+  listAllUsers,
+} from '../../controllers/superadmin/x-resourceController.js'
 
 const router = Router()
 

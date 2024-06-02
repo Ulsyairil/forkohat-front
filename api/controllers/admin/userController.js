@@ -6,7 +6,7 @@ export const userList = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.post(
-      '/superadmin/user',
+      '/admin/user',
       {
         page: req.body.page,
         limit: req.body.limit,
@@ -29,7 +29,7 @@ export const userList = async (req = request, res = response, next) => {
 export const getUser = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/user', {
+    const response = await axios.get('/admin/user', {
       params: {
         id: req.query.id,
       },
@@ -47,7 +47,7 @@ export const createUser = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.post(
-      '/superadmin/user',
+      '/admin/user',
       {
         rule_id: req.body.rule_id,
         fullname: req.body.fullname,
@@ -71,7 +71,7 @@ export const editUser = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.put(
-      '/superadmin/user',
+      '/admin/user',
       {
         id: req.body.id,
         rule_id: req.body.rule_id,
@@ -96,7 +96,7 @@ export const editPasswordUser = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.put(
-      '/superadmin/user/password',
+      '/admin/user/password',
       {
         user_id: req.body.user_id,
         password: req.body.password,
@@ -118,7 +118,7 @@ export const deleteUser = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.put(
-      '/superadmin/user/dump',
+      '/admin/user/dump',
       {
         id: req.body.id,
       },
@@ -138,7 +138,7 @@ export const restoreUser = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.put(
-      '/superadmin/user/restore',
+      '/admin/user/restore',
       {
         id: req.body.id,
       },
@@ -157,7 +157,7 @@ export const restoreUser = async (req = request, res = response, next) => {
 export const destroyUser = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.delete('/superadmin/user', {
+    const response = await axios.delete('/admin/user', {
       params: {
         id: req.body.id,
       },

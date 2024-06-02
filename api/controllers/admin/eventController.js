@@ -8,7 +8,7 @@ export const listEvents = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.post(
-      '/superadmin/events',
+      '/admin/events',
       {
         arrangement_id: req.body.arrangement_id,
         page: req.body.page,
@@ -33,7 +33,7 @@ export const listEvents = async (req = request, res = response, next) => {
 export const getEvent = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/event', {
+    const response = await axios.get('/admin/event', {
       params: {
         id: req.query.id,
       },
@@ -61,7 +61,7 @@ export const createEvent = async (req = request, res = response, next) => {
     if (req.files.image !== undefined) {
       form.append('image', fs.createReadStream(req.files.image.path))
     }
-    const response = await axios.post('/superadmin/event', form, {
+    const response = await axios.post('/admin/event', form, {
       headers: {
         Authorization: bearer,
         ...form.getHeaders(),
@@ -88,7 +88,7 @@ export const editEvent = async (req = request, res = response, next) => {
     if (req.files.image !== undefined) {
       form.append('image', fs.createReadStream(req.files.image.path))
     }
-    const response = await axios.put('/superadmin/event', form, {
+    const response = await axios.put('/admin/event', form, {
       headers: {
         Authorization: bearer,
         ...form.getHeaders(),
@@ -104,7 +104,7 @@ export const deleteEvent = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.put(
-      '/superadmin/event/dump',
+      '/admin/event/dump',
       {
         id: req.body.id,
       },
@@ -124,7 +124,7 @@ export const restoreEvent = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.put(
-      '/superadmin/event/restore',
+      '/admin/event/restore',
       {
         id: req.body.id,
       },
@@ -143,7 +143,7 @@ export const restoreEvent = async (req = request, res = response, next) => {
 export const destroyEvent = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.delete('/superadmin/event', {
+    const response = await axios.delete('/admin/event', {
       data: {
         id: req.body.id,
       },

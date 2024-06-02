@@ -4,12 +4,13 @@ import errorHandler from '../../middleware/errorHandler.js'
 import formData from 'form-data'
 import fs from 'fs'
 
-export const programList = async (req = request, res = response, next) => {
+export const listEventFiles = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.post(
-      '/superadmin/programs',
+      '/admin/event/file',
       {
+        event_id: req.body.event_id,
         page: req.body.page,
         limit: req.body.limit,
         order: req.body.order,
@@ -26,10 +27,10 @@ export const programList = async (req = request, res = response, next) => {
   }
 }
 
-export const getProgram = async (req = request, res = response, next) => {
+export const getEventFile = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/program', {
+    const response = await axios.get('/admin/event/file', {
       params: {
         id: req.query.id,
       },
@@ -43,16 +44,16 @@ export const getProgram = async (req = request, res = response, next) => {
   }
 }
 
-export const createProgram = async (req = request, res = response, next) => {
+export const createEventFile = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     let form = new formData()
+    form.append('event_id', req.body.event_id)
     form.append('title', req.body.title)
-    form.append('description', req.body.description)
-    if (req.files.image !== undefined) {
-      form.append('image', fs.createReadStream(req.files.image.path))
+    if (req.files.file !== undefined) {
+      form.append('file', fs.createReadStream(req.files.file.path))
     }
-    const response = await axios.post('/superadmin/program', form, {
+    const response = await axios.post('/admin/event/file/add', form, {
       headers: {
         Authorization: bearer,
         ...form.getHeaders(),
@@ -64,17 +65,17 @@ export const createProgram = async (req = request, res = response, next) => {
   }
 }
 
-export const editProgram = async (req = request, res = response, next) => {
+export const editEventFile = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    let form = new formData()
+    let form = new FormData()
     form.append('id', req.body.id)
+    form.append('event_id', req.body.event_id)
     form.append('title', req.body.title)
-    form.append('description', req.body.description)
-    if (req.files.image !== undefined) {
-      form.append('image', fs.createReadStream(req.files.image.path))
+    if (req.files.file !== undefined) {
+      form.append('file', fs.createReadStream(req.files.file.path))
     }
-    const response = await axios.put('/superadmin/program', form, {
+    const response = await axios.put('/admin/event/file', form, {
       headers: {
         Authorization: bearer,
         ...form.getHeaders(),
@@ -86,12 +87,12 @@ export const editProgram = async (req = request, res = response, next) => {
   }
 }
 
-export const destroyProgram = async (req = request, res = response, next) => {
+export const deleteEventFile = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.delete('/superadmin/program', {
-      data: {
-        id: req.body.id,
+    const response = await axios.delete('/admin/event/file', {
+      params: {
+        id: req.query.id,
       },
       headers: {
         Authorization: bearer,

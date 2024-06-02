@@ -8,7 +8,7 @@ export const programList = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.post(
-      '/superadmin/programs',
+      '/admin/programs',
       {
         page: req.body.page,
         limit: req.body.limit,
@@ -29,7 +29,7 @@ export const programList = async (req = request, res = response, next) => {
 export const getProgram = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/program', {
+    const response = await axios.get('/admin/program', {
       params: {
         id: req.query.id,
       },
@@ -52,7 +52,7 @@ export const createProgram = async (req = request, res = response, next) => {
     if (req.files.image !== undefined) {
       form.append('image', fs.createReadStream(req.files.image.path))
     }
-    const response = await axios.post('/superadmin/program', form, {
+    const response = await axios.post('/admin/program', form, {
       headers: {
         Authorization: bearer,
         ...form.getHeaders(),
@@ -74,7 +74,7 @@ export const editProgram = async (req = request, res = response, next) => {
     if (req.files.image !== undefined) {
       form.append('image', fs.createReadStream(req.files.image.path))
     }
-    const response = await axios.put('/superadmin/program', form, {
+    const response = await axios.put('/admin/program', form, {
       headers: {
         Authorization: bearer,
         ...form.getHeaders(),
@@ -89,7 +89,7 @@ export const editProgram = async (req = request, res = response, next) => {
 export const destroyProgram = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.delete('/superadmin/program', {
+    const response = await axios.delete('/admin/program', {
       data: {
         id: req.body.id,
       },

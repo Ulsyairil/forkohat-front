@@ -1,18 +1,21 @@
 import { request, response } from 'express'
 import axios from 'axios'
 import errorHandler from '../../middleware/errorHandler.js'
+import formData from 'form-data'
+import fs from 'fs'
 
-export const userList = async (req = request, res = response, next) => {
+export const listStructureItem = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.post(
-      '/superadmin/user',
+      '/admin/arrangement/items',
       {
+        arrangement_id: req.body.arrangement_id,
         page: req.body.page,
         limit: req.body.limit,
         order: req.body.order,
         search: req.body.search,
-        trash: req.body.trash,
+        showed: req.body.showed,
       },
       {
         headers: {
@@ -26,10 +29,10 @@ export const userList = async (req = request, res = response, next) => {
   }
 }
 
-export const getUser = async (req = request, res = response, next) => {
+export const getStructureItem = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/user', {
+    const response = await axios.get('/admin/arrangement/item', {
       params: {
         id: req.query.id,
       },
@@ -43,82 +46,58 @@ export const getUser = async (req = request, res = response, next) => {
   }
 }
 
-export const createUser = async (req = request, res = response, next) => {
+export const createStructureItem = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.post(
-      '/superadmin/user',
-      {
-        rule_id: req.body.rule_id,
-        fullname: req.body.fullname,
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
+    let form = new formData()
+    form.append('arrangement_id', req.body.arrangement_id)
+    form.append('title', req.body.title)
+    form.append('description', req.body.description)
+    form.append('showed', req.body.showed)
+    if (req.files.file !== undefined) {
+      form.append('file', fs.createReadStream(req.files.file.path))
+    }
+    const response = await axios.post('/admin/arrangement/item', form, {
+      headers: {
+        Authorization: bearer,
+        ...form.getHeaders(),
       },
-      {
-        headers: {
-          Authorization: bearer,
-        },
-      },
-    )
+    })
     res.status(200).json(response.data)
   } catch (error) {
     errorHandler(error, req, res, next)
   }
 }
 
-export const editUser = async (req = request, res = response, next) => {
+export const editStructureItem = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.put(
-      '/superadmin/user',
-      {
-        id: req.body.id,
-        rule_id: req.body.rule_id,
-        fullname: req.body.fullname,
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
+    let form = new formData()
+    form.append('id', req.body.id)
+    form.append('arrangement_id', req.body.arrangement_id)
+    form.append('title', req.body.title)
+    form.append('description', req.body.description)
+    form.append('showed', req.body.showed)
+    if (req.files.file !== undefined) {
+      form.append('file', fs.createReadStream(req.files.file.path))
+    }
+    const response = await axios.put('/admin/arrangement/item', form, {
+      headers: {
+        Authorization: bearer,
+        ...form.getHeaders(),
       },
-      {
-        headers: {
-          Authorization: bearer,
-        },
-      },
-    )
+    })
     res.status(200).json(response.data)
   } catch (error) {
     errorHandler(error, req, res, next)
   }
 }
 
-export const editPasswordUser = async (req = request, res = response, next) => {
+export const deleteStructureItem = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.put(
-      '/superadmin/user/password',
-      {
-        user_id: req.body.user_id,
-        password: req.body.password,
-        confirm_password: req.body.confirm_password,
-      },
-      {
-        headers: {
-          Authorization: bearer,
-        },
-      },
-    )
-    res.status(200).json(response.data)
-  } catch (error) {
-    errorHandler(error, req, res, next)
-  }
-}
-
-export const deleteUser = async (req = request, res = response, next) => {
-  try {
-    const bearer = req.get('authorization') ?? ''
-    const response = await axios.put(
-      '/superadmin/user/dump',
+      '/admin/arrangement/item/dump',
       {
         id: req.body.id,
       },
@@ -134,11 +113,11 @@ export const deleteUser = async (req = request, res = response, next) => {
   }
 }
 
-export const restoreUser = async (req = request, res = response, next) => {
+export const restoreStructureItem = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.put(
-      '/superadmin/user/restore',
+      '/admin/arrangement/item/restore',
       {
         id: req.body.id,
       },
@@ -154,11 +133,11 @@ export const restoreUser = async (req = request, res = response, next) => {
   }
 }
 
-export const destroyUser = async (req = request, res = response, next) => {
+export const destroyStructureItem = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.delete('/superadmin/user', {
-      params: {
+    const response = await axios.delete('/admin/arrangement/item', {
+      data: {
         id: req.body.id,
       },
       headers: {

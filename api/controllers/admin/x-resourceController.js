@@ -5,7 +5,7 @@ import errorHandler from '../../middleware/errorHandler.js'
 export const listAllPrograms = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/programs', {
+    const response = await axios.get('/admin/programs', {
       headers: {
         Authorization: bearer,
       },
@@ -19,7 +19,7 @@ export const listAllPrograms = async (req = request, res = response, next) => {
 export const listAllStructure = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/arrangements', {
+    const response = await axios.get('/admin/arrangements', {
       params: {
         program_id: req.query.program_id,
       },
@@ -36,7 +36,7 @@ export const listAllStructure = async (req = request, res = response, next) => {
 export const listAllUsers = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/users', {
+    const response = await axios.get('/admin/users', {
       headers: {
         Authorization: bearer,
       },
@@ -50,7 +50,7 @@ export const listAllUsers = async (req = request, res = response, next) => {
 export const listAllRules = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/rules', {
+    const response = await axios.get('/admin/rules', {
       headers: {
         Authorization: bearer,
       },
@@ -64,7 +64,7 @@ export const listAllRules = async (req = request, res = response, next) => {
 export const listAllPermissions = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/rule/permissions', {
+    const response = await axios.get('/admin/rule/permissions', {
       params: {
         rule_id: req.query.rule_id,
       },
@@ -81,7 +81,7 @@ export const listAllPermissions = async (req = request, res = response, next) =>
 export const listAllOrgStructure = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/orgs', {
+    const response = await axios.get('/admin/orgs', {
       headers: {
         Authorization: bearer,
       },

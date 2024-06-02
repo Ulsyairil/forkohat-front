@@ -2,13 +2,12 @@ import { request, response } from 'express'
 import axios from 'axios'
 import errorHandler from '../../middleware/errorHandler.js'
 
-export const newsCommentList = async (req = request, res = response, next) => {
+export const listOrgStructures = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.post(
-      '/superadmin/news/comments',
+      '/admin/orgs',
       {
-        news_id: req.body.news_id,
         page: req.body.page,
         limit: req.body.limit,
         order: req.body.order,
@@ -26,10 +25,10 @@ export const newsCommentList = async (req = request, res = response, next) => {
   }
 }
 
-export const getNewsComment = async (req = request, res = response, next) => {
+export const getOrgStructure = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.get('/superadmin/news/comment', {
+    const response = await axios.get('/admin/org', {
       params: {
         id: req.query.id,
       },
@@ -43,14 +42,17 @@ export const getNewsComment = async (req = request, res = response, next) => {
   }
 }
 
-export const newsCommentCreate = async (req = request, res = response, next) => {
+export const createOrgStructure = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.post(
-      '/superadmin/news/comment',
+      '/admin/org',
       {
-        news_id: req.body.news_id,
-        comment: req.body.comment,
+        user_id: req.body.user_id,
+        parent_id: req.body.parent_id,
+        area: req.body.area,
+        office: req.body.office,
+        position_name: req.body.position_name,
       },
       {
         headers: {
@@ -64,15 +66,18 @@ export const newsCommentCreate = async (req = request, res = response, next) => 
   }
 }
 
-export const newsCommentEdit = async (req = request, res = response, next) => {
+export const editOrgStructure = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
     const response = await axios.put(
-      '/superadmin/news/comment',
+      '/admin/org',
       {
         id: req.body.id,
-        news_id: req.body.news_id,
-        comment: req.body.comment,
+        user_id: req.body.user_id,
+        parent_id: req.body.parent_id,
+        area: req.body.area,
+        office: req.body.office,
+        position_name: req.body.position_name,
       },
       {
         headers: {
@@ -86,12 +91,12 @@ export const newsCommentEdit = async (req = request, res = response, next) => {
   }
 }
 
-export const newsCommentDestroy = async (req = request, res = response, next) => {
+export const deleteOrgStructure = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    const response = await axios.delete('/superadmin/news/comment', {
-      data: {
-        id: req.body.id,
+    const response = await axios.delete('/admin/org', {
+      params: {
+        id: req.query.id,
       },
       headers: {
         Authorization: bearer,
