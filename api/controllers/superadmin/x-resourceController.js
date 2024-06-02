@@ -5,7 +5,24 @@ import errorHandler from '../middleware/errorHandler.js'
 export const listAllPrograms = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        const response = await axios.post('/superadmin/programs', {
+        const response = await axios.get('/superadmin/programs', {
+            headers: {
+                Authorization: bearer,
+            },
+        })
+        res.status(200).json(response.data)
+    } catch (error) {
+        errorHandler(error, req, res, next)
+    }
+}
+
+export const listAllStructure = async (req = request, res = response, next) => {
+    try {
+        const bearer = req.get('authorization') ?? ''
+        const response = await axios.get('/superadmin/arrangements', {
+            params: {
+                program_id: req.query.program_id,
+            },
             headers: {
                 Authorization: bearer,
             },
