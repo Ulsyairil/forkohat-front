@@ -1,7 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
-let dropConsole = {}
-let isProduction = process.env.NODE_ENV === 'production'
+const dropConsole = {}
+const isProduction = process.env.NODE_ENV === 'production'
 
 if (isProduction) {
   dropConsole = {
@@ -10,6 +10,10 @@ if (isProduction) {
     },
   }
 }
+
+// Change this url if you have another host
+const axiosBaseUrl = "http://127.0.0.1:3333/api/v1";
+const serverBaseUrl = "http://127.0.0.1:3333"
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -82,7 +86,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://127.0.0.1:3333/api/v1',
+    baseURL: axiosBaseUrl,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -174,7 +178,7 @@ export default {
 
   // Nuxt env configuration : https://nuxtjs.org/docs/configuration-glossary/configuration-env/
   env: {
-    serverBaseUrl: 'http://127.0.0.1:3333',
+    serverBaseUrl: serverBaseUrl,
   },
 
   // Server Middleware: https://nuxtjs.org/docs/configuration-glossary/configuration-server-middleware/
