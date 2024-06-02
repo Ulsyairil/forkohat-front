@@ -13,6 +13,7 @@ import fileRoute from './routes/file.js'
 import superadminFAQRoute from './routes/superadmin/faq.js'
 import superadminProgramRoute from './routes/superadmin/program.js'
 import xResourceRoute from './routes/superadmin/x-resource.js'
+import superadminEventRoute from './routes/superadmin/event.js'
 
 // Disable console log for production
 if (process.env.NODE_ENV !== 'development') {
@@ -62,6 +63,9 @@ app.use(fileRoute)
 app.use(superadminNewsRoute)
 app.use(superadminFAQRoute)
 app.use(superadminProgramRoute)
+app.use(superadminEventRoute)
+
+// Route X-Resource
 app.use(xResourceRoute)
 
 export default {
