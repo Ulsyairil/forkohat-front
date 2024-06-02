@@ -1,7 +1,8 @@
 import { request, response } from 'express'
 import axios from 'axios'
 import errorHandler from '../middleware/errorHandler.js'
-import FromData from 'form-data'
+import formData from 'form-data'
+import fs from 'fs'
 
 export const listEvents = async (req = request, res = response, next) => {
     try {
@@ -47,7 +48,7 @@ export const getEvent = async (req = request, res = response, next) => {
 export const createEvent = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        let form = new FromData()
+        let form = new formData()
         form.append('arrangement_id', req.body.arrangement_id)
         form.append('title', req.body.title)
         form.append('description', req.body.description)
@@ -77,7 +78,7 @@ export const createEvent = async (req = request, res = response, next) => {
 export const editEvent = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        let form = new FromData()
+        let form = new formData()
         form.append('id', req.body.id)
         form.append('arrangement_id', req.body.arrangement_id)
         form.append('title', req.body.title)

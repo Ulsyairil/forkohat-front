@@ -1,7 +1,8 @@
 import { request, response } from 'express'
 import axios from 'axios'
 import errorHandler from '../middleware/errorHandler.js'
-import FromData from 'form-data'
+import formData from 'form-data'
+import fs from 'fs'
 
 export const listEventFiles = async (req = request, res = response, next) => {
     try {
@@ -44,7 +45,7 @@ export const getEventFile = async (req = request, res = response, next) => {
 export const createEventFile = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        let form = new FromData()
+        let form = new formData()
         form.append('event_id', req.body.event_id)
         form.append('title', req.body.title)
         if (req.files.file !== undefined) {
@@ -53,6 +54,7 @@ export const createEventFile = async (req = request, res = response, next) => {
         const response = await axios.post('/superadmin/event/file/add', form, {
             headers: {
                 Authorization: bearer,
+                ...form.getHeaders(),
             },
         })
         res.status(200).json(response.data)
@@ -74,6 +76,7 @@ export const editEventFile = async (req = request, res = response, next) => {
         const response = await axios.put('/superadmin/event/file', form, {
             headers: {
                 Authorization: bearer,
+                ...form.getHeaders(),
             },
         })
         res.status(200).json(response.data)

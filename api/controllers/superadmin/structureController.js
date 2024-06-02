@@ -1,7 +1,8 @@
 import { request, response } from 'express'
 import axios from 'axios'
 import errorHandler from '../middleware/errorHandler.js'
-import FromData from 'form-data'
+import formData from 'form-data'
+import fs from 'fs'
 
 export const structureList = async (req = request, res = response, next) => {
     try {
@@ -44,7 +45,7 @@ export const getStructure = async (req = request, res = response, next) => {
 export const createStructure = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        let form = new FromData()
+        let form = new formData()
         form.append('program_id', req.body.program_id)
         form.append('title', req.body.title)
         form.append('description', req.body.description)
@@ -70,7 +71,7 @@ export const createStructure = async (req = request, res = response, next) => {
 export const editStructure = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        let form = new FromData()
+        let form = new formData()
         form.append('id', req.body.id)
         form.append('program_id', req.body.program_id)
         form.append('title', req.body.title)

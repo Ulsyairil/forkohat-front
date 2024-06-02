@@ -1,8 +1,8 @@
 import { request, response } from 'express'
 import axios from 'axios'
 import errorHandler from '../../middleware/errorHandler.js'
+import formData from 'form-data'
 import fs from 'fs'
-import FormData from 'form-data'
 
 export const newsList = async (req = request, res = response, next) => {
   try {
@@ -48,15 +48,15 @@ export const getNews = async (req = request, res = response, next) => {
 export const createNews = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    let formData = new FormData()
-    formData.append('title', req.body.title)
-    formData.append('content', req.body.content)
-    formData.append('image', fs.createReadStream(req.files.image.path))
+    let form = new formData()
+    form.append('title', req.body.title)
+    form.append('content', req.body.content)
+    form.append('image', fs.createReadStream(req.files.image.path))
 
-    const response = await axios.post('/superadmin/news/add', formData, {
+    const response = await axios.post('/superadmin/news/add', form, {
       headers: {
         Authorization: bearer,
-        ...formData.getHeaders(),
+        ...form.getHeaders(),
       },
     })
 
@@ -70,19 +70,19 @@ export const createNews = async (req = request, res = response, next) => {
 export const updateNews = async (req = request, res = response, next) => {
   try {
     const bearer = req.get('authorization') ?? ''
-    let formData = new FormData()
-    formData.append('id', req.body.id)
-    formData.append('title', req.body.title)
-    formData.append('content', req.body.content)
+    let form = new formData()
+    form.append('id', req.body.id)
+    form.append('title', req.body.title)
+    form.append('content', req.body.content)
     if (req.files.image !== undefined) {
       req.files.image.size !== 0 ??
-        formData.append('image', fs.createReadStream(req.files.image.path))
+        form.append('image', fs.createReadStream(req.files.image.path))
     }
 
-    const response = await axios.put('/superadmin/news', formData, {
+    const response = await axios.put('/superadmin/news', form, {
       headers: {
         Authorization: bearer,
-        ...formData.getHeaders(),
+        ...form.getHeaders(),
       },
     })
 

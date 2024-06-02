@@ -1,7 +1,8 @@
 import { request, response } from 'express'
 import axios from 'axios'
 import errorHandler from '../middleware/errorHandler.js'
-import FromData from 'form-data'
+import formData from 'form-data'
+import fs from 'fs'
 
 export const listCarousel = async (req = request, res = response, next) => {
     try {
@@ -44,7 +45,7 @@ export const getCarousel = async (req = request, res = response, next) => {
 export const createCarousel = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        let form = new FormData()
+        let form = new formData()
         form.append('title', req.body.title)
         form.append('description', req.body.description)
         form.append('showed', req.body.showed)
@@ -65,7 +66,7 @@ export const createCarousel = async (req = request, res = response, next) => {
 export const editCarousel = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        let form = new FormData()
+        let form = new formData()
         form.append('id', req.body.id)
         form.append('title', req.body.title)
         form.append('description', req.body.description)

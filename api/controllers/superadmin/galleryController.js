@@ -1,7 +1,7 @@
 import { request, response } from 'express'
 import axios from 'axios'
 import errorHandler from '../middleware/errorHandler.js'
-import FromData from 'form-data'
+import formData from 'form-data'
 
 export const listGallery = async (req = request, res = response, next) => {
     try {
@@ -27,7 +27,7 @@ export const listGallery = async (req = request, res = response, next) => {
 export const createGallery = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        let form = new FormData()
+        let form = new formData()
         form.append('title', req.body.title)
         form.append('showed', req.body.showed)
         if (req.files.image !== undefined) {
@@ -36,6 +36,7 @@ export const createGallery = async (req = request, res = response, next) => {
         const response = await axios.post('/superadmin/gallery', form, {
             headers: {
                 Authorization: bearer,
+                ...form.getHeaders(),
             },
         })
         res.status(200).json(response.data)
@@ -47,7 +48,7 @@ export const createGallery = async (req = request, res = response, next) => {
 export const editGallery = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        let form = new FormData()
+        let form = new formData()
         form.append('id', req.body.id)
         form.append('title', req.body.title)
         form.append('showed', req.body.showed)
@@ -57,6 +58,7 @@ export const editGallery = async (req = request, res = response, next) => {
         const response = await axios.put('/superadmin/gallery', form, {
             headers: {
                 Authorization: bearer,
+                ...form.getHeaders(),
             },
         })
         res.status(200).json(response.data)
