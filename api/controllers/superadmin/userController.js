@@ -1,7 +1,6 @@
 import { request, response } from 'express'
 import axios from 'axios'
 import errorHandler from '../middleware/errorHandler.js'
-import FromData from 'form-data'
 
 export const userList = async (req = request, res = response, next) => {
     try {
@@ -128,15 +127,15 @@ export const deleteUser = async (req = request, res = response, next) => {
 export const restoreUser = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        const response = await axios.put('/superadmin/user/restore', 
-        {
-            id: req.body.id
-        },
-        {
-            headers: {
-                Authorization: bearer,
+        const response = await axios.put('/superadmin/user/restore',
+            {
+                id: req.body.id
             },
-        })
+            {
+                headers: {
+                    Authorization: bearer,
+                },
+            })
         res.status(200).json(response.data)
     } catch (error) {
         errorHandler(error, req, res, next)
@@ -146,15 +145,15 @@ export const restoreUser = async (req = request, res = response, next) => {
 export const destroyUser = async (req = request, res = response, next) => {
     try {
         const bearer = req.get('authorization') ?? ''
-        const response = await axios.delete('/superadmin/user', 
-        {
-            params: {
-                id: req.body.id
-            },
-            headers: {
-                Authorization: bearer,
-            },
-        })
+        const response = await axios.delete('/superadmin/user',
+            {
+                params: {
+                    id: req.body.id
+                },
+                headers: {
+                    Authorization: bearer,
+                },
+            })
         res.status(200).json(response.data)
     } catch (error) {
         errorHandler(error, req, res, next)
