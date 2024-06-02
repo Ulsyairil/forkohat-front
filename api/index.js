@@ -11,6 +11,8 @@ import authRoute from './routes/auth.js'
 import superadminNewsRoute from './routes/superadmin/news.js'
 import fileRoute from './routes/file.js'
 import superadminFAQRoute from './routes/superadmin/faq.js'
+import superadminProgramRoute from './routes/superadmin/program.js'
+import xResourceRoute from './routes/superadmin/x-resource.js'
 
 // Disable console log for production
 if (process.env.NODE_ENV !== 'development') {
@@ -59,6 +61,8 @@ app.use(authRoute)
 app.use(fileRoute)
 app.use(superadminNewsRoute)
 app.use(superadminFAQRoute)
+app.use(superadminProgramRoute)
+app.use(xResourceRoute)
 
 export default {
   path: '/api',
