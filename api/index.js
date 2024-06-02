@@ -10,6 +10,7 @@ import expressWinston from 'express-winston'
 import authRoute from './routes/auth.js'
 import superadminNewsRoute from './routes/superadmin/news.js'
 import fileRoute from './routes/file.js'
+import superadminFAQRoute from './routes/superadmin/faq.js'
 
 // Disable console log for production
 if (process.env.NODE_ENV !== 'development') {
@@ -57,6 +58,7 @@ app.use(
 app.use(authRoute)
 app.use(fileRoute)
 app.use(superadminNewsRoute)
+app.use(superadminFAQRoute)
 
 export default {
   path: '/api',
