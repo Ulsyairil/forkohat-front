@@ -77,3 +77,17 @@ export const listAllPermissions = async (req = request, res = response, next) =>
         errorHandler(error, req, res, next)
     }
 }
+
+export const listAllOrgStructure = async (req = request, res = response, next) => {
+    try {
+        const bearer = req.get('authorization') ?? ''
+        const response = await axios.get('/superadmin/orgs', {
+            headers: {
+                Authorization: bearer,
+            },
+        })
+        res.status(200).json(response.data)
+    } catch (error) {
+        errorHandler(error, req, res, next)
+    }
+}
