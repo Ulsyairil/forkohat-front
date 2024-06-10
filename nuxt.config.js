@@ -12,8 +12,10 @@ if (isProduction) {
 }
 
 // Change this url if you have another host
-const axiosBaseUrl = "http://127.0.0.1:3333/api/v1";
-const serverBaseUrl = "http://127.0.0.1:3333"
+const host = "127.0.0.1"
+const port = 3000 // default: 3000
+const axiosBaseUrl = `http://127.0.0.1:3000/api`
+const serverBaseUrl = `http://127.0.0.1:3000/api`
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -111,8 +113,8 @@ export default {
 
   // Change server port
   server: {
-    // port: 49001, // default: 3000
-    // host: "192.168.1.2",
+    port: port,
+    host: host,
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

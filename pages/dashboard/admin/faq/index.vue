@@ -266,9 +266,6 @@ export default {
     },
   },
   methods: {
-    serverBaseUrl() {
-      return process.env.serverBaseUrl
-    },
     fetchData() {
       this.$fetch()
     },

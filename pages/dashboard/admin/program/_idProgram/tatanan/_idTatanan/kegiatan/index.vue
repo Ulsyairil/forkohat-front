@@ -105,10 +105,10 @@
                   <v-row align="center" justify="center">
                     <v-col cols="12" sm="12" md="4" lg="4">
                       <v-img
-                        :src="`${serverBaseUrl() + item.image_url}`"
+                        :src="`${serverBaseUrl()}/file/${item.image_mime}/${item.image_name}`"
                         height="200"
                         @click="
-                          showImg(index, `${serverBaseUrl() + item.image_url}`)
+                          showImg(index, `${serverBaseUrl()}/file/${item.image_mime}/${item.image_name}`)
                         "
                         style="cursor: zoom-in"
                       ></v-img>

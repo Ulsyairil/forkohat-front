@@ -119,7 +119,7 @@
                       small
                       text
                       class="_df_button"
-                      :source="`${serverBaseUrl()}${item.file_url}`"
+                      :source="`${serverBaseUrl()}/file/${item.file_mime}/${item.file_name}`"
                     >
                       <v-icon>auto_stories</v-icon>
                     </v-btn>
@@ -478,9 +478,7 @@ export default {
         case 200:
           this.item_form.title = response.data.title
           this.item_form.description = response.data.description
-          this.item_form.url = `${this.serverBaseUrl()}${
-            response.data.file_url
-          }`
+          this.item_form.url = `${this.serverBaseUrl()}/file/${response.data.file_mime}/${response.data.file_name}`
           this.item_form.showed.selected = response.data.showed
           break
 
@@ -692,9 +690,7 @@ export default {
           this.item_form.id = response.data.id
           this.item_form.title = response.data.title
           this.item_form.description = response.data.description
-          this.item_form.url = `${this.serverBaseUrl()}${
-            response.data.file_url
-          }`
+          this.item_form.url = `${this.serverBaseUrl()}/file/${response.data.file_mime}/${response.data.file_name}`
           this.item_form.showed.selected = response.data.showed
           this.editItemDialog = true
           break

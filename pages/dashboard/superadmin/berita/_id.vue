@@ -547,7 +547,7 @@ export default {
     switch (responseGetNews.status) {
       case 200:
         let data = responseGetNews.data
-        this.news.file.previewBefore = this.serverBaseUrl() + data.image_url
+        this.news.file.previewBefore = this.serverBaseUrl() + "/file" + "/" + data.image_mime + "/" + data.image_name
         this.news.title = data.title
         this.news.editor.content = data.content
 

@@ -96,13 +96,13 @@
               >
                 <template v-slot:selection="data">
                   <v-avatar left>
-                    <img :src="`${serverBaseUrl() + data.item.image_url}`" />
+                    <img :src="`${serverBaseUrl()}/file/${data.item.image_mime}/${data.item.image_name}`" />
                   </v-avatar>
                   {{ data.item.fullname }}
                 </template>
                 <template v-slot:item="data">
                   <v-list-item-avatar>
-                    <img :src="`${serverBaseUrl() + data.item.image_url}`" />
+                    <img :src="`${serverBaseUrl()}/file/${data.item.image_mime}/${data.item.image_name}`" />
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title
@@ -128,7 +128,7 @@
                 <template v-slot:selection="data">
                   <v-avatar left>
                     <img
-                      :src="`${serverBaseUrl() + data.item.User.image_url}`"
+                      :src="`${serverBaseUrl()}/file/${data.item.User.image_mime}/${data.item.User.image_name}`"
                     />
                   </v-avatar>
                   {{ data.item.User.fullname }}
@@ -136,7 +136,7 @@
                 <template v-slot:item="data">
                   <v-list-item-avatar>
                     <img
-                      :src="`${serverBaseUrl() + data.item.User.image_url}`"
+                      :src="`${serverBaseUrl()}/file/${data.item.User.image_mime}/${data.item.User.image_name}`"
                     />
                   </v-list-item-avatar>
                   <v-list-item-content>
@@ -209,13 +209,13 @@
               >
                 <template v-slot:selection="data">
                   <v-avatar left>
-                    <img :src="`${serverBaseUrl() + data.item.image_url}`" />
+                    <img :src="`${serverBaseUrl()}/file/${data.item.image_mime}/${data.item.image_name}`" />
                   </v-avatar>
                   {{ data.item.fullname }}
                 </template>
                 <template v-slot:item="data">
                   <v-list-item-avatar>
-                    <img :src="`${serverBaseUrl() + data.item.image_url}`" />
+                    <img :src="`${serverBaseUrl()}/file/${data.item.image_mime}/${data.item.image_name}`" />
                   </v-list-item-avatar>
                   <v-list-item-content>
                     <v-list-item-title
@@ -241,7 +241,7 @@
                 <template v-slot:selection="data">
                   <v-avatar left>
                     <img
-                      :src="`${serverBaseUrl() + data.item.User.image_url}`"
+                      :src="`${serverBaseUrl()}/file/${data.item.User.image_mime}/${data.item.User.image_name}`"
                     />
                   </v-avatar>
                   {{ data.item.User.fullname }}
@@ -249,7 +249,7 @@
                 <template v-slot:item="data">
                   <v-list-item-avatar>
                     <img
-                      :src="`${serverBaseUrl() + data.item.User.image_url}`"
+                      :src="`${serverBaseUrl()}/file/${data.item.User.image_mime}/${data.item.User.image_name}`"
                     />
                   </v-list-item-avatar>
                   <v-list-item-content>
@@ -718,7 +718,7 @@ export default {
   },
   async fetch() {
     this.$d3
-      .json(`${this.serverBaseUrl()}/api/v1/superadmin/orgs`, {
+      .json(`${this.serverBaseUrl()}/superadmin/orgs`, {
         headers: { Authorization: this.$auth.strategy.token.get() },
       })
       .then((d) => {

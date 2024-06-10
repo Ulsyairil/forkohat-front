@@ -65,7 +65,7 @@
           >
             <v-card class="flex d-flex flex-column" elevation="5">
               <v-img
-                :src="`${serverBaseUrl()}${item.image_url}`"
+                :src="`${serverBaseUrl()}/file/${item.image_mime}/${item.image_name}`"
                 max-height="200"
               ></v-img>
 

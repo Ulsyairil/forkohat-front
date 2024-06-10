@@ -21,7 +21,7 @@
       <v-form ref="form" class="mt-5" lazy-validation>
         <div class="mb-5">
           <v-img
-            :src="`${serverBaseUrl()}${data.image_url}`"
+            :src="`${serverBaseUrl()}/file/${data.image_mime}/${data.image_name}`"
             max-height="240"
             max-width="320"
           ></v-img>

@@ -434,9 +434,6 @@ export default {
       this.event.endRegistrationDate = ''
       console.log(this.event)
     },
-    serverBaseUrl() {
-      return process.env.serverBaseUrl
-    },
     previewEventImage() {
       if (this.event.image.value != null) {
         this.event.image.url = URL.createObjectURL(this.event.image.value)

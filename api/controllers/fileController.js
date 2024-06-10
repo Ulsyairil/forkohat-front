@@ -5,14 +5,14 @@ import errorHandler from '../middleware/errorHandler.js'
 
 export const getFile = async (req = request, res = response, next) => {
   try {
-    let mime = req.body.mime
-    let filename = req.body.filename
+    let mime = req.params.mime
+    let filename = req.params.filename
 
-    if (!mime) {
+    if (mime === undefined || mime === null) {
       return res.status(422).json({ message: 'Missing mime' })
     }
 
-    if (!filename) {
+    if (filename === undefined || filename === null) {
       return res.status(422).json({ message: 'Missing filename' })
     }
 

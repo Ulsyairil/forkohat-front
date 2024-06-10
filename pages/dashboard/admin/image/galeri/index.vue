@@ -67,9 +67,9 @@
                 <v-card class="fill-height" elevation="5">
                   <v-img
                     v-if="item.image_url"
-                    :src="`${serverBaseUrl()}${item.image_url}`"
+                    :src="`${serverBaseUrl()}/file/${item.image_mime}/${item.image_name}`"
                     class="v-image v-responsive"
-                    @click="showImg(0, `${serverBaseUrl()}${item.image_url}`)"
+                    @click="showImg(0, `${serverBaseUrl()}/file/${item.image_mime}/${item.image_name}`)"
                   />
 
                   <div style="position: absolute; top: 0" class="mt-3 ml-3">
@@ -463,7 +463,7 @@ export default {
       this.gallery_form.id = data.id
       this.gallery_form.title = data.title
       this.gallery_form.showed.selected = data.showed
-      this.gallery_form.url = this.serverBaseUrl() + data.image_url
+      this.gallery_form.url = this.serverBaseUrl() + "/file" + "/" + data.image_mime + "/" + data.image_name
 
       this.editGalleryDialog = true
     },

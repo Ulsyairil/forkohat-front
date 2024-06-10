@@ -53,7 +53,7 @@
           >
             <v-card class="fill-height" elevation="5">
               <v-img
-                :src="`${serverBaseUrl()}${item.image_url}`"
+                :src="`${serverBaseUrl()}/file/${item.image_mime}/${item.image_name}`"
                 contain
               ></v-img>
 

@@ -207,7 +207,7 @@
                     <v-btn
                       v-if="['jpg', 'jpeg', 'png'].includes(item.mime)"
                       color="primary"
-                      @click="showImg(0, serverBaseUrl() + item.url)"
+                      @click="showImg(0, `${serverBaseUrl()}/file/${item.mime}/${item.name}`)"
                       small
                       text
                     >
@@ -219,7 +219,7 @@
                       small
                       text
                       class="_df_custom"
-                      :source="serverBaseUrl() + item.url"
+                      :source="`${serverBaseUrl()}/file/${item.mime}/${item.name}`"
                     >
                       <v-icon>auto_stories</v-icon>
                     </v-btn>
@@ -720,7 +720,7 @@ export default {
     switch (responseGetEvent.status) {
       case 200:
         let data = responseGetEvent.data
-        this.event.image.preview = this.serverBaseUrl() + data.image_url
+        this.event.image.preview = this.serverBaseUrl() + "/file" + "/" + data.image_mime + "/" + data.image_name
         this.event.title = data.title
         this.event.description = data.description
         this.event.registrationUrl = data.registration_url

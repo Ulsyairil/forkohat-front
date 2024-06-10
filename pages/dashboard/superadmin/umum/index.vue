@@ -55,9 +55,9 @@
               <v-col cols="12" sm="12" md="4" lg="4">
                 <v-img
                   v-if="item.image_url"
-                  :src="`${serverBaseUrl()}${item.image_url}`"
+                  :src="`${serverBaseUrl()}/file/${item.image_mime}/${item.image_name}`"
                   class="v-image v-responsive"
-                  @click="showImg(0, `${serverBaseUrl()}${item.image_url}`)"
+                  @click="showImg(0, `${serverBaseUrl()}/file/${item.image_mime}/${item.image_name}`)"
                 />
                 <v-img
                   v-else
@@ -463,9 +463,7 @@ export default {
           this.arrangement_form.id = response.data.id
           this.arrangement_form.title = response.data.title
           this.arrangement_form.description = response.data.description
-          this.arrangement_form.url = `${this.serverBaseUrl()}${
-            response.data.image_url
-          }`
+          this.arrangement_form.url = `${this.serverBaseUrl()}/file/${response.data.image_mime}/${response.data.image_name}`
           this.editArrangementDialog = true
           break
 
