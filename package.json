@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development concurrently 'nuxt --watch' 'nodemon ./api'",
+    "dev": "NODE_ENV=development concurrently \"nuxt --watch\" \"nodemon ./api\"",
     "build": "nuxt build",
     "start": "NODE_ENV=production nuxt start",
     "generate": "nuxt generate",
