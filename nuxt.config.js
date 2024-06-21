@@ -1,6 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
-const dropConsole = {}
+let dropConsole = {}
 const isProduction = process.env.NODE_ENV === 'production'
 
 if (isProduction) {
