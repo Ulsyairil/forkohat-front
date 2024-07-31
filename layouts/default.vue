@@ -1,14 +1,8 @@
 <template>
-  <v-app :dark="setTheme">
+  <v-app>
     <v-navigation-drawer v-model="drawer" absolute temporary app>
       <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
+        <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" router exact>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -19,79 +13,34 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar fixed app>
-      <v-app-bar-nav-icon @click.stop="changeDrawer" />
+    <v-app-bar :elevation="appBarElevation" fixed app color="white">
+      <!-- Show nav icon only on mobile layout -->
+      <v-app-bar-nav-icon v-if="$vuetify.breakpoint.smAndDown" @click.stop="changeDrawer" />
 
+      <!-- Show logo and title -->
       <v-img :src="logo" max-width="50px"></v-img>
 
-      <v-toolbar-title class="mx-3">
-        <b> FORKOHAT BALIKPAPAN </b>
+      <!-- Conditionally render the toolbar title based on the layout -->
+      <v-toolbar-title v-if="$vuetify.breakpoint.mdAndUp" class="mx-3">
+        <b>FORKOHAT BALIKPAPAN</b>
       </v-toolbar-title>
-
       <v-spacer />
 
-      <v-btn class="mx-3" elevation="3" fab small @click.stop="changeTheme()">
-        <v-icon v-if="darkMode == false"> dark_mode </v-icon>
-        <v-icon v-else> brightness_5 </v-icon>
-      </v-btn>
+      <!-- Conditionally render buttons based on screen size -->
+      <template v-if="$vuetify.breakpoint.mdAndUp">
+        <v-btn class="mx-2" to="/" text>Beranda</v-btn>
+        <v-btn class="mx-2" to="/news" text>Berita</v-btn>
+        <v-btn class="mx-2" to="/program" text>Program</v-btn>
+        <v-btn class="mx-2" to="/FAQ" text>FAQ</v-btn>
+        <v-btn class="mx-2" to="/kontak" text>Kontak</v-btn>
+      </template>
 
-      <v-menu
-        v-model="menu"
-        :close-on-content-click="false"
-        :nudge-width="200"
-        transition="slide-y-transition"
-        offset-y
-        bottom
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn class="mx-3" elevation="3" small fab v-bind="attrs" v-on="on">
-            <v-avatar size="40">
-              <v-img
-                src="https://ui-avatars.com/api/?name=John+Leider"
-                alt="My Avatar"
-              />
-            </v-avatar>
-          </v-btn>
-        </template>
-
-        <v-card>
-          <v-list>
-            <v-list-item>
-              <v-list-item-avatar>
-                <img
-                  src="https://ui-avatars.com/api/?name=John+Leider"
-                  alt="My Avatar"
-                />
-              </v-list-item-avatar>
-
-              <v-list-item-content>
-                <v-list-item-title>John Leider</v-list-item-title>
-                <v-list-item-subtitle>Founder of Vuetify</v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-
-          <v-divider></v-divider>
-
-          <v-list>
-            <v-list-item href="javascript:void(0)">
-              <v-list-item-action>
-                <v-icon color="primary"> account_circle </v-icon>
-              </v-list-item-action>
-              <v-list-item-title> Profile </v-list-item-title>
-            </v-list-item>
-
-            <v-list-item href="javascript:void(0)">
-              <v-list-item-action>
-                <v-icon color="error"> logout </v-icon>
-              </v-list-item-action>
-              <v-list-item-title> Sign Out </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-card>
-      </v-menu>
-
-      <v-btn class="mx-3" elevation="3" fab small to="/login">
+      <!-- <v-btn class="mx-2" elevation="3" fab small @click.stop="changeTheme()">
+        <v-icon v-if="darkMode == false">dark_mode</v-icon>
+        <v-icon v-else>brightness_5</v-icon>
+      </v-btn> -->
+      
+      <v-btn class="mx-2" elevation="3" fab small to="/login">
         <v-icon>login</v-icon>
       </v-btn>
     </v-app-bar>
@@ -101,7 +50,7 @@
     </v-main>
 
     <v-footer app>
-      <span> FORKOHAT BALIKPAPAN &copy; {{ new Date().getFullYear() }}</span>
+      <span>FORKOHAT BALIKPAPAN &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
 </template>
@@ -141,6 +90,7 @@ export default {
           to: '/contact',
         },
       ],
+      appBarElevation: 1,
       menu: false,
     }
   },
@@ -173,6 +123,16 @@ export default {
         ? this.$store.dispatch('localStorage/changeDefaultDrawer', false)
         : this.$store.dispatch('localStorage/changeDefaultDrawer', true)
     },
+    handleScroll() {
+      // Update elevation based on scroll position
+      this.appBarElevation = window.scrollY > 10 ? 1 : 0; // Apply shadow when scrolled more than 10px
+    },
   },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
 }
 </script>
