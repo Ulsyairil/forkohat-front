@@ -39,7 +39,7 @@
         <v-icon v-if="darkMode == false">dark_mode</v-icon>
         <v-icon v-else>brightness_5</v-icon>
       </v-btn> -->
-      
+
       <v-btn class="mx-2" elevation="3" fab small to="/login">
         <v-icon>login</v-icon>
       </v-btn>
@@ -49,8 +49,17 @@
       <Nuxt />
     </v-main>
 
-    <v-footer app>
-      <span>FORKOHAT BALIKPAPAN &copy; {{ new Date().getFullYear() }}</span>
+    <v-footer color="primary" dark class="mt-16">
+      <v-row justify="center" class="my-4 text-center">
+        <v-col cols="12">Lorem ipsum dolor sit amet consectetur
+          adipisicing elit.</v-col>
+        <v-col cols="12">
+          <v-btn v-for="icon in footerIcons" :key="icon" text dark>
+            <v-icon>{{ icon }}</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col cols="12" class="align-center">&copy; 2024 FORKOHAT Balikpapan</v-col>
+      </v-row>
     </v-footer>
   </v-app>
 </template>
@@ -92,6 +101,12 @@ export default {
       ],
       appBarElevation: 1,
       menu: false,
+      footerIcons: [
+        'mdi-facebook',
+        'mdi-twitter',
+        'mdi-instagram',
+        'mdi-youtube',
+      ],
     }
   },
   computed: {

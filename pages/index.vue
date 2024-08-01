@@ -7,7 +7,7 @@
       </v-carousel-item>
     </v-carousel>
 
-    <v-row class="mb-10">
+    <v-row class="mb-10 mx-0">
       <v-col cols="12" class="mb-5">
         <div class="text-center mt-10 mb-8">
           <h1>Berita</h1>
@@ -15,13 +15,13 @@
               width: 150px;
               height: 4px;
               margin: auto;
-              border-radius: 7px 7px 7px 7px;
+              border-radius: 7px;
               background-color: teal;
               border: 1px solid teal;
             " class="mt-1 teal" />
         </div>
 
-        <v-row class="mx-16">
+        <v-row class="mx-10">
           <v-col v-for="value in news.data" :key="value.title" cols="12" sm="12" md="4" lg="4" class="mt-5">
             <v-card>
               <v-img :src="`${$axios.defaults.baseURL}/file/${value.image_mime}/${value.image_name}`"
@@ -50,6 +50,56 @@
         </div>
       </v-col>
 
+      <v-col cols="12" class="mb-5">
+        <div class="text-center mt-10 mb-8">
+          <h1>Program</h1>
+          <hr style="
+              width: 150px;
+              height: 4px;
+              margin: auto;
+              border-radius: 7px;
+              background-color: teal;
+              border: 1px solid teal;
+            " class="mt-1 teal" />
+        </div>
+
+        <template>
+          <v-row>
+            <v-col cols="4">
+              <v-card class="my-card">
+                <v-card-title>Card Title</v-card-title>
+                <v-card-subtitle>Card Subtitle</v-card-subtitle>
+                <v-card-text>
+                  Card content here...
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col cols="4">
+              <v-card class="my-card">
+                <v-card-title>Card Title</v-card-title>
+                <v-card-subtitle>Card Subtitle</v-card-subtitle>
+                <v-card-text>
+                  Card content here...
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col cols="4">
+              <v-card class="my-card">
+                <v-card-title>Card Title</v-card-title>
+                <v-card-subtitle>Card Subtitle</v-card-subtitle>
+                <v-card-text>
+                  Card content here...
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </template>
+
+        <div class="text-center mt-10 mb-5">
+          <v-btn color="primary" elevation="6" large to="/news">Lihat Berita Lainnya</v-btn>
+        </div>
+      </v-col>
+
       <v-col cols="12">
         <div class="text-center mt-10">
           <h1>Protokol Kesehatan</h1>
@@ -57,15 +107,14 @@
               width: 150px;
               height: 4px;
               margin: auto;
-              border-radius: 7px 7px 7px 7px;
+              border-radius: 7px;
               background-color: teal;
               border: 1px solid teal;
             " class="mt-1 teal" />
         </div>
 
         <div class="d-flex flex-column justify-space-between align-center">
-          <v-img contain max-height="550" max-width="650" :src="protokolKesehatan">
-          </v-img>
+          <v-img contain max-height="550" max-width="100%" :src="protokolKesehatan"></v-img>
         </div>
       </v-col>
 
@@ -76,56 +125,61 @@
               width: 150px;
               height: 4px;
               margin: auto;
-              border-radius: 7px 7px 7px 7px;
+              border-radius: 7px;
               background-color: teal;
               border: 1px solid teal;
             " class="mt-1 teal" />
         </div>
 
-        <v-row class="mx-16">
-          <v-col cols="4">
-            <v-card class="mx-auto" max-width="500">
+        <v-row class="mx-10">
+          <v-col cols="12">
+            <v-card class="mx-auto" max-width="100%">
               <v-toolbar color="blue" dark>
                 <v-toolbar-title>FAQ Topic</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
 
-              <v-list two-line>
-                <v-list-item-group v-model="selected" active-class="indigo--text" mandatory>
-                  <v-list-item v-for="(item, index) in faqs" :key="item.title">
-                    <template v-slot:default="{ active }">
-                      <v-list-item-content @click="changeFaqsTopic(index)">
-                        <v-list-item-title>{{ item.title }}</v-list-item-title>
-                      </v-list-item-content>
+              <template>
+                  <v-expansion-panels>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>
+                        What is Vuetify?
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
 
-                      <v-list-item-action>
-                        <v-icon v-if="!active" color="grey lighten-1">
-                          mdi-plus-circle-outline
-                        </v-icon>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>
+                        What is Vuetify?
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
 
-                        <v-icon v-else color="indigo darken-3">
-                          mdi-minus-circle-outline
-                        </v-icon>
-                      </v-list-item-action>
-                    </template>
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>
+                        What is Vuetify?
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+
+                    <v-expansion-panel>
+                      <v-expansion-panel-header>
+                        What is Vuetify?
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content>
+                        Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+              </template>
             </v-card>
           </v-col>
-
-          <!-- <v-col cols="8">
-            <v-expansion-panels focusable>
-              <v-expansion-panel v-for="(item, i) in faqsTopic" :key="i">
-                <v-expansion-panel-header>{{
-                  item.title
-                }}</v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  {{ item.description }}
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </v-col> -->
         </v-row>
       </v-col>
 
@@ -136,27 +190,24 @@
               width: 150px;
               height: 4px;
               margin: auto;
-              border-radius: 7px 7px 7px 7px;
+              border-radius: 7px;
               background-color: teal;
               border: 1px solid teal;
             " class="mt-1 teal" />
         </div>
 
-
-
-        <v-row class="mx-16">
-          <v-col cols="8" class="align-stretch">
+        <v-row class="mx-10">
+          <v-col cols="12" md="8" class="align-stretch">
             <v-card class="text-center d-flex flex-column align-center justify-center" style="height: 100%;">
               <v-icon size="100" color="indigo" class="mt-3">mdi-compass-outline</v-icon>
               <v-card-title class="font-weight-bold">ALAMAT</v-card-title>
               <v-card-text class="text--primary">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nibh porttitor bibendum fames Lorem ipsum dolor
-                sit
-                amet, consectetur adipiscing elit. Nibh porttitor bibendum fames
+                sit amet, consectetur adipiscing elit. Nibh porttitor bibendum fames
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="4" class="align-stretch">
+          <v-col cols="12" md="4" class="align-stretch">
             <v-card class="text-center d-flex flex-column align-center justify-center" style="height: 100%;">
               <v-icon size="100" color="indigo" class="mt-3">mdi-phone-in-talk-outline</v-icon>
               <v-card-title class="font-weight-bold">TELEPON</v-card-title>
@@ -166,7 +217,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="4" class="align-stretch">
+          <v-col cols="12" md="4" class="align-stretch">
             <v-card class="text-center d-flex flex-column align-center justify-center" style="height: 100%;">
               <v-icon size="100" color="indigo" class="mt-3">mdi-email-outline</v-icon>
               <v-card-title class="font-weight-bold">EMAIL</v-card-title>
@@ -175,7 +226,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="8" class="align-stretch">
+          <v-col cols="12" md="8" class="align-stretch">
             <v-card class="text-center d-flex flex-column align-center justify-center" style="height: 100%;">
               <v-icon size="100" color="indigo" class="mt-3">mdi-cellphone</v-icon>
               <v-card-title class="font-weight-bold">SOCIAL MEDIA</v-card-title>
@@ -187,37 +238,39 @@
             </v-card>
           </v-col>
         </v-row>
-
       </v-col>
 
-      <v-col cols="12">
-        <div class="text-center mt-10 mb-10">
+      <v-col cols="12" class=" mb-16">
+        <div class="text-center">
           <h1>Partner</h1>
           <hr style="
               width: 150px;
               height: 4px;
               margin: auto;
-              border-radius: 7px 7px 7px 7px;
+              border-radius: 7px;
               background-color: teal;
               border: 1px solid teal;
             " class="mt-1 teal" />
         </div>
 
-        <v-row class="mx-5">
-          <v-col class="d-flex justify-center align-center" cols="4">
-            <v-img contain max-height="200" max-width="200" :src="partner.balikpapan"></v-img>
-          </v-col>
-          <v-col class="d-flex justify-center align-center" cols="4">
-            <v-img contain max-height="200" max-width="200" :src="partner.kemenkes"></v-img>
-          </v-col>
-          <v-col class="d-flex justify-center align-center" cols="4">
-            <v-img contain max-height="200" max-width="200" :src="partner.swastisaba"></v-img>
-          </v-col>
-        </v-row>
+        <template>
+          <v-row class="mx-4 mt-16 mobile-margin">
+            <v-col class="d-flex justify-center align-center" cols="12" sm="12" md="4" lg="4">
+              <v-img contain max-height="170" max-width="100%" :src="partner.balikpapan"></v-img>
+            </v-col>
+            <v-col class="d-flex justify-center align-center" cols="12" sm="12" md="4" lg="4">
+              <v-img contain max-height="170" max-width="100%" :src="partner.kemenkes"></v-img>
+            </v-col>
+            <v-col class="d-flex justify-center align-center" cols="12" sm="12" md="4" lg="4">
+              <v-img contain max-height="170" max-width="100%" :src="partner.swastisaba"></v-img>
+            </v-col>
+          </v-row>
+        </template>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
 
 <script>
 import ProtokolKesehatanLogo from '../assets/media/logo/health_protocol_bg.png'
@@ -274,12 +327,40 @@ export default {
       console.log(response.data)
       console.log(this.news)
     },
-
-    async changeFaqsTopic(selected) {
-      const response = await this.$store.dispatch('publicMain/faqs')
-      this.faqsTopic = response.data[selected].FaqTopic
-      console.log(selected)
-    },
   },
 }
 </script>
+
+<style>
+@media (max-width: 600px) {
+  .mobile-margin>.v-col {
+    margin-bottom: 2000px;
+    /* Adjust as needed */
+  }
+
+  .mobile-margin>.v-col:last-child {
+    margin-bottom: 0;
+    /* Remove margin from the last column */
+  }
+}
+
+
+.my-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.my-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../assets/media/misc/card-program.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  /* Adjust the opacity as needed */
+}
+</style>

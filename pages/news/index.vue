@@ -14,7 +14,7 @@
             </template>
 
             <template v-slot:default="props">
-                <v-row>
+                <v-row class="mx-16">
                     <v-col v-for="item in props.items" :key="item.title" cols="12" sm="6" md="4" lg="4" class="mt-5">
                         <v-card>
                             <v-img :src="`${$axios.defaults.baseURL}/file/${item.image_mime}/${item.image_name}`" class="white--text align-end"
