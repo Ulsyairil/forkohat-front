@@ -1,4 +1,10 @@
-# forkohat-front
+# Forkohat Web
+
+## Requirement Needed
+
+- NodeJS: v18
+- Python: 3^
+- MySQL or MariaDB: 10^
 
 ## Build Setup
 

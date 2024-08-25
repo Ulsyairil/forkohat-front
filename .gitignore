@@ -96,3 +96,7 @@ package-lock.json
 
 # Fleet Configuration
 .fleet
+
+# Docker using devilbox
+.devilbox
+htdocs

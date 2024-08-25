@@ -12,8 +12,8 @@ if (isProduction) {
 }
 
 // Change this url if you have another host
-const axiosBaseUrl = "http://127.0.0.1:3333/api/v1";
-const serverBaseUrl = "http://127.0.0.1:3333"
+const axiosBaseUrl = "http://forkohat-app.local/api/v1";
+const serverBaseUrl = "http://forkohat-app.local"
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -112,7 +112,7 @@ export default {
   // Change server port
   server: {
     // port: 49001, // default: 3000
-    // host: "192.168.1.2",
+    host: "",
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

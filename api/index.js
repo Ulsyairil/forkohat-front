@@ -62,10 +62,10 @@ app.use(
     transports: [
       new winston.transports.Console(),
       new winston.transports.File({
-        filename: './logs/api/error.log',
+        filename: './api/logs/error.log',
         level: 'error',
       }),
-      new winston.transports.File({ filename: './logs/api/combined.log' }),
+      new winston.transports.File({ filename: './api/logs/combined.log' }),
     ],
     format: winston.format.combine(winston.format.colorize(), winston.format.json(), winston.format.prettyPrint()),
     meta: true, // optional: control whether you want to log the meta data about the request (default to true)
