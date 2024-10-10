@@ -38,7 +38,7 @@
                     </v-col> -->
 
                     <v-col v-for="item in props.items" :key="item.title" cols="12" sm="12" md="4" lg="4" class="mt-5">
-                        <v-card :loading="loading" class="mx-auto d-flex flex-column" max-width="400" height="100%">
+                        <v-card class="mx-auto d-flex flex-column" max-width="400" height="100%">
                             <template slot="progress">
                                 <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
                             </template>
