@@ -21,21 +21,29 @@
             " class="mt-1 teal" />
         </div>
 
-        <v-row class="mx-10">
+        <v-row class="mx-5 mt-5">
           <v-col v-for="value in news.data" :key="value.title" cols="12" sm="12" md="4" lg="4" class="mt-5">
-            <v-card>
-              <v-img :src="`${$axios.defaults.baseURL}/file/${value.image_mime}/${value.image_name}`"
-                class="white--text align-end" gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="150px">
-              </v-img>
+            <v-card class="mx-auto d-flex flex-column" max-width="400" height="100%">
+              <template slot="progress">
+                <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
+              </template>
 
-              <v-card-subtitle> {{ value.created_at }}</v-card-subtitle>
+              <div class="image-container">
+                <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+              </div>
 
-              <v-card-title> {{ value.title }} </v-card-title>
+              <v-card-title>{{ value.title }}</v-card-title>
 
-              <v-card-subtitle class="text-justify">
-                {{
-                  value.content.substring(0, 150) + '...........'
-                }}</v-card-subtitle>
+              <v-card-text class="flex-grow-1">
+                <div class="text-subtitle-1">{{ value.created_at }}</div>
+                <div>
+                  {{
+                    value.content.substring(0, 150) + '...........'
+                  }}
+                </div>
+              </v-card-text>
+
+              <v-divider class="mx-4"></v-divider>
 
               <v-card-actions>
                 <v-btn text color="teal accent-4" @click="reveal = true" :to="`/news/${value.id}`">
@@ -44,7 +52,70 @@
               </v-card-actions>
             </v-card>
           </v-col>
+          <!-- <v-col cols="12" sm="12" md="4" lg="4">
+            <v-card :loading="loading" class="mx-auto d-flex flex-column" max-width="400" height="100%">
+              <template slot="progress">
+                <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
+              </template>
+
+              <div class="image-container">
+                <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+              </div>
+
+              <v-card-title>Cafe Badilico Cafe Badilico Cafe Badilico Cafe Badilico Cafe Badilico Cafe
+                Badilico</v-card-title>
+
+              <v-card-text class="flex-grow-1">
+                <div class="text-subtitle-1">$ • Italian, Cafe</div>
+                <div>
+                  Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.
+                </div>
+              </v-card-text>
+
+              <v-divider class="mx-4"></v-divider>
+
+              <v-card-actions>
+                <v-btn color="deep-purple lighten-2" text @click="reserve">
+                  Selengkapnya
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+
+          <v-col cols="12" sm="12" md="4" lg="4">
+            <v-card :loading="loading" class="mx-auto d-flex flex-column" max-width="400" height="100%">
+              <template slot="progress">
+                <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
+              </template>
+
+              <div class="image-container">
+                <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+              </div>
+
+              <v-card-title>Cafe Badilico Cafe Badilico Cafe Badilico Cafe Badilico Cafe Badilico</v-card-title>
+
+              <v-card-text class="flex-grow-1">
+                <div class="text-subtitle-1">$ • Italian, Cafe</div>
+                <div>
+                  Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.
+                  Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.
+                  Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.
+                  Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.
+                </div>
+              </v-card-text>
+
+              <v-divider class="mx-4"></v-divider>
+
+              <v-card-actions>
+                <v-btn color="deep-purple lighten-2" text @click="reserve">
+                  Selengkapnya
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col> -->
         </v-row>
+
+
         <div class="text-center mt-10 mb-5">
           <v-btn color="primary" elevation="6" large to="/news">Lihat Berita Lainnya</v-btn>
         </div>
@@ -140,43 +211,43 @@
               </v-toolbar>
 
               <template>
-                  <v-expansion-panels>
-                    <v-expansion-panel>
-                      <v-expansion-panel-header>
-                        What is Vuetify?
-                      </v-expansion-panel-header>
-                      <v-expansion-panel-content>
-                        Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
-                      </v-expansion-panel-content>
-                    </v-expansion-panel>
+                <v-expansion-panels>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      What is Vuetify?
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
 
-                    <v-expansion-panel>
-                      <v-expansion-panel-header>
-                        What is Vuetify?
-                      </v-expansion-panel-header>
-                      <v-expansion-panel-content>
-                        Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
-                      </v-expansion-panel-content>
-                    </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      What is Vuetify?
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
 
-                    <v-expansion-panel>
-                      <v-expansion-panel-header>
-                        What is Vuetify?
-                      </v-expansion-panel-header>
-                      <v-expansion-panel-content>
-                        Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
-                      </v-expansion-panel-content>
-                    </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      What is Vuetify?
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
 
-                    <v-expansion-panel>
-                      <v-expansion-panel-header>
-                        What is Vuetify?
-                      </v-expansion-panel-header>
-                      <v-expansion-panel-content>
-                        Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
-                      </v-expansion-panel-content>
-                    </v-expansion-panel>
-                  </v-expansion-panels>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      What is Vuetify?
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content>
+                      Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </template>
             </v-card>
           </v-col>
@@ -331,7 +402,23 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.image-container {
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  object-fit: fill;
+}
+
+.image-container v-img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 600px) {
   .mobile-margin>.v-col {
     margin-bottom: 2000px;

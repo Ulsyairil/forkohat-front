@@ -14,9 +14,9 @@
             </template>
 
             <template v-slot:default="props">
-                <v-row class="mx-16">
-                    <v-col v-for="item in props.items" :key="item.title" cols="12" sm="6" md="4" lg="4" class="mt-5">
-                        <v-card>
+                <v-row class="mx-1 mb-5">
+                    <!-- <v-col v-for="item in props.items" :key="item.title" cols="12" sm="6" md="4" lg="4" class="mt-5">
+                        <v-card :loading="loading" class="mx-auto d-flex flex-column" max-width="400" height="100%">
                             <v-img :src="`${$axios.defaults.baseURL}/file/${item.image_mime}/${item.image_name}`" class="white--text align-end"
                                 gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
                             </v-img>
@@ -30,6 +30,37 @@
                                     }}</v-card-subtitle>
                                 
                                 <v-card-actions>
+                                    <v-btn text color="teal accent-4" @click="reveal = true" :to="`/news/${item.id}`">
+                                        Selengkapnya
+                                    </v-btn>
+                                </v-card-actions>
+                        </v-card>
+                    </v-col> -->
+
+                    <v-col v-for="item in props.items" :key="item.title" cols="12" sm="12" md="4" lg="4" class="mt-5">
+                        <v-card :loading="loading" class="mx-auto d-flex flex-column" max-width="400" height="100%">
+                            <template slot="progress">
+                                <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
+                            </template>
+
+                            <div class="image-container">
+                                <v-img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"></v-img>
+                            </div>
+
+                            <v-card-title>{{ item.title }}</v-card-title>
+
+                            <v-card-text class="flex-grow-1">
+                                <div class="text-subtitle-1">{{ item.created_at }}</div>
+                                <div>
+                                    {{
+                                        item.content.substring(0, 150) + '...........'
+                                    }}
+                                </div>
+                            </v-card-text>
+
+                            <v-divider class="mx-4"></v-divider>
+
+                            <v-card-actions>
                                     <v-btn text color="teal accent-4" @click="reveal = true" :to="`/news/${item.id}`">
                                         Selengkapnya
                                     </v-btn>
@@ -88,20 +119,10 @@ export default {
             page: 1,
             itemsPerPage: 3,
             sortBy: 'name',
-            keys: [
-                'Name',
-                'Calories',
-                'Fat',
-                'Carbs',
-                'Protein',
-                'Sodium',
-                'Calcium',
-                'Iron',
-            ],
             items: [],
         }
     },
-    async fetch(){
+    async fetch() {
         await this.initNews();
     },
     computed: {
