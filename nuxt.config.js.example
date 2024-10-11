@@ -12,14 +12,14 @@ if (isProduction) {
 }
 
 // Change this url if you have another host
-const axiosBaseUrl = "http://127.0.0.1:3333/api/v1";
-const serverBaseUrl = "http://127.0.0.1:3333"
+const axiosBaseUrl = "http://<host>/api/v1";
+const serverBaseUrl = "http://<host>"
 
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s | Forum Kota Sehat Balikpapan',
-    title: 'Forum Kota Sehat Balikpapan',
+    titleTemplate: '%s | <title>',
+    title: '<title>',
     htmlAttrs: {
       lang: 'id',
     },
@@ -112,7 +112,7 @@ export default {
   // Change server port
   server: {
     // port: 49001, // default: 3000
-    host: "127.0.0.1",
+    host: "<host>",
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
