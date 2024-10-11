@@ -28,7 +28,7 @@
     "@types/luxon": "^3.3.0",
     "@types/voca": "^1.4.2",
     "@types/vuelidate": "^0.7.16",
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "ckeditor4-vue": "^2.4.0",
     "cookie-parser": "^1.4.6",
