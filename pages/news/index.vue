@@ -15,29 +15,7 @@
 
             <template v-slot:default="props">
                 <v-row class="mx-1 mb-5">
-                    <!-- <v-col v-for="item in props.items" :key="item.title" cols="12" sm="6" md="4" lg="4" class="mt-5">
-                        <v-card :loading="loading" class="mx-auto d-flex flex-column" max-width="400" height="100%">
-                            <v-img :src="`${$axios.defaults.baseURL}/file/${item.image_mime}/${item.image_name}`" class="white--text align-end"
-                                gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)" height="200px">
-                            </v-img>
-                                <v-card-subtitle> {{ item.created_at }}</v-card-subtitle>
-                                
-                                <v-card-title> {{ item.title }} </v-card-title>
-                                
-                                <v-card-subtitle class="text-justify">
-                                    {{
-                                    item.content.substring(0, 250) + '...........'
-                                    }}</v-card-subtitle>
-                                
-                                <v-card-actions>
-                                    <v-btn text color="teal accent-4" @click="reveal = true" :to="`/news/${item.id}`">
-                                        Selengkapnya
-                                    </v-btn>
-                                </v-card-actions>
-                        </v-card>
-                    </v-col> -->
-
-                    <v-col v-for="item in props.items" :key="item.title" cols="12" sm="12" md="4" lg="4" class="mt-5">
+                    <v-col v-for="item in props.items" :key="item.title" cols="12" sm="12" md="4" lg="3" class="mt-5">
                         <v-card class="mx-auto d-flex flex-column" max-width="400" height="100%">
                             <template slot="progress">
                                 <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
@@ -112,12 +90,12 @@ export default {
     data() {
         return {
             news: [],
-            itemsPerPageArray: [3, 6, 9, 12],
+            itemsPerPageArray: [4, 8, 12, 16],
             search: '',
             filter: {},
             sortDesc: false,
             page: 1,
-            itemsPerPage: 3,
+            itemsPerPage: 16,
             sortBy: 'name',
             items: [],
         }

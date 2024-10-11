@@ -212,39 +212,12 @@
 
               <template>
                 <v-expansion-panels>
-                  <v-expansion-panel>
+                  <v-expansion-panel v-for="item in faqs" :key="item.title">
                     <v-expansion-panel-header>
-                      What is Vuetify?
+                      {{ item.title }}
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
-                      Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-
-                  <v-expansion-panel>
-                    <v-expansion-panel-header>
-                      What is Vuetify?
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-
-                  <v-expansion-panel>
-                    <v-expansion-panel-header>
-                      What is Vuetify?
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-
-                  <v-expansion-panel>
-                    <v-expansion-panel-header>
-                      What is Vuetify?
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content>
-                      Vuetify is a Vue UI Library with beautifully handcrafted Material Components.
+                      {{ item.description }}
                     </v-expansion-panel-content>
                   </v-expansion-panel>
                 </v-expansion-panels>
@@ -354,7 +327,6 @@ export default {
   data: () => ({
     selected: 0,
     faqs: [],
-    faqsTopic: [],
     items: [],
     news: [],
     model: 0,
@@ -374,10 +346,8 @@ export default {
   methods: {
     async initFaqs() {
       const response = await this.$store.dispatch('publicMain/faqs')
-      console.log(response.data)
+      console.log(response)
       this.faqs = response.data
-      this.faqsTopic = response.data[this.selected].FaqTopic
-      console.log('hehehhee')
     },
 
     async initCarousels() {
